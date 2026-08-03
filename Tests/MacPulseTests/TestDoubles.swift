@@ -15,6 +15,18 @@ final class FakeTickProvider: CPUTickProviding {
 
 struct SamplingTestError: Error {}
 
+final class FakeGPUStatsProvider: GPUStatsProviding {
+    var result: Result<GPUStats, Error>
+
+    init(result: Result<GPUStats, Error>) {
+        self.result = result
+    }
+
+    func currentStats() throws -> GPUStats {
+        try result.get()
+    }
+}
+
 final class FakeMemoryStatsProvider: MemoryStatsProviding {
     var result: Result<MemoryStats, Error>
 

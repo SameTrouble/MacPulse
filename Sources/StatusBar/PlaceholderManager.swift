@@ -17,7 +17,7 @@ final class PlaceholderManager {
             controller.stop()
         }
         controllers = configuration.placeholders.map { placeholder in
-            PlaceholderController(placeholder: placeholder, registry: registry)
+            PlaceholderController(placeholder: placeholder, configuration: configuration, registry: registry)
         }
         for controller in controllers {
             controller.start()

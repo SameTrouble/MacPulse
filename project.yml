@@ -1,0 +1,55 @@
+name: MacPulse
+options:
+  bundleIdPrefix: com.sametrouble
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+fileGroups:
+  - project.yml
+  - .swiftlint.yml
+targets:
+  MacPulse:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources
+    resources:
+      - path: Resources
+    preBuildScripts:
+      - name: SwiftLint
+        basedOnDependencyAnalysis: false
+        script: |
+          if which swiftlint >/dev/null 2>&1; then
+            swiftlint lint --no-cache
+          else
+            echo "warning: SwiftLint not installed, skipping lint"
+          fi
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sametrouble.macpulse
+        PRODUCT_NAME: MacPulse
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Resources/Info.plist
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_APP_SANDBOX: YES
+    scheme:
+      testTargets:
+        - MacPulseTests
+  MacPulseTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/MacPulseTests
+    dependencies:
+      - target: MacPulse
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sametrouble.macpulse.tests
+        PRODUCT_NAME: MacPulseTests
+        GENERATE_INFOPLIST_FILE: YES

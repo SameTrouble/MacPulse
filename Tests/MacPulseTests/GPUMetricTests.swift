@@ -11,7 +11,7 @@ final class GPUMetricTests: XCTestCase {
 
         XCTAssertEqual(metric.id, "gpu")
         XCTAssertEqual(metric.displayName, "GPU")
-        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text])
+        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text, .progressBar])
     }
 
     func testSampleIsNilBeforeFirstRefresh() {

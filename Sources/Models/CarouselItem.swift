@@ -3,6 +3,7 @@ import Foundation
 enum MetricStyle: String, Codable, CaseIterable {
     case iconAndText
     case text
+    case progressBar
 }
 
 enum ConfigurationError: Error, Equatable {

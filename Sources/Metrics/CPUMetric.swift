@@ -6,7 +6,7 @@ final class CPUMetric: Metric {
     let id = CPUMetric.metricID
     let displayName = "CPU"
     let symbolName = "cpu.fill"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text]
+    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
 
     private let sampler: CPUUsageSampler
     private var sample: MetricSample?

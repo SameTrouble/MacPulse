@@ -46,13 +46,23 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         }
         let metric = registry.metric(id: entry.metricID)
         let sample = metric?.currentSample()
-        if entry.style == .iconAndText, let metric {
-            button.image = NSImage(systemSymbolName: metric.symbolName, accessibilityDescription: metric.displayName)
-            button.imagePosition = .imageLeading
-        } else {
+        switch entry.style {
+        case .progressBar:
+            button.title = ""
+            button.imagePosition = .imageOnly
+            button.image = ProgressBarImage.makeImage(fraction: sample?.fraction)
+        case .iconAndText:
+            if let metric {
+                button.image = NSImage(systemSymbolName: metric.symbolName, accessibilityDescription: metric.displayName)
+                button.imagePosition = .imageLeading
+            } else {
+                button.image = nil
+            }
+            button.title = sample?.text ?? "--"
+        case .text:
             button.image = nil
+            button.title = sample?.text ?? "--"
         }
-        button.title = sample?.text ?? "--"
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {

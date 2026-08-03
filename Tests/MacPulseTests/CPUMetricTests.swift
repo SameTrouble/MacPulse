@@ -7,7 +7,7 @@ final class CPUMetricTests: XCTestCase {
 
         XCTAssertEqual(metric.id, "cpu")
         XCTAssertEqual(metric.displayName, "CPU")
-        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text])
+        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text, .progressBar])
     }
 
     func testSampleIsNilBeforeFirstUsableRefresh() {

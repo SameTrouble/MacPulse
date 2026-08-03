@@ -2,27 +2,14 @@
 import XCTest
 
 final class CPUUsageSamplerTests: XCTestCase {
-    private final class FakeProvider: CPUTickProviding {
-        var result: Result<[CPUTick], Error>
-        init(result: Result<[CPUTick], Error>) {
-            self.result = result
-        }
-
-        func currentTicks() throws -> [CPUTick] {
-            try result.get()
-        }
-    }
-
-    private struct FakeError: Error {}
-
     func testReturnsNilOnFirstSample() throws {
-        let sampler = CPUUsageSampler(provider: FakeProvider(result: .success([CPUTick(user: 10, system: 0, idle: 90, nice: 0)])))
+        let sampler = CPUUsageSampler(provider: FakeTickProvider(result: .success([CPUTick(user: 10, system: 0, idle: 90, nice: 0)])))
 
         XCTAssertNil(try sampler.refresh())
     }
 
     func testComputesUsageBetweenSamples() throws {
-        let provider = FakeProvider(result: .success([CPUTick(user: 50, system: 0, idle: 50, nice: 0)]))
+        let provider = FakeTickProvider(result: .success([CPUTick(user: 50, system: 0, idle: 50, nice: 0)]))
         let sampler = CPUUsageSampler(provider: provider)
         _ = try sampler.refresh()
 
@@ -34,17 +21,17 @@ final class CPUUsageSamplerTests: XCTestCase {
     }
 
     func testThrowsWhenProviderFails() {
-        let sampler = CPUUsageSampler(provider: FakeProvider(result: .failure(FakeError())))
+        let sampler = CPUUsageSampler(provider: FakeTickProvider(result: .failure(SamplingTestError())))
 
         XCTAssertThrowsError(try sampler.refresh())
     }
 
     func testUsageIsComputedSinceLastSuccessfulSample() throws {
-        let provider = FakeProvider(result: .success([CPUTick(user: 10, system: 0, idle: 90, nice: 0)]))
+        let provider = FakeTickProvider(result: .success([CPUTick(user: 10, system: 0, idle: 90, nice: 0)]))
         let sampler = CPUUsageSampler(provider: provider)
         _ = try sampler.refresh()
 
-        provider.result = .failure(FakeError())
+        provider.result = .failure(SamplingTestError())
         XCTAssertThrowsError(try sampler.refresh())
 
         provider.result = .success([CPUTick(user: 60, system: 0, idle: 140, nice: 0)])

@@ -10,7 +10,8 @@ struct MacPulseApp: App {
             SettingsView(
                 model: appDelegate.configurationModel,
                 registry: appDelegate.registry,
-                localization: appDelegate.localization
+                localization: appDelegate.localization,
+                loginItem: appDelegate.loginItem
             )
         }
     }
@@ -24,6 +25,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let registry: MetricRegistry
     let configurationModel: ConfigurationModel
     let localization: LocalizationService
+    let loginItem: LoginItemModel
     private var manager: PlaceholderManager?
     private var samplingTimer: Timer?
     private var lastSample: [String: Date] = [:]
@@ -46,6 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             store: ConfigurationStore(),
             fallback: Self.makeDefaultConfiguration()
         )
+        loginItem = LoginItemModel(manager: SMAppServiceLoginItemManager())
         super.init()
     }
 

@@ -26,4 +26,4 @@ macOS 菜单栏系统监控工具（Swift / SwiftUI + AppKit，macOS 14+，无 D
 - Issue 用 `gh` CLI 管理（`SameTrouble/MacPulse`），见 `docs/agents/issue-tracker.md`。
 - Triage 标签（needs-triage / needs-info / ready-for-agent / ready-for-human / wontfix），见 `docs/agents/triage-labels.md`。
 - 领域文档约定：根目录 `CONTEXT.md` + `docs/adr/`（当前尚未创建，按需懒创建），见 `docs/agents/domain.md`。
-- `main` 分支禁止直接 push，所有改动通过 PR 合入。
+- 不得在 `main` 分支上提交（commit），所有改动通过 PR 合入。

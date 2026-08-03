@@ -26,6 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     override init() {
         let registry = MetricRegistry()
         registry.register(CPUMetric())
+        registry.register(MemoryMetric())
         self.registry = registry
         configurationModel = ConfigurationModel(
             registry: registry,

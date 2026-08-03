@@ -39,6 +39,18 @@ final class FakeMemoryStatsProvider: MemoryStatsProviding {
     }
 }
 
+final class FakeTemperatureProvider: TemperatureStatsProviding {
+    var result: Result<TemperatureUsage, Error>
+
+    init(result: Result<TemperatureUsage, Error>) {
+        self.result = result
+    }
+
+    func currentStats() throws -> TemperatureUsage {
+        try result.get()
+    }
+}
+
 extension MemoryStats {
     static func fixture(
         active: UInt64 = 100,

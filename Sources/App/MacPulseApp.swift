@@ -30,6 +30,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if AGXGPUStatsProvider.isSupported {
             registry.register(GPUMetric())
         }
+        if SMCTemperatureProvider.isSupported {
+            registry.register(TemperatureMetric())
+        }
         self.registry = registry
         configurationModel = ConfigurationModel(
             registry: registry,

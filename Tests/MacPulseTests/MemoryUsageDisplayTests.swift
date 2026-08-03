@@ -24,8 +24,14 @@ final class MemoryUsageDisplayTests: XCTestCase {
     }
 
     func testPressureLabels() {
-        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.normal), "正常")
-        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.warning), "警告")
-        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.critical), "严重")
+        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.normal, localizedBy: localizationService(language: .zhHans)), "正常")
+        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.warning, localizedBy: localizationService(language: .zhHans)), "警告")
+        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.critical, localizedBy: localizationService(language: .zhHans)), "严重")
+    }
+
+    func testPressureLabelsInEnglish() {
+        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.normal, localizedBy: localizationService(language: .english)), "Normal")
+        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.warning, localizedBy: localizationService(language: .english)), "Warning")
+        XCTAssertEqual(MemoryUsageDisplay.pressureLabel(.critical, localizedBy: localizationService(language: .english)), "Critical")
     }
 }

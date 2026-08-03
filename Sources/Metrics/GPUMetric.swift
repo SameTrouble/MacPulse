@@ -4,7 +4,7 @@ final class GPUMetric: Metric {
     static let metricID = "gpu"
 
     let id = GPUMetric.metricID
-    let displayName = "GPU"
+    let displayNameKey = LocalizationKey.metricGPUName
     let symbolName = "gauge.with.needle"
     let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
 
@@ -27,10 +27,10 @@ final class GPUMetric: Metric {
         usage.map { MetricSample(text: GPUUsageDisplay.buttonTitle(for: $0), fraction: $0.deviceUtilization) }
     }
 
-    func menuLines() -> [String] {
+    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
-            return ["GPU 利用率：--"]
+            return [localization.text(.gpuUtilization, "--")]
         }
-        return ["GPU 利用率：\(GPUUsageDisplay.percent(usage.deviceUtilization))"]
+        return [localization.text(.gpuUtilization, GPUUsageDisplay.percent(usage.deviceUtilization))]
     }
 }

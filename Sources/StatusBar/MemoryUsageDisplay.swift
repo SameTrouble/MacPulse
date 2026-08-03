@@ -11,14 +11,14 @@ enum MemoryUsageDisplay {
         String(format: "%.1f GB", Double(bytes) / Double(gigabyte))
     }
 
-    static func pressureLabel(_ pressure: MemoryPressure) -> String {
+    static func pressureLabel(_ pressure: MemoryPressure, localizedBy localization: LocalizationProviding) -> String {
         switch pressure {
         case .normal:
-            "正常"
+            localization.text(.memoryPressureNormal)
         case .warning:
-            "警告"
+            localization.text(.memoryPressureWarning)
         case .critical:
-            "严重"
+            localization.text(.memoryPressureCritical)
         }
     }
 }

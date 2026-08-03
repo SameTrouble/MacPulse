@@ -10,7 +10,7 @@ final class MemoryMetricTests: XCTestCase {
         let metric = metric(stats: .fixture())
 
         XCTAssertEqual(metric.id, "memory")
-        XCTAssertEqual(metric.displayName, "内存")
+        XCTAssertEqual(metric.displayNameKey, .metricMemoryName)
         XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text, .progressBar])
     }
 
@@ -44,10 +44,24 @@ final class MemoryMetricTests: XCTestCase {
 
         let used = MemoryUsageDisplay.gigabytes(300 * 4096)
         let total = MemoryUsageDisplay.gigabytes(810 * 4096)
-        XCTAssertEqual(metric.menuLines(), ["已用：\(used)", "总量：\(total)", "压力等级：警告"])
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["已用：\(used)", "总量：\(total)", "压力等级：警告"]
+        )
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .english)),
+            ["Used: \(used)", "Total: \(total)", "Pressure: Warning"]
+        )
     }
 
     func testMenuLinesShowDashesWithoutSample() {
-        XCTAssertEqual(metric(stats: .fixture()).menuLines(), ["已用：--", "总量：--", "压力等级：--"])
+        XCTAssertEqual(
+            metric(stats: .fixture()).menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["已用：--", "总量：--", "压力等级：--"]
+        )
+        XCTAssertEqual(
+            metric(stats: .fixture()).menuLines(localizedBy: localizationService(language: .english)),
+            ["Used: --", "Total: --", "Pressure: --"]
+        )
     }
 }

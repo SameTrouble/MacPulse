@@ -3,10 +3,12 @@ import Foundation
 
 final class PlaceholderManager {
     private let registry: MetricRegistry
+    private let localization: LocalizationProviding
     private var controllers: [PlaceholderController] = []
 
-    init(registry: MetricRegistry) {
+    init(registry: MetricRegistry, localization: LocalizationProviding) {
         self.registry = registry
+        self.localization = localization
     }
 
     func apply(_ configuration: AppConfiguration) throws {
@@ -17,7 +19,12 @@ final class PlaceholderManager {
             controller.stop()
         }
         controllers = configuration.placeholders.map { placeholder in
-            PlaceholderController(placeholder: placeholder, configuration: configuration, registry: registry)
+            PlaceholderController(
+                placeholder: placeholder,
+                configuration: configuration,
+                registry: registry,
+                localization: localization
+            )
         }
         for controller in controllers {
             controller.start()

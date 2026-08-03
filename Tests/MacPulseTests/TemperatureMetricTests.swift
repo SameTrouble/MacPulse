@@ -11,7 +11,7 @@ final class TemperatureMetricTests: XCTestCase {
         let metric = metric(cpu: 42, gpu: 40)
 
         XCTAssertEqual(metric.id, "temperature")
-        XCTAssertEqual(metric.displayName, "温度")
+        XCTAssertEqual(metric.displayNameKey, .metricTemperatureName)
         XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text])
     }
 
@@ -46,17 +46,38 @@ final class TemperatureMetricTests: XCTestCase {
         let metric = metric(cpu: 42, gpu: 40)
         metric.refresh()
 
-        XCTAssertEqual(metric.menuLines(), ["CPU：42°", "GPU：40°"])
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["CPU：42°", "GPU：40°"]
+        )
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .english)),
+            ["CPU: 42°", "GPU: 40°"]
+        )
     }
 
     func testMenuLinesShowDashesForMissingGpu() {
         let metric = metric(cpu: 42, gpu: nil)
         metric.refresh()
 
-        XCTAssertEqual(metric.menuLines(), ["CPU：42°", "GPU：--"])
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["CPU：42°", "GPU：--"]
+        )
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .english)),
+            ["CPU: 42°", "GPU: --"]
+        )
     }
 
     func testMenuLinesShowDashesWithoutSample() {
-        XCTAssertEqual(metric(cpu: 42, gpu: nil).menuLines(), ["CPU：--", "GPU：--"])
+        XCTAssertEqual(
+            metric(cpu: 42, gpu: nil).menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["CPU：--", "GPU：--"]
+        )
+        XCTAssertEqual(
+            metric(cpu: 42, gpu: nil).menuLines(localizedBy: localizationService(language: .english)),
+            ["CPU: --", "GPU: --"]
+        )
     }
 }

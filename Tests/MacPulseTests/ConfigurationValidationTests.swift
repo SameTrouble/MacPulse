@@ -101,7 +101,7 @@ final class ConfigurationValidationTests: XCTestCase {
     func testManagerRejectsInvalidConfiguration() throws {
         let registry = MetricRegistry()
         registry.register(FakeMetric(id: "cpu", supportedStyles: [.iconAndText]))
-        let manager = PlaceholderManager(registry: registry)
+        let manager = PlaceholderManager(registry: registry, localization: localizationService(language: .english))
         let config = configuration(items: [try CarouselItem(metricID: "gpu", style: .text)])
 
         XCTAssertThrowsError(try manager.apply(config))

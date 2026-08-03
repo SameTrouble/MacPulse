@@ -4,7 +4,7 @@ final class MemoryMetric: Metric {
     static let metricID = "memory"
 
     let id = MemoryMetric.metricID
-    let displayName = "内存"
+    let displayNameKey = LocalizationKey.metricMemoryName
     let symbolName = "memorychip"
     let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
 
@@ -27,14 +27,21 @@ final class MemoryMetric: Metric {
         usage.map { MetricSample(text: MemoryUsageDisplay.buttonTitle(for: $0), fraction: $0.fraction) }
     }
 
-    func menuLines() -> [String] {
+    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
-            return ["已用：--", "总量：--", "压力等级：--"]
+            return [
+                localization.text(.memoryUsed, "--"),
+                localization.text(.memoryTotal, "--"),
+                localization.text(.memoryPressure, "--")
+            ]
         }
         return [
-            "已用：\(MemoryUsageDisplay.gigabytes(usage.usedBytes))",
-            "总量：\(MemoryUsageDisplay.gigabytes(usage.totalBytes))",
-            "压力等级：\(MemoryUsageDisplay.pressureLabel(usage.pressure))"
+            localization.text(.memoryUsed, MemoryUsageDisplay.gigabytes(usage.usedBytes)),
+            localization.text(.memoryTotal, MemoryUsageDisplay.gigabytes(usage.totalBytes)),
+            localization.text(
+                .memoryPressure,
+                MemoryUsageDisplay.pressureLabel(usage.pressure, localizedBy: localization)
+            )
         ]
     }
 }

@@ -7,7 +7,11 @@ struct MacPulseApp: App {
 
     var body: some Scene {
         Settings {
-            SettingsView(model: appDelegate.configurationModel, registry: appDelegate.registry)
+            SettingsView(
+                model: appDelegate.configurationModel,
+                registry: appDelegate.registry,
+                localization: appDelegate.localization
+            )
         }
     }
 }
@@ -19,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     let registry: MetricRegistry
     let configurationModel: ConfigurationModel
+    let localization: LocalizationService
     private var manager: PlaceholderManager?
     private var samplingTimer: Timer?
     private var lastSample: [String: Date] = [:]
@@ -34,6 +39,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             registry.register(TemperatureMetric())
         }
         self.registry = registry
+        let localization = LocalizationService()
+        self.localization = localization
         configurationModel = ConfigurationModel(
             registry: registry,
             store: ConfigurationStore(),
@@ -43,7 +50,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let manager = PlaceholderManager(registry: registry)
+        let manager = PlaceholderManager(registry: registry, localization: localization)
         apply(configurationModel.committed, with: manager)
         self.manager = manager
 

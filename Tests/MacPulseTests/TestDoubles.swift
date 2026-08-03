@@ -51,6 +51,30 @@ final class FakeTemperatureProvider: TemperatureStatsProviding {
     }
 }
 
+final class InMemoryLanguageStore: LanguageStoring {
+    private(set) var stored: AppLanguage?
+
+    func load() -> AppLanguage? {
+        stored
+    }
+
+    func save(_ language: AppLanguage) {
+        stored = language
+    }
+}
+
+func localizationService(
+    language: AppLanguage = .system,
+    systemPreferred: String? = nil
+) -> LocalizationService {
+    let service = LocalizationService(
+        store: InMemoryLanguageStore(),
+        systemPreferredLanguage: { systemPreferred }
+    )
+    service.language = language
+    return service
+}
+
 extension MemoryStats {
     static func fixture(
         active: UInt64 = 100,

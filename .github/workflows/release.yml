@@ -8,10 +8,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-and-release:
     name: Build & Release
@@ -48,11 +44,12 @@ jobs:
         run: |
           APP="build/Build/Products/Release/MacPulse.app"
           SHORT="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist")"
-          if [[ "$SHORT" != "$VERSION" ]]; then
-            echo "::error::Expected CFBundleShortVersionString=$VERSION, got $SHORT"
+          BUILD="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP/Contents/Info.plist")"
+          if [[ "$SHORT" != "$VERSION" || "$BUILD" != "$VERSION" ]]; then
+            echo "::error::Expected version $VERSION, got short=$SHORT build=$BUILD"
             exit 1
           fi
-          echo "Verified app version: $SHORT"
+          echo "Verified app version: $SHORT ($BUILD)"
 
       - name: Package zip
         run: ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Release/MacPulse.app "MacPulse-$VERSION.zip"

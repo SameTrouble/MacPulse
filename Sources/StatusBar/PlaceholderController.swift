@@ -8,13 +8,15 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
 
     private let registry: MetricRegistry
     private var placeholder: Placeholder
+    private var configuration: AppConfiguration
     private var engine: CarouselEngine
     private var statusItem: NSStatusItem?
     private var switchTimer: Timer?
 
-    init(placeholder: Placeholder, registry: MetricRegistry) {
+    init(placeholder: Placeholder, configuration: AppConfiguration, registry: MetricRegistry) {
         self.registry = registry
         self.placeholder = placeholder
+        self.configuration = configuration
         self.engine = CarouselEngine(entries: placeholder.items, epoch: Date().timeIntervalSinceReferenceDate)
         super.init()
     }
@@ -42,10 +44,12 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         guard let entry = currentEntry() else {
             button.image = nil
             button.title = "--"
+            button.contentTintColor = nil
             return
         }
         let metric = registry.metric(id: entry.metricID)
         let sample = metric?.currentSample()
+        button.contentTintColor = tintColor(for: entry, sample: sample)
         switch entry.style {
         case .progressBar:
             button.title = ""
@@ -100,6 +104,15 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         guard let index = engine.index(at: Date().timeIntervalSinceReferenceDate),
               placeholder.items.indices.contains(index) else { return nil }
         return placeholder.items[index]
+    }
+
+    private func tintColor(for entry: CarouselItem, sample: MetricSample?) -> NSColor? {
+        guard configuration.colorRulesEnabled else { return nil }
+        guard let rule = ColorRuleEngine.matchingRule(
+            fraction: sample?.fraction,
+            rules: configuration.colorRules[entry.metricID] ?? []
+        ) else { return nil }
+        return rule.color.nsColor
     }
 
     private func currentMetric() -> Metric? {

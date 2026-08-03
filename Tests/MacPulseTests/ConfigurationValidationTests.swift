@@ -80,6 +80,24 @@ final class ConfigurationValidationTests: XCTestCase {
         XCTAssertEqual(errors, [.samplingIntervalOutOfRange(metricID: "cpu", interval: 61)])
     }
 
+    func testColorRuleThresholdOutOfRangeIsRejected() throws {
+        var config = configuration(items: [])
+        var rule = try ColorRule(threshold: 0.8, color: .red)
+        rule.threshold = 1.2
+        config.colorRules["cpu"] = [rule]
+
+        let errors = config.validationErrors(against: registry())
+
+        XCTAssertEqual(errors, [.colorRuleThresholdOutOfRange(metricID: "cpu", threshold: 1.2)])
+    }
+
+    func testColorRulesWithinRangePass() throws {
+        var config = configuration(items: [])
+        config.colorRules["cpu"] = [try ColorRule(threshold: 0.8, color: .red)]
+
+        XCTAssertEqual(config.validationErrors(against: registry()), [])
+    }
+
     func testManagerRejectsInvalidConfiguration() throws {
         let registry = MetricRegistry()
         registry.register(FakeMetric(id: "cpu", supportedStyles: [.iconAndText]))

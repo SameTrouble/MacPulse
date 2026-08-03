@@ -7,13 +7,13 @@ struct MetricSample: Equatable {
 
 protocol Metric: AnyObject {
     var id: String { get }
-    var displayName: String { get }
+    var displayNameKey: LocalizationKey { get }
     var symbolName: String { get }
     var supportedStyles: Set<MetricStyle> { get }
     var defaultSamplingInterval: TimeInterval { get }
     func refresh()
     func currentSample() -> MetricSample?
-    func menuLines() -> [String]
+    func menuLines(localizedBy localization: LocalizationProviding) -> [String]
 }
 
 extension Metric {

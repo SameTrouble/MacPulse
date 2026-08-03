@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Bindable var model: ConfigurationModel
     let registry: MetricRegistry
+    @Bindable var localization: LocalizationService
 
     @Environment(\.dismiss) private var dismiss
     @State private var selectedPlaceholderID: UUID?
@@ -12,9 +13,11 @@ struct SettingsView: View {
         VStack(spacing: 0) {
             TabView {
                 placeholdersTab
-                    .tabItem { Label("占位", systemImage: "square.grid.2x2") }
+                    .tabItem { Label(localization.text(.tabPlaceholders), systemImage: "square.grid.2x2") }
                 colorRulesTab
-                    .tabItem { Label("变色规则", systemImage: "paintpalette") }
+                    .tabItem { Label(localization.text(.tabColorRules), systemImage: "paintpalette") }
+                generalTab
+                    .tabItem { Label(localization.text(.tabGeneral), systemImage: "globe") }
             }
             Divider()
             bottomBar
@@ -29,6 +32,23 @@ struct SettingsView: View {
         }
     }
 
+    private var generalTab: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                Text(localization.text(.language))
+                Picker("", selection: $localization.language) {
+                    ForEach(AppLanguage.allCases, id: \.self) { language in
+                        Text(localization.text(language.displayNameKey)).tag(language)
+                    }
+                }
+                .labelsHidden()
+                .frame(width: 140)
+            }
+            Spacer()
+        }
+        .padding(10)
+    }
+
     private var placeholdersTab: some View {
         HSplitView {
             placeholderList
@@ -39,139 +59,14 @@ struct SettingsView: View {
     }
 
     private var colorRulesTab: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Toggle("启用变色", isOn: $model.draft.colorRulesEnabled)
-            Text("关闭后，所有指标一律使用默认颜色。")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Text("规则自上而下匹配，数值达到阈值的第一条规则生效，可拖动箭头调整顺序。")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Divider()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    ForEach(registry.metrics, id: \.id) { metric in
-                        metricRuleEditor(metric)
-                    }
-                }
-            }
-        }
-        .padding(10)
-    }
-
-    private func metricRuleEditor(_ metric: Metric) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(metric.displayName)
-                .font(.headline)
-            if model.draft.colorRules[metric.id, default: []].isEmpty {
-                Text("无规则，始终显示默认颜色")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            ForEach(rulesBinding(for: metric.id)) { $rule in
-                HStack(spacing: 12) {
-                    Text("≥")
-                    Slider(value: $rule.threshold, in: ColorRule.thresholdRange, step: 0.05) {
-                        Text("阈值")
-                    }
-                    .frame(width: 180)
-                    Text("\(Int(rule.threshold * 100))%")
-                        .monospacedDigit()
-                        .frame(width: 42, alignment: .trailing)
-                    Picker("颜色", selection: $rule.color) {
-                        ForEach(PaletteColor.allCases, id: \.self) { color in
-                            Text(Self.colorLabel(color)).tag(color)
-                        }
-                    }
-                    .labelsHidden()
-                    .frame(width: 90)
-                    Button {
-                        moveRule(id: rule.id, for: metric.id, by: -1)
-                    } label: {
-                        Image(systemName: "chevron.up")
-                    }
-                    .disabled(!canMoveRule(id: rule.id, for: metric.id, by: -1))
-                    Button {
-                        moveRule(id: rule.id, for: metric.id, by: 1)
-                    } label: {
-                        Image(systemName: "chevron.down")
-                    }
-                    .disabled(!canMoveRule(id: rule.id, for: metric.id, by: 1))
-                    Button {
-                        removeRule(id: rule.id, for: metric.id)
-                    } label: {
-                        Image(systemName: "minus")
-                    }
-                }
-            }
-            Button {
-                addRule(for: metric.id)
-            } label: {
-                Image(systemName: "plus")
-            }
-        }
-        .padding(10)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color(nsColor: .controlBackgroundColor))
-        )
-    }
-
-    private func rulesBinding(for metricID: String) -> Binding<[ColorRule]> {
-        Binding(
-            get: { model.draft.colorRules[metricID] ?? [] },
-            set: { model.draft.colorRules[metricID] = $0 }
-        )
-    }
-
-    private func addRule(for metricID: String) {
-        guard let rule = try? ColorRule(threshold: 0.5, color: .yellow) else { return }
-        model.draft.colorRules[metricID, default: []].append(rule)
-    }
-
-    private func removeRule(id: UUID, for metricID: String) {
-        model.draft.colorRules[metricID]?.removeAll { $0.id == id }
-    }
-
-    private func canMoveRule(id: UUID, for metricID: String, by offset: Int) -> Bool {
-        guard let rules = model.draft.colorRules[metricID],
-              let index = rules.firstIndex(where: { $0.id == id }) else { return false }
-        return rules.indices.contains(index + offset)
-    }
-
-    private func moveRule(id: UUID, for metricID: String, by offset: Int) {
-        guard var rules = model.draft.colorRules[metricID],
-              let index = rules.firstIndex(where: { $0.id == id }) else { return }
-        let target = index + offset
-        guard rules.indices.contains(target) else { return }
-        rules.swapAt(index, target)
-        model.draft.colorRules[metricID] = rules
-    }
-
-    private static func colorLabel(_ color: PaletteColor) -> String {
-        switch color {
-        case .red:
-            "红"
-        case .orange:
-            "橙"
-        case .yellow:
-            "黄"
-        case .green:
-            "绿"
-        case .blue:
-            "蓝"
-        case .purple:
-            "紫"
-        case .gray:
-            "灰"
-        }
+        ColorRulesEditorView(model: model, registry: registry, localization: localization)
     }
 
     private var placeholderList: some View {
         VStack(spacing: 8) {
             List(selection: $selectedPlaceholderID) {
                 ForEach(Array(model.draft.placeholders.enumerated()), id: \.element.id) { index, placeholder in
-                    Text("占位 \(index + 1)")
+                    Text(localization.text(.placeholderName, index + 1))
                         .tag(placeholder.id)
                 }
             }
@@ -199,7 +94,7 @@ struct SettingsView: View {
             }
             .padding(8)
         } else {
-            Text("请选择一个占位")
+            Text(localization.text(.selectPlaceholder))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -207,11 +102,11 @@ struct SettingsView: View {
 
     private func itemList(for index: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("条目")
+            Text(localization.text(.items))
                 .font(.headline)
             List(selection: $selectedItems) {
                 ForEach($model.draft.placeholders[index].items) { $item in
-                    ItemEditor(item: $item, registry: registry)
+                    ItemEditor(item: $item, registry: registry, localization: localization)
                         .tag(item.id)
                 }
                 .onMove { source, destination in
@@ -224,7 +119,7 @@ struct SettingsView: View {
                 Button(action: { removeSelectedItems(from: index) }, label: { Image(systemName: "minus") })
                     .disabled(selectedItems.isEmpty)
                 Spacer()
-                Text("拖拽条目可调整轮播顺序")
+                Text(localization.text(.dragToReorder))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -233,14 +128,14 @@ struct SettingsView: View {
 
     private var samplingIntervalSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("采样间隔")
+            Text(localization.text(.samplingInterval))
                 .font(.headline)
             ForEach(registry.metrics, id: \.id) { metric in
                 HStack {
-                    Text(metric.displayName)
+                    Text(localization.text(metric.displayNameKey))
                     Spacer()
                     Stepper(value: intervalBinding(for: metric), in: SamplingInterval.range, step: 1) {
-                        Text("\(Int(model.draft.samplingInterval(for: metric))) 秒")
+                        Text(localization.text(.seconds, Int(model.draft.samplingInterval(for: metric))))
                             .monospacedDigit()
                     }
                 }
@@ -251,15 +146,15 @@ struct SettingsView: View {
     private var bottomBar: some View {
         HStack {
             if !model.validationErrors.isEmpty {
-                Text("配置存在错误，无法保存")
+                Text(localization.text(.configurationError))
                     .foregroundStyle(.red)
             }
             Spacer()
-            Button("取消") {
+            Button(localization.text(.cancel)) {
                 model.revert()
                 dismiss()
             }
-            Button("保存") {
+            Button(localization.text(.save)) {
                 if model.commit() {
                     dismiss()
                 }
@@ -310,25 +205,26 @@ struct SettingsView: View {
 private struct ItemEditor: View {
     @Binding var item: CarouselItem
     let registry: MetricRegistry
+    let localization: LocalizationProviding
 
     var body: some View {
         HStack(spacing: 12) {
-            Picker("指标", selection: $item.metricID) {
+            Picker(localization.text(.metric), selection: $item.metricID) {
                 ForEach(registry.metrics, id: \.id) { metric in
-                    Text(metric.displayName).tag(metric.id)
+                    Text(localization.text(metric.displayNameKey)).tag(metric.id)
                 }
             }
             .frame(width: 140)
 
-            Picker("样式", selection: $item.style) {
+            Picker(localization.text(.style), selection: $item.style) {
                 ForEach(supportedStyles, id: \.self) { style in
-                    Text(Self.styleLabel(style)).tag(style)
+                    Text(styleLabel(style)).tag(style)
                 }
             }
             .frame(width: 140)
 
             Stepper(value: $item.duration, in: CarouselItem.durationRange, step: 1) {
-                Text("\(Int(item.duration)) 秒")
+                Text(localization.text(.seconds, Int(item.duration)))
                     .monospacedDigit()
             }
         }
@@ -345,14 +241,14 @@ private struct ItemEditor: View {
         return MetricStyle.allCases.filter(metric.supportedStyles.contains)
     }
 
-    private static func styleLabel(_ style: MetricStyle) -> String {
+    private func styleLabel(_ style: MetricStyle) -> String {
         switch style {
         case .iconAndText:
-            "图标 + 文本"
+            localization.text(.styleIconAndText)
         case .text:
-            "仅文本"
+            localization.text(.styleText)
         case .progressBar:
-            "进度条"
+            localization.text(.styleProgressBar)
         }
     }
 }

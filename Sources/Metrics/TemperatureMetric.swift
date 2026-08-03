@@ -4,7 +4,7 @@ final class TemperatureMetric: Metric {
     static let metricID = "temperature"
 
     let id = TemperatureMetric.metricID
-    let displayName = "温度"
+    let displayNameKey = LocalizationKey.metricTemperatureName
     let symbolName = "thermometer"
     let supportedStyles: Set<MetricStyle> = [.iconAndText, .text]
     let defaultSamplingInterval: TimeInterval = 5
@@ -28,15 +28,15 @@ final class TemperatureMetric: Metric {
         usage.map { MetricSample(text: TemperatureUsageDisplay.buttonTitle(for: $0), fraction: nil) }
     }
 
-    func menuLines() -> [String] {
+    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
-            return ["CPU：--", "GPU：--"]
+            return [localization.text(.temperatureCPU, "--"), localization.text(.temperatureGPU, "--")]
         }
-        var lines = ["CPU：\(TemperatureUsageDisplay.celsius(usage.cpuCelsius))"]
+        var lines = [localization.text(.temperatureCPU, TemperatureUsageDisplay.celsius(usage.cpuCelsius))]
         if let gpuCelsius = usage.gpuCelsius {
-            lines.append("GPU：\(TemperatureUsageDisplay.celsius(gpuCelsius))")
+            lines.append(localization.text(.temperatureGPU, TemperatureUsageDisplay.celsius(gpuCelsius)))
         } else {
-            lines.append("GPU：--")
+            lines.append(localization.text(.temperatureGPU, "--"))
         }
         return lines
     }

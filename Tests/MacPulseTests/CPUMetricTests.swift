@@ -6,7 +6,7 @@ final class CPUMetricTests: XCTestCase {
         let metric = CPUMetric(sampler: CPUUsageSampler(provider: FakeTickProvider(result: .success([]))))
 
         XCTAssertEqual(metric.id, "cpu")
-        XCTAssertEqual(metric.displayName, "CPU")
+        XCTAssertEqual(metric.displayNameKey, .metricCPUName)
         XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text, .progressBar])
     }
 
@@ -59,12 +59,26 @@ final class CPUMetricTests: XCTestCase {
         ])
         metric.refresh()
 
-        XCTAssertEqual(metric.menuLines(), ["总体 CPU：38%", "核心 1：50%", "核心 2：25%"])
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["总体 CPU：38%", "核心 1：50%", "核心 2：25%"]
+        )
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .english)),
+            ["Overall CPU: 38%", "Core 1: 50%", "Core 2: 25%"]
+        )
     }
 
     func testMenuLinesShowDashesWithoutSample() {
         let metric = CPUMetric(sampler: CPUUsageSampler(provider: FakeTickProvider(result: .success([]))))
 
-        XCTAssertEqual(metric.menuLines(), ["总体 CPU：--"])
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["总体 CPU：--"]
+        )
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .english)),
+            ["Overall CPU: --"]
+        )
     }
 }

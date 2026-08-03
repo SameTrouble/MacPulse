@@ -10,7 +10,7 @@ final class GPUMetricTests: XCTestCase {
         let metric = metric(utilization: 0)
 
         XCTAssertEqual(metric.id, "gpu")
-        XCTAssertEqual(metric.displayName, "GPU")
+        XCTAssertEqual(metric.displayNameKey, .metricGPUName)
         XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text, .progressBar])
     }
 
@@ -42,10 +42,24 @@ final class GPUMetricTests: XCTestCase {
         let metric = metric(utilization: 45)
         metric.refresh()
 
-        XCTAssertEqual(metric.menuLines(), ["GPU 利用率：45%"])
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["GPU 利用率：45%"]
+        )
+        XCTAssertEqual(
+            metric.menuLines(localizedBy: localizationService(language: .english)),
+            ["GPU utilization: 45%"]
+        )
     }
 
     func testMenuLinesShowDashesWithoutSample() {
-        XCTAssertEqual(metric(utilization: 0).menuLines(), ["GPU 利用率：--"])
+        XCTAssertEqual(
+            metric(utilization: 0).menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["GPU 利用率：--"]
+        )
+        XCTAssertEqual(
+            metric(utilization: 0).menuLines(localizedBy: localizationService(language: .english)),
+            ["GPU utilization: --"]
+        )
     }
 }

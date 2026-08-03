@@ -2,6 +2,8 @@
 
 macOS 菜单栏系统监控工具（CPU / 内存 / GPU / 温度），纯菜单栏运行，无 Dock 图标。
 
+English version: [README.en.md](README.en.md)
+
 ## 状态
 
 开发中（scaffold 阶段）。

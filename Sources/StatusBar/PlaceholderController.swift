@@ -7,14 +7,21 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     }
 
     private let registry: MetricRegistry
+    private let localization: LocalizationProviding
     private var placeholder: Placeholder
     private var configuration: AppConfiguration
     private var engine: CarouselEngine
     private var statusItem: NSStatusItem?
     private var switchTimer: Timer?
 
-    init(placeholder: Placeholder, configuration: AppConfiguration, registry: MetricRegistry) {
+    init(
+        placeholder: Placeholder,
+        configuration: AppConfiguration,
+        registry: MetricRegistry,
+        localization: LocalizationProviding
+    ) {
         self.registry = registry
+        self.localization = localization
         self.placeholder = placeholder
         self.configuration = configuration
         self.engine = CarouselEngine(entries: placeholder.items, epoch: Date().timeIntervalSinceReferenceDate)
@@ -57,7 +64,10 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
             button.image = ProgressBarImage.makeImage(fraction: sample?.fraction)
         case .iconAndText:
             if let metric {
-                button.image = NSImage(systemSymbolName: metric.symbolName, accessibilityDescription: metric.displayName)
+                button.image = NSImage(
+                    systemSymbolName: metric.symbolName,
+                    accessibilityDescription: localization.text(metric.displayNameKey)
+                )
                 button.imagePosition = .imageLeading
             } else {
                 button.image = nil
@@ -73,7 +83,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         menu.removeAllItems()
 
         if let metric = currentMetric() {
-            for line in metric.menuLines() {
+            for line in metric.menuLines(localizedBy: localization) {
                 let item = NSMenuItem(title: line, action: nil, keyEquivalent: "")
                 item.isEnabled = false
                 menu.addItem(item)
@@ -82,11 +92,15 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
 
         menu.addItem(.separator())
 
-        let preferences = NSMenuItem(title: "偏好设置…", action: #selector(openPreferences), keyEquivalent: ",")
+        let preferences = NSMenuItem(
+            title: localization.text(.menuPreferences),
+            action: #selector(openPreferences),
+            keyEquivalent: ","
+        )
         preferences.target = self
         menu.addItem(preferences)
 
-        let quit = NSMenuItem(title: "退出 MacPulse", action: #selector(quit), keyEquivalent: "q")
+        let quit = NSMenuItem(title: localization.text(.menuQuit), action: #selector(quit), keyEquivalent: "q")
         quit.target = self
         menu.addItem(quit)
     }

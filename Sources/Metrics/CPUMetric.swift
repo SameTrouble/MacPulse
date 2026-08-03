@@ -4,7 +4,7 @@ final class CPUMetric: Metric {
     static let metricID = "cpu"
 
     let id = CPUMetric.metricID
-    let displayName = "CPU"
+    let displayNameKey = LocalizationKey.metricCPUName
     let symbolName = "cpu.fill"
     let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
 
@@ -31,13 +31,13 @@ final class CPUMetric: Metric {
         sample
     }
 
-    func menuLines() -> [String] {
+    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
-            return ["总体 CPU：--"]
+            return [localization.text(.cpuOverall, "--")]
         }
-        var lines = ["总体 CPU：\(CPUUsageDisplay.percent(usage.overall))"]
+        var lines = [localization.text(.cpuOverall, CPUUsageDisplay.percent(usage.overall))]
         for (index, core) in usage.perCore.enumerated() {
-            lines.append("核心 \(index + 1)：\(CPUUsageDisplay.percent(core))")
+            lines.append(localization.text(.cpuCore, index + 1, CPUUsageDisplay.percent(core)))
         }
         return lines
     }

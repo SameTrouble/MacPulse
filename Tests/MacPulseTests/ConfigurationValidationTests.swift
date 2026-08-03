@@ -53,6 +53,33 @@ final class ConfigurationValidationTests: XCTestCase {
         ])
     }
 
+    func testItemDurationOutOfRangeIsRejected() throws {
+        var badItem = try CarouselItem(metricID: "cpu", style: .iconAndText)
+        badItem.duration = 0
+        let config = configuration(items: [badItem])
+
+        let errors = config.validationErrors(against: registry())
+
+        XCTAssertEqual(errors, [.durationOutOfRange(metricID: "cpu", duration: 0)])
+    }
+
+    func testSamplingIntervalWithinRangePasses() {
+        var config = configuration(items: [])
+        config.samplingIntervals["cpu"] = 1
+        config.samplingIntervals["memory"] = 60
+
+        XCTAssertEqual(config.validationErrors(against: registry()), [])
+    }
+
+    func testSamplingIntervalOutOfRangeIsRejected() {
+        var config = configuration(items: [])
+        config.samplingIntervals["cpu"] = 61
+
+        let errors = config.validationErrors(against: registry())
+
+        XCTAssertEqual(errors, [.samplingIntervalOutOfRange(metricID: "cpu", interval: 61)])
+    }
+
     func testManagerRejectsInvalidConfiguration() throws {
         let registry = MetricRegistry()
         registry.register(FakeMetric(id: "cpu", supportedStyles: [.iconAndText]))

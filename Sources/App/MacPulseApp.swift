@@ -7,32 +7,59 @@ struct MacPulseApp: App {
 
     var body: some Scene {
         Settings {
-            Text("MacPulse")
+            SettingsView(model: appDelegate.configurationModel, registry: appDelegate.registry)
         }
     }
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private enum Constants {
-        static let samplingInterval: TimeInterval = 2
+        static let samplingTick: TimeInterval = 1
     }
 
-    private let registry = MetricRegistry()
+    let registry: MetricRegistry
+    let configurationModel: ConfigurationModel
     private var manager: PlaceholderManager?
     private var samplingTimer: Timer?
+    private var lastSample: [String: Date] = [:]
+
+    override init() {
+        let registry = MetricRegistry()
+        registry.register(CPUMetric())
+        self.registry = registry
+        configurationModel = ConfigurationModel(
+            registry: registry,
+            store: ConfigurationStore(),
+            fallback: Self.makeDefaultConfiguration()
+        )
+        super.init()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        registry.register(CPUMetric())
-
         let manager = PlaceholderManager(registry: registry)
-        do {
-            try manager.apply(Self.makeDefaultConfiguration())
-        } catch {
-            fatalError("invalid default configuration: \(error)")
-        }
+        apply(configurationModel.committed, with: manager)
         self.manager = manager
 
-        let timer = Timer(timeInterval: Constants.samplingInterval, repeats: true) { [weak self] _ in
+        configurationModel.onCommit = { [weak self] configuration in
+            self?.apply(configuration)
+        }
+
+        startSampling()
+    }
+
+    private func apply(_ configuration: AppConfiguration, with manager: PlaceholderManager? = nil) {
+        do {
+            try (manager ?? self.manager)?.apply(configuration)
+        } catch {
+            assertionFailure("failed to apply committed configuration: \(error)")
+        }
+        startSampling()
+    }
+
+    private func startSampling() {
+        samplingTimer?.invalidate()
+        lastSample = [:]
+        let timer = Timer(timeInterval: Constants.samplingTick, repeats: true) { [weak self] _ in
             self?.sample()
         }
         RunLoop.main.add(timer, forMode: .common)
@@ -41,10 +68,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func sample() {
+        let now = Date()
+        var sampled = false
         for metric in registry.metrics {
+            let interval = configurationModel.committed.samplingInterval(for: metric)
+            if let last = lastSample[metric.id], now.timeIntervalSince(last) < interval { continue }
             metric.refresh()
+            lastSample[metric.id] = now
+            sampled = true
         }
-        manager?.refreshDisplays()
+        if sampled {
+            manager?.refreshDisplays()
+        }
     }
 
     private static func makeDefaultConfiguration() -> AppConfiguration {

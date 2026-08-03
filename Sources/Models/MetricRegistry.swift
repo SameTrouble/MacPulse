@@ -10,9 +10,14 @@ protocol Metric: AnyObject {
     var displayName: String { get }
     var symbolName: String { get }
     var supportedStyles: Set<MetricStyle> { get }
+    var defaultSamplingInterval: TimeInterval { get }
     func refresh()
     func currentSample() -> MetricSample?
     func menuLines() -> [String]
+}
+
+extension Metric {
+    var defaultSamplingInterval: TimeInterval { 2 }
 }
 
 final class MetricRegistry {

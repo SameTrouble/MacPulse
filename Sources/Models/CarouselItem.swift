@@ -9,24 +9,27 @@ enum ConfigurationError: Error, Equatable {
     case durationOutOfRange(TimeInterval)
 }
 
-struct CarouselItem: Codable, Equatable {
+struct CarouselItem: Codable, Equatable, Identifiable {
     static let durationRange: ClosedRange<TimeInterval> = 1...60
     static let defaultDuration: TimeInterval = 3
 
-    let metricID: String
-    let style: MetricStyle
-    let duration: TimeInterval
+    let id: UUID
+    var metricID: String
+    var style: MetricStyle
+    var duration: TimeInterval
 
     init(metricID: String, style: MetricStyle, duration: TimeInterval = CarouselItem.defaultDuration) throws {
         guard Self.durationRange.contains(duration) else {
             throw ConfigurationError.durationOutOfRange(duration)
         }
+        id = UUID()
         self.metricID = metricID
         self.style = style
         self.duration = duration
     }
 
     private enum CodingKeys: String, CodingKey {
+        case id
         case metricID
         case style
         case duration
@@ -34,17 +37,20 @@ struct CarouselItem: Codable, Equatable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        let id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
         let metricID = try container.decode(String.self, forKey: .metricID)
         let style = try container.decode(MetricStyle.self, forKey: .style)
         let duration = try container.decodeIfPresent(TimeInterval.self, forKey: .duration) ?? Self.defaultDuration
-        do {
-            try self.init(metricID: metricID, style: style, duration: duration)
-        } catch {
+        guard Self.durationRange.contains(duration) else {
             throw DecodingError.dataCorruptedError(
                 forKey: .duration,
                 in: container,
                 debugDescription: "duration must be within 1–60 seconds"
             )
         }
+        self.id = id
+        self.metricID = metricID
+        self.style = style
+        self.duration = duration
     }
 }

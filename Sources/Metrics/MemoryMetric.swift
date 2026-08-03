@@ -6,7 +6,7 @@ final class MemoryMetric: Metric {
     let id = MemoryMetric.metricID
     let displayName = "内存"
     let symbolName = "memorychip"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text]
+    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
 
     private let sampler: MemorySampler
     private var usage: MemoryUsage?

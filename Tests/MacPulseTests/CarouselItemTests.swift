@@ -42,4 +42,21 @@ final class CarouselItemTests: XCTestCase {
 
         XCTAssertThrowsError(try JSONDecoder().decode(CarouselItem.self, from: Data(json.utf8)))
     }
+
+    func testProgressBarStyleCodableRoundTrip() throws {
+        let item = try CarouselItem(metricID: "cpu", style: .progressBar, duration: 5)
+
+        let data = try JSONEncoder().encode(item)
+        let decoded = try JSONDecoder().decode(CarouselItem.self, from: data)
+
+        XCTAssertEqual(decoded, item)
+    }
+
+    func testDecodingProgressBarStyleFromJSON() throws {
+        let json = #"{"metricID": "cpu", "style": "progressBar"}"#
+
+        let decoded = try JSONDecoder().decode(CarouselItem.self, from: Data(json.utf8))
+
+        XCTAssertEqual(decoded.style, .progressBar)
+    }
 }

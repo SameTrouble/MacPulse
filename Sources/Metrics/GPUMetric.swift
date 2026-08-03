@@ -6,7 +6,7 @@ final class GPUMetric: Metric {
     let id = GPUMetric.metricID
     let displayName = "GPU"
     let symbolName = "gauge.with.needle"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text]
+    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
 
     private let sampler: GPUSampler
     private var usage: GPUUsage?

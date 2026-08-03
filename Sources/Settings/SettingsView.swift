@@ -213,6 +213,8 @@ private struct ItemEditor: View {
             "图标 + 文本"
         case .text:
             "仅文本"
+        case .progressBar:
+            "进度条"
         }
     }
 }

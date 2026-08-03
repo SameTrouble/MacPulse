@@ -11,7 +11,7 @@ final class MemoryMetricTests: XCTestCase {
 
         XCTAssertEqual(metric.id, "memory")
         XCTAssertEqual(metric.displayName, "内存")
-        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text])
+        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text, .progressBar])
     }
 
     func testSampleIsNilBeforeFirstRefresh() {

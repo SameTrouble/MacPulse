@@ -23,7 +23,7 @@ final class CPUMetric: Metric {
             usage = nil
         }
         sample = usage.map { usage in
-            MetricSample(text: CPUUsageDisplay.percent(usage.overall), fraction: usage.overall)
+            MetricSample(text: PercentDisplay.percent(usage.overall), fraction: usage.overall)
         }
     }
 
@@ -35,9 +35,9 @@ final class CPUMetric: Metric {
         guard let usage else {
             return ["总体 CPU：--"]
         }
-        var lines = ["总体 CPU：\(CPUUsageDisplay.percent(usage.overall))"]
+        var lines = ["总体 CPU：\(PercentDisplay.percent(usage.overall))"]
         for (index, core) in usage.perCore.enumerated() {
-            lines.append("核心 \(index + 1)：\(CPUUsageDisplay.percent(core))")
+            lines.append("核心 \(index + 1)：\(PercentDisplay.percent(core))")
         }
         return lines
     }

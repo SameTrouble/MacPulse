@@ -14,3 +14,15 @@ final class FakeTickProvider: CPUTickProviding {
 }
 
 struct SamplingTestError: Error {}
+
+final class FakeGPUUtilizationProvider: GPUUtilizationProviding {
+    var result: Result<GPUUtilization, Error>
+
+    init(result: Result<GPUUtilization, Error>) {
+        self.result = result
+    }
+
+    func currentUtilization() throws -> GPUUtilization {
+        try result.get()
+    }
+}

@@ -1,0 +1,36 @@
+import Foundation
+
+struct MetricSample: Equatable {
+    let text: String
+    let fraction: Double?
+}
+
+protocol Metric: AnyObject {
+    var id: String { get }
+    var displayName: String { get }
+    var symbolName: String { get }
+    var supportedStyles: Set<MetricStyle> { get }
+    func refresh()
+    func currentSample() -> MetricSample?
+    func menuLines() -> [String]
+}
+
+final class MetricRegistry {
+    private var storage: [String: Metric] = [:]
+    private var insertionOrder: [String] = []
+
+    func register(_ metric: Metric) {
+        if storage[metric.id] == nil {
+            insertionOrder.append(metric.id)
+        }
+        storage[metric.id] = metric
+    }
+
+    func metric(id: String) -> Metric? {
+        storage[id]
+    }
+
+    var metrics: [Metric] {
+        insertionOrder.compactMap { storage[$0] }
+    }
+}

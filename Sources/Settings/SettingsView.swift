@@ -4,6 +4,7 @@ struct SettingsView: View {
     @Bindable var model: ConfigurationModel
     let registry: MetricRegistry
     @Bindable var localization: LocalizationService
+    @Bindable var loginItem: LoginItemModel
 
     @Environment(\.dismiss) private var dismiss
     @State private var selectedPlaceholderID: UUID?
@@ -25,6 +26,7 @@ struct SettingsView: View {
         .frame(width: 660, height: 460)
         .onAppear {
             model.revert()
+            loginItem.refresh()
             selectedItems = []
             if selectedPlaceholderID == nil {
                 selectedPlaceholderID = model.draft.placeholders.first?.id
@@ -43,6 +45,16 @@ struct SettingsView: View {
                 }
                 .labelsHidden()
                 .frame(width: 140)
+            }
+            Divider()
+            Toggle(localization.text(.launchAtLogin), isOn: loginItemBinding)
+            Text(localization.text(.launchAtLoginHint))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            if let error = loginItem.error {
+                Text(loginItemErrorMessage(error))
+                    .font(.caption)
+                    .foregroundStyle(.red)
             }
             Spacer()
         }
@@ -199,6 +211,22 @@ struct SettingsView: View {
             get: { model.draft.samplingInterval(for: metric) },
             set: { model.draft.samplingIntervals[metric.id] = $0 }
         )
+    }
+
+    private var loginItemBinding: Binding<Bool> {
+        Binding(
+            get: { loginItem.isEnabled },
+            set: { _ = loginItem.setEnabled($0) }
+        )
+    }
+
+    private func loginItemErrorMessage(_ error: LoginItemChangeError) -> String {
+        switch error {
+        case .registerFailed:
+            localization.text(.loginItemRegisterFailed)
+        case .unregisterFailed:
+            localization.text(.loginItemUnregisterFailed)
+        }
     }
 }
 

@@ -70,6 +70,7 @@
 		C26BBDC320357B6D314B6443 /* ConfigurationValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E70EDE0372DEF063F41F0 /* ConfigurationValidationTests.swift */; };
 		C4021544DD60F18AC0145E9A /* MemoryUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C84C29142E59694F6C3F87 /* MemoryUsage.swift */; };
 		C5896ED83EDB6345B9C01240 /* ConfigurationValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1799B9225FB925CD43D5E /* ConfigurationValidation.swift */; };
+		CA0895D0B64A02C337D9B6DD /* LoginItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E819E106E5BE520B4D46999 /* LoginItemModel.swift */; };
 		CAC807C820CB4030158DC08A /* CPUUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680D6E5E908FCE89A4BD69E /* CPUUsageCalculator.swift */; };
 		CD9E20064CC820FCB42B1829 /* TemperatureSamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B60A7AA9DBB0622164ADE /* TemperatureSamplerTests.swift */; };
 		D316DD73FCF3CEA637257906 /* MemoryUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF264085B155476D16DD9A03 /* MemoryUsageCalculator.swift */; };
@@ -77,9 +78,11 @@
 		D4CD828A6DEB9871F318CD1F /* MetricTestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AE89BB73034FD287014EE2 /* MetricTestDoubles.swift */; };
 		D969BAEFEFE81EE0920D1E57 /* CPUUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */; };
 		DB1C0CD8C525864DF18318BF /* SMCTemperatureDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87531E0017312DDBB61369D /* SMCTemperatureDecoder.swift */; };
+		E74B5BB558836F092FA2D6E1 /* LoginItemModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA307860A24AAEFFE958B1B /* LoginItemModelTests.swift */; };
 		EA76F6E00563C8C11B472040 /* MemoryUsageCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA2E6C9EEAE10400943143 /* MemoryUsageCalculatorTests.swift */; };
 		EA92908207C9AD2B1CBF8877 /* AppConfigurationColorRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705EEDC5E9B5AAB83F01745C /* AppConfigurationColorRulesTests.swift */; };
 		EDDB174E7B1081D49D8307D5 /* ColorRuleEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82063339B7335E3ABE7CC5AA /* ColorRuleEngine.swift */; };
+		F11880A09428A52227C761D3 /* LoginItemManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E2516F1CCA04A34DB22F45 /* LoginItemManaging.swift */; };
 		F290A45FC5C6FBC8B61D5191 /* MemoryUsageDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7DC476AEA51D71EB478A7 /* MemoryUsageDisplay.swift */; };
 		F60173CCAFFF9546A80039D3 /* AGXGPUStatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764E4992BBBE651405FFA70F /* AGXGPUStatsProvider.swift */; };
 		F62642EC7FFA5F2AB33D548D /* ColorRulesEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134939390CEC50C4A97986A6 /* ColorRulesEditorView.swift */; };
@@ -105,6 +108,7 @@
 		041B4BE0422041EC5B94E34F /* CarouselItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselItemTests.swift; sourceTree = "<group>"; };
 		054D631EF8F5B9F5D7F20A34 /* MacPulseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacPulseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		065E88F687FA2B136D54C05A /* MacPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07E2516F1CCA04A34DB22F45 /* LoginItemManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManaging.swift; sourceTree = "<group>"; };
 		09E65C761037D2519D870A82 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		0FF011B135B73900925E71C1 /* TemperatureMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMetric.swift; sourceTree = "<group>"; };
 		12748AED70CE6416784B2C84 /* CPUUsageSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageSampler.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 		1CE7E1931D09F95DB4303DD7 /* CPUMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUMetric.swift; sourceTree = "<group>"; };
 		2A41865045DDFAFC881EA06B /* ColorRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorRule.swift; sourceTree = "<group>"; };
 		2B414E55278D5411C0DBD9CC /* GPUUsageDisplayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUUsageDisplayTests.swift; sourceTree = "<group>"; };
+		2E819E106E5BE520B4D46999 /* LoginItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemModel.swift; sourceTree = "<group>"; };
 		2E86633FC83D28E878DAC8A2 /* HostProcessorInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostProcessorInfoProvider.swift; sourceTree = "<group>"; };
 		33C5C3D8C5A690BB6B15DEE0 /* TemperatureUsageDisplayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureUsageDisplayTests.swift; sourceTree = "<group>"; };
 		353AA71C6885B120B05A9D8D /* MacPulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacPulseApp.swift; sourceTree = "<group>"; };
@@ -178,6 +183,7 @@
 		E9590E60948CAD92A553032D /* SMCTemperatureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCTemperatureProvider.swift; sourceTree = "<group>"; };
 		E9712A139E07FA5BFD8D8CA8 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
 		ECE250607236761AB8CE8774 /* MemoryMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryMetric.swift; sourceTree = "<group>"; };
+		EDA307860A24AAEFFE958B1B /* LoginItemModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemModelTests.swift; sourceTree = "<group>"; };
 		EFB758E6D04C7C7099D4C46F /* HostProcessorInfoProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostProcessorInfoProviderTests.swift; sourceTree = "<group>"; };
 		F234D19D9E6C69FE14B63B8B /* GPUMetricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUMetricTests.swift; sourceTree = "<group>"; };
 		F91B52828ECA3258D91E27EA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -211,6 +217,7 @@
 				EFB758E6D04C7C7099D4C46F /* HostProcessorInfoProviderTests.swift */,
 				8D045D9FB977E9E8E3FDBE07 /* LocalizationServiceTests.swift */,
 				47E618A701DFE1D0511F2B76 /* LocalizedStringsTests.swift */,
+				EDA307860A24AAEFFE958B1B /* LoginItemModelTests.swift */,
 				B2F6338C8C018F35118F23EE /* MemoryMetricTests.swift */,
 				03E9E809CB02C4E57607D6F3 /* MemorySamplerTests.swift */,
 				70EA2E6C9EEAE10400943143 /* MemoryUsageCalculatorTests.swift */,
@@ -319,6 +326,7 @@
 			children = (
 				959DDFE8F93FB4913C73D246 /* App */,
 				82E6331A88C8FFD62AEAAE0C /* Carousel */,
+				EDE31E761F4D28816A196731 /* LaunchAtLogin */,
 				06DE00AED72BACC79281F226 /* Localization */,
 				547FFBFD54B740389BECDD73 /* Metrics */,
 				2694DDC16E71424E4B1B2B9D /* Models */,
@@ -362,6 +370,15 @@
 				001AE59A881FCA0C5B2C8594 /* MacPulseTests */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		EDE31E761F4D28816A196731 /* LaunchAtLogin */ = {
+			isa = PBXGroup;
+			children = (
+				07E2516F1CCA04A34DB22F45 /* LoginItemManaging.swift */,
+				2E819E106E5BE520B4D46999 /* LoginItemModel.swift */,
+			);
+			path = LaunchAtLogin;
 			sourceTree = "<group>";
 		};
 		F8BD2AADBDF69AE28F61E851 /* Settings */ = {
@@ -501,6 +518,8 @@
 				405D0969BD947F90874BB91E /* LocalizationKey.swift in Sources */,
 				6DFBE4F7858EF139208DE9BB /* LocalizationService.swift in Sources */,
 				652CCF5929770BE0E62BB9E3 /* LocalizedStrings.swift in Sources */,
+				F11880A09428A52227C761D3 /* LoginItemManaging.swift in Sources */,
+				CA0895D0B64A02C337D9B6DD /* LoginItemModel.swift in Sources */,
 				3FD52352E4C133ED6E1FF3A0 /* MacPulseApp.swift in Sources */,
 				11249DE2DEF65E940C32AB76 /* MemoryMetric.swift in Sources */,
 				754B8C078E94EC2D8BE99915 /* MemorySampler.swift in Sources */,
@@ -546,6 +565,7 @@
 				3DA6D7C1A802EF290ADA4E01 /* HostProcessorInfoProviderTests.swift in Sources */,
 				4FFD0D62841EE012645CD9B7 /* LocalizationServiceTests.swift in Sources */,
 				23EA33A696EA69EF1F5317A6 /* LocalizedStringsTests.swift in Sources */,
+				E74B5BB558836F092FA2D6E1 /* LoginItemModelTests.swift in Sources */,
 				1A522B6196D84CBDD9C36479 /* MemoryMetricTests.swift in Sources */,
 				4B636F8271855C5BCA885C95 /* MemorySamplerTests.swift in Sources */,
 				EA76F6E00563C8C11B472040 /* MemoryUsageCalculatorTests.swift in Sources */,

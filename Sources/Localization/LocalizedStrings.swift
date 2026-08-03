@@ -44,6 +44,14 @@ enum LocalizedStrings {
         .languageSystem: ("跟随系统", "Follow System"),
         .languageChinese: ("中文", "中文"),
         .languageEnglish: ("English", "English"),
+        .launchAtLogin: ("开机自启", "Launch at Login"),
+        .launchAtLoginHint: (
+            "开启后，重启电脑 MacPulse 会自动启动并仅驻留菜单栏。请将 MacPulse 放入“应用程序”文件夹后再开启。",
+            "When enabled, MacPulse launches automatically on restart and lives only in the menu bar. "
+                + "Move MacPulse into the Applications folder before enabling."
+        ),
+        .loginItemRegisterFailed: ("开启开机自启失败", "Failed to enable launch at login"),
+        .loginItemUnregisterFailed: ("关闭开机自启失败", "Failed to disable launch at login"),
         .menuPreferences: ("偏好设置…", "Preferences…"),
         .menuQuit: ("退出 MacPulse", "Quit MacPulse"),
         .metricCPUName: ("CPU", "CPU"),

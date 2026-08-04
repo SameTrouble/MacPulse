@@ -65,6 +65,7 @@ enum LocalizedStrings {
         .metricGPUName: ("GPU", "GPU"),
         .metricCPUTemperatureName: ("CPU 温度", "CPU Temperature"),
         .metricGPUTemperatureName: ("GPU 温度", "GPU Temperature"),
+        .metricTemperatureName: ("温度", "Temperature"),
         .cpuOverall: ("总体 CPU：%@", "Overall CPU: %@"),
         .cpuCore: ("核心 %d：%@", "Core %d: %@"),
         .memoryUsed: ("已用：%@", "Used: %@"),

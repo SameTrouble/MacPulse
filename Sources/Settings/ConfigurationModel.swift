@@ -16,7 +16,15 @@ final class ConfigurationModel {
         self.registry = registry
         self.store = store
         let stored = store.load()
-        let committed = stored.map { configuration in
+        var migrated = stored.map { $0.migratingLegacyTemperature() }
+        if var configuration = migrated {
+            _ = configuration.samplingInterval(for: .temperature, registry: registry)
+            migrated = configuration
+        }
+        if let migrated, migrated != stored {
+            try? store.save(migrated)
+        }
+        let committed = migrated.map { configuration in
             configuration.validationErrors(against: registry).isEmpty ? configuration : fallback
         } ?? fallback
         self.committed = committed

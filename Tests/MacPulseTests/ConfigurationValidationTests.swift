@@ -9,8 +9,8 @@ final class ConfigurationValidationTests: XCTestCase {
         return registry
     }
 
-    private func configuration(items: [CarouselItem], menuMetricIDs: [String] = []) -> AppConfiguration {
-        AppConfiguration(placeholders: [Placeholder(id: UUID(), items: items, menuMetricIDs: menuMetricIDs)])
+    private func configuration(items: [CarouselItem]) -> AppConfiguration {
+        AppConfiguration(placeholders: [Placeholder(id: UUID(), items: items)])
     }
 
     func testValidConfigurationPasses() throws {
@@ -28,26 +28,6 @@ final class ConfigurationValidationTests: XCTestCase {
         let errors = config.validationErrors(against: registry())
 
         XCTAssertEqual(errors, [.unknownMetric("gpu")])
-    }
-
-    func testUnknownMenuMetricIsRejected() throws {
-        let config = configuration(
-            items: [try CarouselItem(metricID: "cpu", style: .iconAndText)],
-            menuMetricIDs: ["gpu", "cpu"]
-        )
-
-        let errors = config.validationErrors(against: registry())
-
-        XCTAssertEqual(errors, [.unknownMetric("gpu")])
-    }
-
-    func testKnownMenuMetricsPass() throws {
-        let config = configuration(
-            items: [try CarouselItem(metricID: "cpu", style: .iconAndText)],
-            menuMetricIDs: ["cpu", "memory"]
-        )
-
-        XCTAssertEqual(config.validationErrors(against: registry()), [])
     }
 
     func testUnsupportedStyleIsRejected() throws {

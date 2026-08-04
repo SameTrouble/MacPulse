@@ -66,7 +66,7 @@ final class GPUMetricTests: XCTestCase {
     func testWidestDisplayTextIsThreeDigitPercent() {
         let metric = metric(utilization: 0)
 
-        XCTAssertEqual(metric.widestDisplayText(for: .iconAndText), "100%")
-        XCTAssertEqual(metric.widestDisplayText(for: .text), "100%")
+        XCTAssertEqual(metric.widestDisplayText(), "100%")
+        XCTAssertEqual(metric.widestDisplayText(), GPUUsageDisplay.widestText)
     }
 }

@@ -4,8 +4,6 @@ import Foundation
 final class PlaceholderController: NSObject, NSMenuDelegate {
     private enum Constants {
         static let minimumSwitchInterval: TimeInterval = 0.05
-        static let iconTextSpacing: CGFloat = 3
-        static let widthInset: CGFloat = 2
     }
 
     private let registry: MetricRegistry
@@ -87,8 +85,10 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
+        var renderedAnyMetric = false
         for metricID in placeholder.menuMetricIDs {
             guard let metric = registry.metric(id: metricID) else { continue }
+            renderedAnyMetric = true
             let title = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             title.isEnabled = false
             title.attributedTitle = NSAttributedString(
@@ -103,7 +103,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
             }
         }
 
-        if !placeholder.menuMetricIDs.isEmpty {
+        if renderedAnyMetric {
             menu.addItem(.separator())
         }
 
@@ -136,7 +136,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
 
     private var fixedWidth: CGFloat {
         let widest = placeholder.items.map { contentWidth(for: $0) }.max() ?? 0
-        return widest + Constants.widthInset * 2
+        return widest + StatusBarLayout.widthInset * 2
     }
 
     private func contentWidth(for entry: CarouselItem) -> CGFloat {
@@ -149,14 +149,14 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
                   let icon = NSImage(systemSymbolName: metric.symbolName, accessibilityDescription: nil) else {
                 return textWidth
             }
-            return icon.size.width + Constants.iconTextSpacing + textWidth
+            return icon.size.width + StatusBarLayout.iconTextSpacing + textWidth
         case .text:
             return textWidth(for: entry)
         }
     }
 
     private func textWidth(for entry: CarouselItem) -> CGFloat {
-        let widest = registry.metric(id: entry.metricID)?.widestDisplayText(for: entry.style) ?? "100%"
+        let widest = registry.metric(id: entry.metricID)?.widestDisplayText() ?? MetricWidth.fallbackText
         let attributed = NSAttributedString(
             string: widest,
             attributes: [.font: NSFont.menuBarFont(ofSize: 0)]

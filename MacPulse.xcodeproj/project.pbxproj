@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		058D959D58FEDFCCD0FC424B /* ColorBandDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7580E19823F445F7AD572F3E /* ColorBandDisplayScale.swift */; };
 		090A3FD5EBE45D6C5FDFCC05 /* GPUSamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0A179512BAA068A77823A7 /* GPUSamplerTests.swift */; };
 		0DD493FF2DBA53A1A936EA37 /* AGXGPUStatsProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687856B20F657BB61464D4DC /* AGXGPUStatsProviderTests.swift */; };
 		11249DE2DEF65E940C32AB76 /* MemoryMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE250607236761AB8CE8774 /* MemoryMetric.swift */; };
@@ -101,6 +102,7 @@
 		F11880A09428A52227C761D3 /* LoginItemManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E2516F1CCA04A34DB22F45 /* LoginItemManaging.swift */; };
 		F290A45FC5C6FBC8B61D5191 /* MemoryUsageDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7DC476AEA51D71EB478A7 /* MemoryUsageDisplay.swift */; };
 		F60173CCAFFF9546A80039D3 /* AGXGPUStatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764E4992BBBE651405FFA70F /* AGXGPUStatsProvider.swift */; };
+		F68E23BDC48946C329F2476E /* ColorBandDisplayScaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C412A6B003A68D12AD69BB /* ColorBandDisplayScaleTests.swift */; };
 		F76BD5EEDD8E5A601169C759 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */; };
 		FB3BA5E390E992D3A8517886 /* CarouselEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E39F3CE336AB5758DF7BC /* CarouselEngine.swift */; };
 		FE423DC07D85D3C34E22C4B1 /* CPUUsageDisplayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E219AD466459BEBC25FF8336 /* CPUUsageDisplayTests.swift */; };
@@ -170,6 +172,7 @@
 		725C8E0077C9694806BC42B1 /* CPUUsageSamplerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageSamplerTests.swift; sourceTree = "<group>"; };
 		73904761837EF45972BCB26D /* SamplingIntervalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingIntervalEntry.swift; sourceTree = "<group>"; };
 		74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		7580E19823F445F7AD572F3E /* ColorBandDisplayScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandDisplayScale.swift; sourceTree = "<group>"; };
 		764E4992BBBE651405FFA70F /* AGXGPUStatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGXGPUStatsProvider.swift; sourceTree = "<group>"; };
 		77699507C885C66117314EBC /* ColorBandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandTests.swift; sourceTree = "<group>"; };
 		79416378A4E15C6DCE20B0E0 /* HostMemoryInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostMemoryInfoProvider.swift; sourceTree = "<group>"; };
@@ -198,6 +201,7 @@
 		BEABB5A205117F306B86A745 /* SamplingIntervalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingIntervalTests.swift; sourceTree = "<group>"; };
 		C0C84C29142E59694F6C3F87 /* MemoryUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsage.swift; sourceTree = "<group>"; };
 		C307BCB8CEAD3630150C0F0D /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		C3C412A6B003A68D12AD69BB /* ColorBandDisplayScaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandDisplayScaleTests.swift; sourceTree = "<group>"; };
 		C3EC4FF49984FCFF2589064B /* MenuRowFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRowFactoryTests.swift; sourceTree = "<group>"; };
 		C5E1799B9225FB925CD43D5E /* ConfigurationValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidation.swift; sourceTree = "<group>"; };
 		C9E75DF4FCCE59B737ABDB24 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 				ECEA347D3E6C6A395E1EA3AF /* AppConfigurationDefaultsTests.swift */,
 				7F13F29ECA1847D015716A40 /* CarouselEngineTests.swift */,
 				041B4BE0422041EC5B94E34F /* CarouselItemTests.swift */,
+				C3C412A6B003A68D12AD69BB /* ColorBandDisplayScaleTests.swift */,
 				480B9505CCB06851E5297F4F /* ColorBandEngineTests.swift */,
 				77699507C885C66117314EBC /* ColorBandTests.swift */,
 				6621D3FEBDB03EF1BF4BFCAC /* ConfigurationModelTests.swift */,
@@ -302,6 +307,7 @@
 				74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */,
 				130C4024F29B2CABD29D8693 /* CarouselItem.swift */,
 				CB415E682CA2B876BD64C910 /* ColorBand.swift */,
+				7580E19823F445F7AD572F3E /* ColorBandDisplayScale.swift */,
 				232340B8583FA13C8D48D2FF /* ColorBandEngine.swift */,
 				C5E1799B9225FB925CD43D5E /* ConfigurationValidation.swift */,
 				9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */,
@@ -550,6 +556,7 @@
 				FB3BA5E390E992D3A8517886 /* CarouselEngine.swift in Sources */,
 				A777DE526A79CC662F26E21E /* CarouselItem.swift in Sources */,
 				31778D215578F58BDF6EBBAE /* ColorBand.swift in Sources */,
+				058D959D58FEDFCCD0FC424B /* ColorBandDisplayScale.swift in Sources */,
 				2206CB5440076684B5FF7517 /* ColorBandEngine.swift in Sources */,
 				E0A31CDCF53F346D4634E8EE /* ColorBandsEditorView.swift in Sources */,
 				3E21B6F38A897A5016F418BF /* ConfigurationModel.swift in Sources */,
@@ -607,6 +614,7 @@
 				727A5661F9339B3A19C1A7BE /* CPUUsageSamplerTests.swift in Sources */,
 				1DEACE5DDDCEDCCAAC2EEA31 /* CarouselEngineTests.swift in Sources */,
 				AF2B76572DDE8E4048596588 /* CarouselItemTests.swift in Sources */,
+				F68E23BDC48946C329F2476E /* ColorBandDisplayScaleTests.swift in Sources */,
 				3B8B786FEF89E6BCB30EA505 /* ColorBandEngineTests.swift in Sources */,
 				A58CBBB5BE89E0DCE8019108 /* ColorBandTests.swift in Sources */,
 				79FA8DA7FC81E38967811608 /* ConfigurationModelTests.swift in Sources */,

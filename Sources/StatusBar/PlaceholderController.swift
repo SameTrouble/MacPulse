@@ -154,12 +154,12 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     }
 
     private func activeColor(for entry: CarouselItem, sample: MetricSample?) -> NSColor? {
-        guard configuration.colorRulesEnabled else { return nil }
-        guard let rule = ColorRuleEngine.matchingRule(
+        guard configuration.colorBandsEnabled else { return nil }
+        guard let band = ColorBandEngine.matchingBand(
             fraction: sample?.fraction,
-            rules: configuration.colorRules[entry.metricID] ?? []
+            bands: configuration.colorBands[entry.metricID] ?? []
         ) else { return nil }
-        return rule.color.nsColor
+        return band.color.nsColor
     }
 
     private func scheduleSwitch() {

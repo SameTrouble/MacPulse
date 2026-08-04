@@ -15,8 +15,8 @@ struct SettingsView: View {
             TabView {
                 placeholdersTab
                     .tabItem { Label(localization.text(.tabPlaceholders), systemImage: "square.grid.2x2") }
-                colorRulesTab
-                    .tabItem { Label(localization.text(.tabColorRules), systemImage: "paintpalette") }
+                colorBandsTab
+                    .tabItem { Label(localization.text(.tabColorBands), systemImage: "paintpalette") }
                 generalTab
                     .tabItem { Label(localization.text(.tabGeneral), systemImage: "globe") }
             }
@@ -71,8 +71,8 @@ struct SettingsView: View {
         }
     }
 
-    private var colorRulesTab: some View {
-        ColorRulesEditorView(model: model, registry: registry, localization: localization)
+    private var colorBandsTab: some View {
+        ColorBandsEditorView(model: model, registry: registry, localization: localization)
     }
 
     private var placeholderList: some View {

@@ -35,3 +35,24 @@ struct AppConfiguration: Codable, Equatable {
         samplingIntervals[metric.id] ?? metric.defaultSamplingInterval
     }
 }
+
+extension AppConfiguration {
+    static var defaults: AppConfiguration {
+        do {
+            let iconAndText = try CarouselItem(
+                metricID: CPUMetric.metricID,
+                style: .iconAndText,
+                duration: CarouselItem.defaultDuration
+            )
+            let text = try CarouselItem(
+                metricID: CPUMetric.metricID,
+                style: .text,
+                duration: CarouselItem.defaultDuration
+            )
+            let placeholder = Placeholder(id: UUID(), items: [iconAndText, text])
+            return AppConfiguration(placeholders: [placeholder])
+        } catch {
+            fatalError("invalid default configuration: \(error)")
+        }
+    }
+}

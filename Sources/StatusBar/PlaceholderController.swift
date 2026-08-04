@@ -86,17 +86,9 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         for metricID in placeholder.menuMetricIDs {
             guard let metric = registry.metric(id: metricID) else { continue }
             renderedAnyMetric = true
-            let title = NSMenuItem(title: "", action: nil, keyEquivalent: "")
-            title.isEnabled = false
-            title.attributedTitle = NSAttributedString(
-                string: localization.text(metric.displayNameKey),
-                attributes: [.font: NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)]
-            )
-            menu.addItem(title)
+            menu.addItem(MenuRowFactory.title(localization.text(metric.displayNameKey)))
             for line in metric.menuLines(localizedBy: localization) {
-                let item = NSMenuItem(title: line, action: nil, keyEquivalent: "")
-                item.isEnabled = false
-                menu.addItem(item)
+                menu.addItem(MenuRowFactory.data(line))
             }
         }
 

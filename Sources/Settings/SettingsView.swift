@@ -5,8 +5,8 @@ struct SettingsView: View {
     let registry: MetricRegistry
     @Bindable var localization: LocalizationService
     @Bindable var loginItem: LoginItemModel
+    let onClose: () -> Void
 
-    @Environment(\.dismiss) private var dismiss
     @State private var selectedPlaceholderID: UUID?
     @State private var selectedItems: Set<UUID> = []
 
@@ -164,11 +164,11 @@ struct SettingsView: View {
             Spacer()
             Button(localization.text(.cancel)) {
                 model.revert()
-                dismiss()
+                onClose()
             }
             Button(localization.text(.save)) {
                 if model.commit() {
-                    dismiss()
+                    onClose()
                 }
             }
             .disabled(!model.isDirty || !model.validationErrors.isEmpty)

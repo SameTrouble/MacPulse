@@ -64,4 +64,11 @@ final class MemoryMetricTests: XCTestCase {
             ["Used: --", "Total: --", "Pressure: --"]
         )
     }
+
+    func testWidestDisplayTextIsWideGigabyteValue() {
+        let metric = metric(stats: .fixture())
+
+        XCTAssertEqual(metric.widestDisplayText(for: .iconAndText), "999.9 GB")
+        XCTAssertEqual(metric.widestDisplayText(for: .text), "999.9 GB")
+    }
 }

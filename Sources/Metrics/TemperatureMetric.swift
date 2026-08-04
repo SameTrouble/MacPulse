@@ -40,4 +40,8 @@ final class TemperatureMetric: Metric {
         }
         return lines
     }
+
+    func widestDisplayText(for style: MetricStyle) -> String {
+        "100°"
+    }
 }

@@ -4,6 +4,8 @@ import Foundation
 final class PlaceholderController: NSObject, NSMenuDelegate {
     private enum Constants {
         static let minimumSwitchInterval: TimeInterval = 0.05
+        static let iconTextSpacing: CGFloat = 3
+        static let widthInset: CGFloat = 2
     }
 
     private let registry: MetricRegistry
@@ -33,7 +35,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
 
     func start() {
         guard statusItem == nil else { return }
-        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        let item = NSStatusBar.system.statusItem(withLength: fixedWidth)
         let menu = NSMenu()
         menu.delegate = self
         menu.autoenablesItems = false
@@ -85,7 +87,15 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
-        if let metric = currentMetric() {
+        for metricID in placeholder.menuMetricIDs {
+            guard let metric = registry.metric(id: metricID) else { continue }
+            let title = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+            title.isEnabled = false
+            title.attributedTitle = NSAttributedString(
+                string: localization.text(metric.displayNameKey),
+                attributes: [.font: NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)]
+            )
+            menu.addItem(title)
             for line in metric.menuLines(localizedBy: localization) {
                 let item = NSMenuItem(title: line, action: nil, keyEquivalent: "")
                 item.isEnabled = false
@@ -93,7 +103,9 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
             }
         }
 
-        menu.addItem(.separator())
+        if !placeholder.menuMetricIDs.isEmpty {
+            menu.addItem(.separator())
+        }
 
         let preferences = NSMenuItem(
             title: localization.text(.menuPreferences),
@@ -122,6 +134,36 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         return placeholder.items[index]
     }
 
+    private var fixedWidth: CGFloat {
+        let widest = placeholder.items.map { contentWidth(for: $0) }.max() ?? 0
+        return widest + Constants.widthInset * 2
+    }
+
+    private func contentWidth(for entry: CarouselItem) -> CGFloat {
+        switch entry.style {
+        case .progressBar:
+            return ProgressBarImage.size.width
+        case .iconAndText:
+            let textWidth = self.textWidth(for: entry)
+            guard let metric = registry.metric(id: entry.metricID),
+                  let icon = NSImage(systemSymbolName: metric.symbolName, accessibilityDescription: nil) else {
+                return textWidth
+            }
+            return icon.size.width + Constants.iconTextSpacing + textWidth
+        case .text:
+            return textWidth(for: entry)
+        }
+    }
+
+    private func textWidth(for entry: CarouselItem) -> CGFloat {
+        let widest = registry.metric(id: entry.metricID)?.widestDisplayText(for: entry.style) ?? "100%"
+        let attributed = NSAttributedString(
+            string: widest,
+            attributes: [.font: NSFont.menuBarFont(ofSize: 0)]
+        )
+        return attributed.size().width
+    }
+
     private func tintColor(for entry: CarouselItem, sample: MetricSample?) -> NSColor? {
         guard configuration.colorRulesEnabled else { return nil }
         guard let rule = ColorRuleEngine.matchingRule(
@@ -129,10 +171,6 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
             rules: configuration.colorRules[entry.metricID] ?? []
         ) else { return nil }
         return rule.color.nsColor
-    }
-
-    private func currentMetric() -> Metric? {
-        currentEntry().flatMap { registry.metric(id: $0.metricID) }
     }
 
     private func scheduleSwitch() {

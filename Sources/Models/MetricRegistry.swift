@@ -14,10 +14,15 @@ protocol Metric: AnyObject {
     func refresh()
     func currentSample() -> MetricSample?
     func menuLines(localizedBy localization: LocalizationProviding) -> [String]
+    func widestDisplayText(for style: MetricStyle) -> String
 }
 
 extension Metric {
     var defaultSamplingInterval: TimeInterval { 2 }
+
+    func widestDisplayText(for style: MetricStyle) -> String {
+        "100%"
+    }
 }
 
 final class MetricRegistry {

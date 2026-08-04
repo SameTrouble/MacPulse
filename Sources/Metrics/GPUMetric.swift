@@ -33,4 +33,8 @@ final class GPUMetric: Metric {
         }
         return [localization.text(.gpuUtilization, GPUUsageDisplay.percent(usage.deviceUtilization))]
     }
+
+    func widestDisplayText(for style: MetricStyle) -> String {
+        "100%"
+    }
 }

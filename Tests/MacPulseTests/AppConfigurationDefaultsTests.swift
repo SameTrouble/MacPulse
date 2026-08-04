@@ -32,4 +32,10 @@ final class AppConfigurationDefaultsTests: XCTestCase {
 
         XCTAssertEqual(AppConfiguration.defaults.validationErrors(against: registry), [])
     }
+
+    func testDefaultPlaceholderMenuShowsCPU() {
+        let placeholder = AppConfiguration.defaults.placeholders[0]
+
+        XCTAssertEqual(placeholder.menuMetricIDs, [CPUMetric.metricID])
+    }
 }

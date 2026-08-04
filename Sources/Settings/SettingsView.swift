@@ -102,6 +102,8 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 12) {
                 itemList(for: index)
                 Divider()
+                menuSection(for: index)
+                Divider()
                 samplingIntervalSection
             }
             .padding(8)
@@ -136,6 +138,38 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
         }
+    }
+
+    private func menuSection(for index: Int) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(localization.text(.menuMetrics))
+                .font(.headline)
+            Text(localization.text(.menuMetricsHint))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            ForEach(registry.metrics, id: \.id) { metric in
+                Toggle(isOn: menuMetricBinding(for: index, metric: metric)) {
+                    Text(localization.text(metric.displayNameKey))
+                }
+            }
+        }
+    }
+
+    private func menuMetricBinding(for placeholderIndex: Int, metric: Metric) -> Binding<Bool> {
+        Binding(
+            get: { model.draft.placeholders[placeholderIndex].menuMetricIDs.contains(metric.id) },
+            set: { isOn in
+                var ids = model.draft.placeholders[placeholderIndex].menuMetricIDs
+                if isOn {
+                    if !ids.contains(metric.id) {
+                        ids.append(metric.id)
+                    }
+                } else {
+                    ids.removeAll { $0 == metric.id }
+                }
+                model.draft.placeholders[placeholderIndex].menuMetricIDs = ids
+            }
+        )
     }
 
     private var samplingIntervalSection: some View {
@@ -236,24 +270,33 @@ private struct ItemEditor: View {
     let localization: LocalizationProviding
 
     var body: some View {
-        HStack(spacing: 12) {
-            Picker(localization.text(.metric), selection: $item.metricID) {
-                ForEach(registry.metrics, id: \.id) { metric in
-                    Text(localization.text(metric.displayNameKey)).tag(metric.id)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 12) {
+                Picker(localization.text(.metric), selection: $item.metricID) {
+                    ForEach(registry.metrics, id: \.id) { metric in
+                        Text(localization.text(metric.displayNameKey)).tag(metric.id)
+                    }
+                }
+                .frame(width: 140)
+
+                Spacer()
+
+                Stepper(value: $item.duration, in: CarouselItem.durationRange, step: 1) {
+                    Text(localization.text(.seconds, Int(item.duration)))
+                        .monospacedDigit()
                 }
             }
-            .frame(width: 140)
 
-            Picker(localization.text(.style), selection: $item.style) {
+            HStack(spacing: 8) {
                 ForEach(supportedStyles, id: \.self) { style in
-                    Text(styleLabel(style)).tag(style)
+                    StyleCard(
+                        style: style,
+                        isSelected: item.style == style,
+                        localization: localization
+                    ) {
+                        item.style = style
+                    }
                 }
-            }
-            .frame(width: 140)
-
-            Stepper(value: $item.duration, in: CarouselItem.durationRange, step: 1) {
-                Text(localization.text(.seconds, Int(item.duration)))
-                    .monospacedDigit()
             }
         }
         .onChange(of: item.metricID) { _, newID in
@@ -268,8 +311,42 @@ private struct ItemEditor: View {
         guard let metric = registry.metric(id: item.metricID) else { return [] }
         return MetricStyle.allCases.filter(metric.supportedStyles.contains)
     }
+}
 
-    private func styleLabel(_ style: MetricStyle) -> String {
+private struct StyleCard: View {
+    let style: MetricStyle
+    let isSelected: Bool
+    let localization: LocalizationProviding
+    let onSelect: () -> Void
+
+    var body: some View {
+        Button(action: onSelect) {
+            VStack(spacing: 6) {
+                Image(nsImage: StylePreview.image(for: style))
+                    .frame(height: 22)
+                Text(label)
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(isSelected ? Color.accentColor.opacity(0.12) : Color.clear)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 6)
+                    .strokeBorder(
+                        isSelected ? Color.accentColor : Color.secondary.opacity(0.4),
+                        lineWidth: isSelected ? 2 : 1
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var label: String {
         switch style {
         case .iconAndText:
             localization.text(.styleIconAndText)

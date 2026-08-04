@@ -342,7 +342,7 @@ private struct StyleCard: View {
                     )
             )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.borderless)
     }
 
     private var label: String {

@@ -2,89 +2,170 @@
 import XCTest
 
 final class TemperatureMetricTests: XCTestCase {
-    private func metric(cpu: Double, gpu: Double?) -> TemperatureMetric {
+    private func sharedMetrics(cpu: Double, gpu: Double?) -> (CPUTemperatureMetric, GPUTemperatureMetric) {
         let usage = TemperatureUsage(cpuCelsius: cpu, gpuCelsius: gpu)
-        return TemperatureMetric(sampler: TemperatureSampler(provider: FakeTemperatureProvider(result: .success(usage))))
+        let sampler = TemperatureSampler(provider: FakeTemperatureProvider(result: .success(usage)))
+        return (CPUTemperatureMetric(sampler: sampler), GPUTemperatureMetric(sampler: sampler))
     }
 
-    func testMetadata() {
-        let metric = metric(cpu: 42, gpu: 40)
+    func testCPUMetadata() {
+        let (cpu, _) = sharedMetrics(cpu: 42, gpu: 40)
 
-        XCTAssertEqual(metric.id, "temperature")
-        XCTAssertEqual(metric.displayNameKey, .metricTemperatureName)
-        XCTAssertEqual(metric.supportedStyles, [.iconAndText, .text])
+        XCTAssertEqual(cpu.id, "cpu-temperature")
+        XCTAssertEqual(cpu.displayNameKey, .metricCPUTemperatureName)
+        XCTAssertEqual(cpu.symbolName, "thermometer")
+        XCTAssertEqual(cpu.supportedStyles, [.iconAndText, .text])
+    }
+
+    func testGPUMetadata() {
+        let (_, gpu) = sharedMetrics(cpu: 42, gpu: 40)
+
+        XCTAssertEqual(gpu.id, "gpu-temperature")
+        XCTAssertEqual(gpu.displayNameKey, .metricGPUTemperatureName)
+        XCTAssertEqual(gpu.symbolName, "thermometer.medium")
+        XCTAssertEqual(gpu.supportedStyles, [.iconAndText, .text])
     }
 
     func testDefaultSamplingIntervalIsFiveSeconds() {
-        XCTAssertEqual(metric(cpu: 42, gpu: nil).defaultSamplingInterval, 5)
+        let (cpu, gpu) = sharedMetrics(cpu: 42, gpu: nil)
+
+        XCTAssertEqual(cpu.defaultSamplingInterval, 5)
+        XCTAssertEqual(gpu.defaultSamplingInterval, 5)
     }
 
     func testSampleIsNilBeforeFirstRefresh() {
-        XCTAssertNil(metric(cpu: 42, gpu: nil).currentSample())
+        let (cpu, gpu) = sharedMetrics(cpu: 42, gpu: 40)
+
+        XCTAssertNil(cpu.currentSample())
+        XCTAssertNil(gpu.currentSample())
     }
 
-    func testSampleShowsCelsius() {
-        let metric = metric(cpu: 42.4, gpu: 40)
-        metric.refresh()
+    func testCPUSampleShowsCelsiusAndFraction() {
+        let (cpu, _) = sharedMetrics(cpu: 42.4, gpu: 40)
+        cpu.refresh()
 
-        XCTAssertEqual(metric.currentSample()?.text, "42°")
-        XCTAssertNil(metric.currentSample()?.fraction)
+        let sample = cpu.currentSample()
+        XCTAssertEqual(sample?.text, "42°")
+        XCTAssertEqual(sample?.fraction ?? -1, 0.424, accuracy: 0.0001)
     }
 
-    func testFailedRefreshClearsSample() {
+    func testGPUSampleShowsCelsiusAndFraction() {
+        let (_, gpu) = sharedMetrics(cpu: 42, gpu: 40.6)
+        gpu.refresh()
+
+        let sample = gpu.currentSample()
+        XCTAssertEqual(sample?.text, "41°")
+        XCTAssertEqual(sample?.fraction ?? -1, 0.406, accuracy: 0.0001)
+    }
+
+    func testGPUSampleShowsDashWhenGpuMissing() {
+        let (_, gpu) = sharedMetrics(cpu: 42, gpu: nil)
+        gpu.refresh()
+
+        let sample = gpu.currentSample()
+        XCTAssertEqual(sample?.text, "--")
+        XCTAssertNil(sample?.fraction)
+    }
+
+    func testSharedSamplerHitsProviderOnceForBothMetrics() {
+        let usage = TemperatureUsage(cpuCelsius: 42, gpuCelsius: 40)
+        let provider = FakeTemperatureProvider(result: .success(usage))
+        let sampler = TemperatureSampler(provider: provider, coalesceInterval: 1)
+        let cpu = CPUTemperatureMetric(sampler: sampler)
+        let gpu = GPUTemperatureMetric(sampler: sampler)
+
+        cpu.refresh()
+        gpu.refresh()
+
+        XCTAssertEqual(provider.callCount, 1)
+        XCTAssertEqual(cpu.currentSample()?.text, "42°")
+        XCTAssertEqual(gpu.currentSample()?.text, "40°")
+    }
+
+    func testFailedRefreshClearsSamples() {
         let provider = FakeTemperatureProvider(result: .success(TemperatureUsage(cpuCelsius: 42, gpuCelsius: 40)))
-        let metric = TemperatureMetric(sampler: TemperatureSampler(provider: provider))
-        metric.refresh()
+        let sampler = TemperatureSampler(provider: provider, coalesceInterval: 0)
+        let cpu = CPUTemperatureMetric(sampler: sampler)
+        let gpu = GPUTemperatureMetric(sampler: sampler)
+        cpu.refresh()
+        gpu.refresh()
 
         provider.result = .failure(SamplingTestError())
-        metric.refresh()
+        cpu.refresh()
+        gpu.refresh()
 
-        XCTAssertNil(metric.currentSample())
+        XCTAssertNil(cpu.currentSample())
+        XCTAssertNil(gpu.currentSample())
     }
 
-    func testMenuLinesShowCpuAndGpu() {
-        let metric = metric(cpu: 42, gpu: 40)
-        metric.refresh()
+    func testCPUMenuLineShowsOnlyCpu() {
+        let (cpu, _) = sharedMetrics(cpu: 42, gpu: 40)
+        cpu.refresh()
 
         XCTAssertEqual(
-            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["CPU：42°", "GPU：40°"]
+            cpu.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["CPU：42°"]
         )
         XCTAssertEqual(
-            metric.menuLines(localizedBy: localizationService(language: .english)),
-            ["CPU: 42°", "GPU: 40°"]
+            cpu.menuLines(localizedBy: localizationService(language: .english)),
+            ["CPU: 42°"]
         )
     }
 
-    func testMenuLinesShowDashesForMissingGpu() {
-        let metric = metric(cpu: 42, gpu: nil)
-        metric.refresh()
+    func testGPUMenuLineShowsOnlyGpu() {
+        let (_, gpu) = sharedMetrics(cpu: 42, gpu: 40)
+        gpu.refresh()
 
         XCTAssertEqual(
-            metric.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["CPU：42°", "GPU：--"]
+            gpu.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["GPU：40°"]
         )
         XCTAssertEqual(
-            metric.menuLines(localizedBy: localizationService(language: .english)),
-            ["CPU: 42°", "GPU: --"]
+            gpu.menuLines(localizedBy: localizationService(language: .english)),
+            ["GPU: 40°"]
+        )
+    }
+
+    func testGPUMenuLineShowsDashWhenGpuMissing() {
+        let (_, gpu) = sharedMetrics(cpu: 42, gpu: nil)
+        gpu.refresh()
+
+        XCTAssertEqual(
+            gpu.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["GPU：--"]
+        )
+        XCTAssertEqual(
+            gpu.menuLines(localizedBy: localizationService(language: .english)),
+            ["GPU: --"]
         )
     }
 
     func testMenuLinesShowDashesWithoutSample() {
+        let (cpu, gpu) = sharedMetrics(cpu: 42, gpu: nil)
+
         XCTAssertEqual(
-            metric(cpu: 42, gpu: nil).menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["CPU：--", "GPU：--"]
+            cpu.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["CPU：--"]
         )
         XCTAssertEqual(
-            metric(cpu: 42, gpu: nil).menuLines(localizedBy: localizationService(language: .english)),
-            ["CPU: --", "GPU: --"]
+            gpu.menuLines(localizedBy: localizationService(language: .zhHans)),
+            ["GPU：--"]
+        )
+        XCTAssertEqual(
+            cpu.menuLines(localizedBy: localizationService(language: .english)),
+            ["CPU: --"]
+        )
+        XCTAssertEqual(
+            gpu.menuLines(localizedBy: localizationService(language: .english)),
+            ["GPU: --"]
         )
     }
 
     func testWidestDisplayTextIsThreeDigitCelsius() {
-        let metric = metric(cpu: 42, gpu: nil)
+        let (cpu, gpu) = sharedMetrics(cpu: 42, gpu: nil)
 
-        XCTAssertEqual(metric.widestDisplayText(), "100°")
-        XCTAssertEqual(metric.widestDisplayText(), TemperatureUsageDisplay.widestText)
+        XCTAssertEqual(cpu.widestDisplayText(), "100°")
+        XCTAssertEqual(gpu.widestDisplayText(), "100°")
+        XCTAssertEqual(cpu.widestDisplayText(), TemperatureUsageDisplay.widestText)
     }
 }

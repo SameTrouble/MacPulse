@@ -1,6 +1,6 @@
 # MacPulse
 
-macOS 菜单栏系统监控工具（CPU / 内存 / GPU / 温度），纯菜单栏运行，无 Dock 图标。
+macOS 菜单栏系统监控工具（CPU / 内存 / GPU / CPU 温度 / GPU 温度），纯菜单栏运行，无 Dock 图标。
 
 English version: [README.en.md](README.en.md)
 

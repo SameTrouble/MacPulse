@@ -7,7 +7,7 @@ enum StylePreview {
         switch metricID {
         case MemoryMetric.metricID:
             return "12.3 GB"
-        case TemperatureMetric.metricID:
+        case CPUTemperatureMetric.metricID, GPUTemperatureMetric.metricID:
             return "45°"
         default:
             return "73%"

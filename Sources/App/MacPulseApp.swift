@@ -34,7 +34,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             registry.register(GPUMetric())
         }
         if SMCTemperatureProvider.isSupported {
-            registry.register(TemperatureMetric())
+            let temperatureSampler = TemperatureSampler()
+            registry.register(CPUTemperatureMetric(sampler: temperatureSampler))
+            registry.register(GPUTemperatureMetric(sampler: temperatureSampler))
         }
         self.registry = registry
         let localization = LocalizationService()

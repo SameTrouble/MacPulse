@@ -41,13 +41,15 @@ final class FakeMemoryStatsProvider: MemoryStatsProviding {
 
 final class FakeTemperatureProvider: TemperatureStatsProviding {
     var result: Result<TemperatureUsage, Error>
+    private(set) var callCount = 0
 
     init(result: Result<TemperatureUsage, Error>) {
         self.result = result
     }
 
     func currentStats() throws -> TemperatureUsage {
-        try result.get()
+        callCount += 1
+        return try result.get()
     }
 }
 

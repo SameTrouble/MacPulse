@@ -45,7 +45,6 @@
 		6BBAB92B87A1EB7E710F84DA /* AppConfigurationDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEA347D3E6C6A395E1EA3AF /* AppConfigurationDefaultsTests.swift */; };
 		6DFBE4F7858EF139208DE9BB /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E65C761037D2519D870A82 /* LocalizationService.swift */; };
 		6F4E0F9A162CF0DF5A910B5C /* MemoryUsageDisplayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1EDD47A29729664EA758 /* MemoryUsageDisplayTests.swift */; };
-		701462AFAE8D549D8C630871 /* TemperatureMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF011B135B73900925E71C1 /* TemperatureMetric.swift */; };
 		727A5661F9339B3A19C1A7BE /* CPUUsageSamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725C8E0077C9694806BC42B1 /* CPUUsageSamplerTests.swift */; };
 		73EE368E7FBC9FA10F90965B /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A306E4A04B36E4E44501D /* SettingsWindowController.swift */; };
 		73FAFCA5D89A7B56D3C43FB0 /* MenuRowFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D774E6FB591B6AFC062DDBF /* MenuRowFactory.swift */; };
@@ -64,6 +63,7 @@
 		92FCF2B9E7F8C8B0F370C4C2 /* CPUMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE7E1931D09F95DB4303DD7 /* CPUMetric.swift */; };
 		968093709CFD32F345F7B635 /* TemperatureSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1A89A49ECDEDB779F99D3C /* TemperatureSampler.swift */; };
 		9D64D37B26B735BEFD7D6D68 /* TemperatureUsageDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EFD74C31BABFCEC0313A43 /* TemperatureUsageDisplay.swift */; };
+		A0EBC88234531F73DF84FE83 /* GPUTemperatureMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2009FEE237A83738815E29 /* GPUTemperatureMetric.swift */; };
 		A332A0B89DD1262203BB8830 /* StylePreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96692FEAC6EB098C3CF324CB /* StylePreviewTests.swift */; };
 		A3D305EFC97AAD4DA52A6952 /* GPUUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1120464B6DD60C1A19AC82 /* GPUUsage.swift */; };
 		A58CBBB5BE89E0DCE8019108 /* ColorBandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77699507C885C66117314EBC /* ColorBandTests.swift */; };
@@ -83,6 +83,7 @@
 		CA0895D0B64A02C337D9B6DD /* LoginItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E819E106E5BE520B4D46999 /* LoginItemModel.swift */; };
 		CAC807C820CB4030158DC08A /* CPUUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680D6E5E908FCE89A4BD69E /* CPUUsageCalculator.swift */; };
 		CD9E20064CC820FCB42B1829 /* TemperatureSamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B60A7AA9DBB0622164ADE /* TemperatureSamplerTests.swift */; };
+		D2B6EDE9E6155F495AEDDE76 /* CPUTemperatureMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C7747757CCD9F37F88E2FE /* CPUTemperatureMetric.swift */; };
 		D316DD73FCF3CEA637257906 /* MemoryUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF264085B155476D16DD9A03 /* MemoryUsageCalculator.swift */; };
 		D4CD828A6DEB9871F318CD1F /* MetricTestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AE89BB73034FD287014EE2 /* MetricTestDoubles.swift */; };
 		D969BAEFEFE81EE0920D1E57 /* CPUUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */; };
@@ -120,7 +121,6 @@
 		065E88F687FA2B136D54C05A /* MacPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07E2516F1CCA04A34DB22F45 /* LoginItemManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManaging.swift; sourceTree = "<group>"; };
 		09E65C761037D2519D870A82 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
-		0FF011B135B73900925E71C1 /* TemperatureMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMetric.swift; sourceTree = "<group>"; };
 		11B4642505DCF4D866104268 /* SettingsWindowControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowControllerTests.swift; sourceTree = "<group>"; };
 		12748AED70CE6416784B2C84 /* CPUUsageSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageSampler.swift; sourceTree = "<group>"; };
 		130C4024F29B2CABD29D8693 /* CarouselItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselItem.swift; sourceTree = "<group>"; };
@@ -159,6 +159,7 @@
 		6621D3FEBDB03EF1BF4BFCAC /* ConfigurationModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationModelTests.swift; sourceTree = "<group>"; };
 		687856B20F657BB61464D4DC /* AGXGPUStatsProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGXGPUStatsProviderTests.swift; sourceTree = "<group>"; };
 		689FBDA0D54D989F49C6AFF6 /* LocalizedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
+		6C2009FEE237A83738815E29 /* GPUTemperatureMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUTemperatureMetric.swift; sourceTree = "<group>"; };
 		70EA2E6C9EEAE10400943143 /* MemoryUsageCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageCalculatorTests.swift; sourceTree = "<group>"; };
 		725C8E0077C9694806BC42B1 /* CPUUsageSamplerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageSamplerTests.swift; sourceTree = "<group>"; };
 		74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 		D8B28744F0C1454587DCB94C /* MetricRegistryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRegistryTests.swift; sourceTree = "<group>"; };
 		E219AD466459BEBC25FF8336 /* CPUUsageDisplayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageDisplayTests.swift; sourceTree = "<group>"; };
 		E680D6E5E908FCE89A4BD69E /* CPUUsageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageCalculator.swift; sourceTree = "<group>"; };
+		E6C7747757CCD9F37F88E2FE /* CPUTemperatureMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUTemperatureMetric.swift; sourceTree = "<group>"; };
 		E87531E0017312DDBB61369D /* SMCTemperatureDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCTemperatureDecoder.swift; sourceTree = "<group>"; };
 		E9590E60948CAD92A553032D /* SMCTemperatureProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCTemperatureProvider.swift; sourceTree = "<group>"; };
 		E9712A139E07FA5BFD8D8CA8 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
@@ -305,9 +307,10 @@
 			isa = PBXGroup;
 			children = (
 				1CE7E1931D09F95DB4303DD7 /* CPUMetric.swift */,
+				E6C7747757CCD9F37F88E2FE /* CPUTemperatureMetric.swift */,
 				FECDB4F5C92FBF540B4C661F /* GPUMetric.swift */,
+				6C2009FEE237A83738815E29 /* GPUTemperatureMetric.swift */,
 				ECE250607236761AB8CE8774 /* MemoryMetric.swift */,
-				0FF011B135B73900925E71C1 /* TemperatureMetric.swift */,
 			);
 			path = Metrics;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				F76BD5EEDD8E5A601169C759 /* AppConfiguration.swift in Sources */,
 				7EEB363EBADFA658093EE24D /* AppLanguage.swift in Sources */,
 				92FCF2B9E7F8C8B0F370C4C2 /* CPUMetric.swift in Sources */,
+				D2B6EDE9E6155F495AEDDE76 /* CPUTemperatureMetric.swift in Sources */,
 				D969BAEFEFE81EE0920D1E57 /* CPUUsage.swift in Sources */,
 				CAC807C820CB4030158DC08A /* CPUUsageCalculator.swift in Sources */,
 				15B9CA650C67931B74042067 /* CPUUsageDisplay.swift in Sources */,
@@ -541,6 +545,7 @@
 				C5896ED83EDB6345B9C01240 /* ConfigurationValidation.swift in Sources */,
 				AC13A91EFEDC46A77F5BDD31 /* GPUMetric.swift in Sources */,
 				7E84C460CAC16ABA9C11CF51 /* GPUSampler.swift in Sources */,
+				A0EBC88234531F73DF84FE83 /* GPUTemperatureMetric.swift in Sources */,
 				A3D305EFC97AAD4DA52A6952 /* GPUUsage.swift in Sources */,
 				BF5035B42E39BDE9867AFE55 /* GPUUsageDisplay.swift in Sources */,
 				47328BAADF281259198EA717 /* HostMemoryInfoProvider.swift in Sources */,
@@ -569,7 +574,6 @@
 				8724F64C7C7184B7985B4EC6 /* StatusBarLayout.swift in Sources */,
 				3493A5FD60F3811C40F82B62 /* StatusBarRenderer.swift in Sources */,
 				C0AF3CD0C6BAFC7D9A89957A /* StylePreview.swift in Sources */,
-				701462AFAE8D549D8C630871 /* TemperatureMetric.swift in Sources */,
 				968093709CFD32F345F7B635 /* TemperatureSampler.swift in Sources */,
 				228AB19B0A350549DBF3F331 /* TemperatureUsage.swift in Sources */,
 				9D64D37B26B735BEFD7D6D68 /* TemperatureUsageDisplay.swift in Sources */,

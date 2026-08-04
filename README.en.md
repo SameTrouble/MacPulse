@@ -1,6 +1,6 @@
 # MacPulse
 
-A macOS menu bar system monitor (CPU / Memory / GPU / Temperature). Runs purely in the menu bar with no Dock icon.
+A macOS menu bar system monitor (CPU / Memory / GPU / CPU Temperature / GPU Temperature). Runs purely in the menu bar with no Dock icon.
 
 ## Status
 

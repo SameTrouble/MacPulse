@@ -15,7 +15,8 @@ final class StylePreviewTests: XCTestCase {
     }
 
     func testTemperatureSampleTextUsesDegreesFormat() {
-        XCTAssertEqual(StylePreview.sampleText(forMetricID: TemperatureMetric.metricID), "45°")
+        XCTAssertEqual(StylePreview.sampleText(forMetricID: CPUTemperatureMetric.metricID), "45°")
+        XCTAssertEqual(StylePreview.sampleText(forMetricID: GPUTemperatureMetric.metricID), "45°")
     }
 
     func testUnknownMetricSampleTextFallsBackToPercent() {

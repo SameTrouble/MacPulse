@@ -1,7 +1,9 @@
 import AppKit
 
 enum ProgressBarImage {
-    static let size = NSSize(width: 28, height: 14)
+    static let size = NSSize(width: 28, height: 6)
+
+    private static let trackRadius: CGFloat = 2
 
     static func clampedFraction(_ fraction: Double?) -> Double {
         guard let fraction else { return 0 }
@@ -20,15 +22,18 @@ enum ProgressBarImage {
         image.isTemplate = true
         image.lockFocus()
         defer { image.unlockFocus() }
-        let radius = size.height / 2
-        let track = NSBezierPath(roundedRect: NSRect(origin: .zero, size: size), xRadius: radius, yRadius: radius)
+        let track = NSBezierPath(roundedRect: NSRect(origin: .zero, size: size), xRadius: trackRadius, yRadius: trackRadius)
         NSColor.black.withAlphaComponent(0.25).setFill()
         track.fill()
         let width = fillWidth(for: fraction)
         guard width > 0 else { return image }
-        let fillRadius = min(radius, width / 2)
+        let headRadius = size.height / 2
         let fillRect = NSRect(x: 0, y: 0, width: width, height: size.height)
-        let fill = NSBezierPath(roundedRect: fillRect, xRadius: fillRadius, yRadius: fillRadius)
+        let fill = NSBezierPath(
+            roundedRect: fillRect,
+            xRadius: min(headRadius, width / 2),
+            yRadius: min(headRadius, width / 2)
+        )
         NSColor.black.setFill()
         fill.fill()
         return image

@@ -81,4 +81,11 @@ final class CPUMetricTests: XCTestCase {
             ["Overall CPU: --"]
         )
     }
+
+    func testWidestDisplayTextIsThreeDigitPercent() {
+        let metric = CPUMetric(sampler: CPUUsageSampler(provider: FakeTickProvider(result: .success([]))))
+
+        XCTAssertEqual(metric.widestDisplayText(for: .iconAndText), "100%")
+        XCTAssertEqual(metric.widestDisplayText(for: .text), "100%")
+    }
 }

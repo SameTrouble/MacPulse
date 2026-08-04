@@ -45,6 +45,10 @@ final class ProgressBarImageTests: XCTestCase {
         XCTAssertEqual(full.size, ProgressBarImage.size)
     }
 
+    func testSizeIsSlimLeanBar() {
+        XCTAssertEqual(ProgressBarImage.size, NSSize(width: 28, height: 6))
+    }
+
     func testImageIsTemplateSoItAdaptsToMenuBarAppearance() {
         XCTAssertTrue(ProgressBarImage.makeImage(fraction: 0.5).isTemplate)
     }

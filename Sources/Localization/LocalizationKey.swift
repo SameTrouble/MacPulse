@@ -21,6 +21,8 @@ enum LocalizationKey: String, CaseIterable {
     case selectPlaceholder = "settings.placeholder.select"
     case items = "settings.items"
     case dragToReorder = "settings.items.dragHint"
+    case menuMetrics = "settings.menuMetrics"
+    case menuMetricsHint = "settings.menuMetrics.hint"
     case samplingInterval = "settings.samplingInterval"
     case seconds = "settings.seconds"
     case configurationError = "settings.save.error"

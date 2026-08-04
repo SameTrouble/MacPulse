@@ -30,6 +30,11 @@ enum LocalizedStrings {
         .selectPlaceholder: ("请选择一个占位", "Select a placeholder"),
         .items: ("条目", "Items"),
         .dragToReorder: ("拖拽条目可调整轮播顺序", "Drag items to reorder the carousel"),
+        .menuMetrics: ("下拉菜单显示", "Menu Metrics"),
+        .menuMetricsHint: (
+            "勾选后，下拉菜单固定显示这些指标的详情；不勾选则只显示偏好设置和退出。",
+            "Checked metrics show their details in the dropdown menu; when none are checked, only Preferences and Quit show."
+        ),
         .samplingInterval: ("采样间隔", "Sampling Interval"),
         .seconds: ("%d 秒", "%d s"),
         .configurationError: ("配置存在错误，无法保存", "The configuration has errors and cannot be saved"),

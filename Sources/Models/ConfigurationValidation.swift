@@ -29,6 +29,9 @@ extension AppConfiguration {
             }
         }
         for placeholder in placeholders {
+            for metricID in placeholder.menuMetricIDs where registry.metric(id: metricID) == nil {
+                errors.append(.unknownMetric(metricID))
+            }
             for item in placeholder.items {
                 guard let metric = registry.metric(id: item.metricID) else {
                     errors.append(.unknownMetric(item.metricID))

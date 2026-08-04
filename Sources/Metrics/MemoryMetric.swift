@@ -44,4 +44,8 @@ final class MemoryMetric: Metric {
             )
         ]
     }
+
+    func widestDisplayText(for style: MetricStyle) -> String {
+        "999.9 GB"
+    }
 }

@@ -41,4 +41,8 @@ final class CPUMetric: Metric {
         }
         return lines
     }
+
+    func widestDisplayText(for style: MetricStyle) -> String {
+        "100%"
+    }
 }

@@ -9,7 +9,9 @@ enum ConfigurationValidationError: Error, Equatable {
     case unsupportedStyle(metricID: String, style: MetricStyle)
     case samplingIntervalOutOfRange(metricID: String, interval: TimeInterval)
     case durationOutOfRange(metricID: String, duration: TimeInterval)
-    case colorRuleThresholdOutOfRange(metricID: String, threshold: Double)
+    case colorBandUpperBoundOutOfRange(metricID: String, upperBound: Double)
+    case colorBandDuplicateUpperBound(metricID: String, upperBound: Double)
+    case colorBandLastUpperBoundNotOne(metricID: String, upperBound: Double)
 }
 
 struct InvalidConfigurationError: Error, Equatable {
@@ -23,10 +25,8 @@ extension AppConfiguration {
         where !SamplingInterval.range.contains(interval) {
             errors.append(.samplingIntervalOutOfRange(metricID: metricID, interval: interval))
         }
-        for (metricID, rules) in colorRules.sorted(by: { $0.key < $1.key }) {
-            for rule in rules where !ColorRule.thresholdRange.contains(rule.threshold) {
-                errors.append(.colorRuleThresholdOutOfRange(metricID: metricID, threshold: rule.threshold))
-            }
+        for (metricID, bands) in colorBands.sorted(by: { $0.key < $1.key }) {
+            errors.append(contentsOf: colorBandValidationErrors(metricID: metricID, bands: bands))
         }
         for placeholder in placeholders {
             for item in placeholder.items {
@@ -44,4 +44,29 @@ extension AppConfiguration {
         }
         return errors
     }
+}
+
+private func colorBandValidationErrors(
+    metricID: String,
+    bands: [ColorBand]
+) -> [ConfigurationValidationError] {
+    guard !bands.isEmpty else { return [] }
+    var errors: [ConfigurationValidationError] = []
+    let sorted = bands.sorted { $0.upperBound < $1.upperBound }
+    for band in sorted where !ColorBand.upperBoundRange.contains(band.upperBound) {
+        errors.append(.colorBandUpperBoundOutOfRange(metricID: metricID, upperBound: band.upperBound))
+    }
+    for index in sorted.indices.dropFirst() {
+        let previous = sorted[index - 1].upperBound
+        let current = sorted[index].upperBound
+        if current <= previous {
+            errors.append(.colorBandDuplicateUpperBound(metricID: metricID, upperBound: current))
+        }
+    }
+    if let last = sorted.last,
+       ColorBand.upperBoundRange.contains(last.upperBound),
+       last.upperBound != 1.0 {
+        errors.append(.colorBandLastUpperBoundNotOne(metricID: metricID, upperBound: last.upperBound))
+    }
+    return errors
 }

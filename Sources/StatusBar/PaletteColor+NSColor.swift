@@ -3,6 +3,8 @@ import AppKit
 extension PaletteColor {
     var nsColor: NSColor {
         switch self {
+        case .white:
+            .white
         case .red:
             .systemRed
         case .orange:

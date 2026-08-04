@@ -8,17 +8,18 @@ enum ResolvedLanguage {
 enum LocalizedStrings {
     private static let table: [LocalizationKey: (zhHans: String, english: String)] = [
         .tabPlaceholders: ("占位", "Placeholders"),
-        .tabColorRules: ("变色规则", "Color Rules"),
+        .tabColorBands: ("颜色分段", "Color Bands"),
         .tabGeneral: ("通用", "General"),
-        .colorRulesEnabled: ("启用变色", "Enable Color Changes"),
-        .colorRulesDisabledHint: ("关闭后，所有指标一律使用默认颜色。", "When off, all metrics use the default color."),
-        .colorRulesMatchHint: (
-            "规则自上而下匹配，数值达到阈值的第一条规则生效，可拖动箭头调整顺序。",
-            "Rules are matched top to bottom; the first rule whose value reaches the threshold applies. Drag the arrows to reorder."
+        .colorBandsEnabled: ("启用变色", "Enable Color Changes"),
+        .colorBandsDisabledHint: ("关闭后，所有指标一律使用默认颜色。", "When off, all metrics use the default color."),
+        .colorBandsMatchHint: (
+            "数值落入哪个区间就显示该区间的颜色。分段按上界自动排列，拖动滑块调整边界。",
+            "A value uses the color of the range it falls into. Bands are ordered by upper bound; drag sliders to adjust boundaries."
         ),
-        .colorRulesEmpty: ("无规则，始终显示默认颜色", "No rules — always uses the default color"),
-        .threshold: ("阈值", "Threshold"),
+        .colorBandsEmpty: ("无分段，始终显示默认颜色", "No bands — always uses the default color"),
+        .upperBound: ("上界", "Upper Bound"),
         .color: ("颜色", "Color"),
+        .colorWhite: ("白", "White"),
         .colorRed: ("红", "Red"),
         .colorOrange: ("橙", "Orange"),
         .colorYellow: ("黄", "Yellow"),

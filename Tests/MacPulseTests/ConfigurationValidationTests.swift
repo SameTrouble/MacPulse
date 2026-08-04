@@ -80,20 +80,55 @@ final class ConfigurationValidationTests: XCTestCase {
         XCTAssertEqual(errors, [.samplingIntervalOutOfRange(metricID: "cpu", interval: 61)])
     }
 
-    func testColorRuleThresholdOutOfRangeIsRejected() throws {
+    func testColorBandUpperBoundOutOfRangeIsRejected() throws {
         var config = configuration(items: [])
-        var rule = try ColorRule(threshold: 0.8, color: .red)
-        rule.threshold = 1.2
-        config.colorRules["cpu"] = [rule]
+        var band = try ColorBand(upperBound: 0.8, color: .red)
+        band.upperBound = 1.2
+        config.colorBands["cpu"] = [band]
 
         let errors = config.validationErrors(against: registry())
 
-        XCTAssertEqual(errors, [.colorRuleThresholdOutOfRange(metricID: "cpu", threshold: 1.2)])
+        XCTAssertEqual(errors, [.colorBandUpperBoundOutOfRange(metricID: "cpu", upperBound: 1.2)])
     }
 
-    func testColorRulesWithinRangePass() throws {
+    func testColorBandDuplicateUpperBoundIsRejected() throws {
         var config = configuration(items: [])
-        config.colorRules["cpu"] = [try ColorRule(threshold: 0.8, color: .red)]
+        config.colorBands["cpu"] = [
+            try ColorBand(upperBound: 0.5, color: .yellow),
+            try ColorBand(upperBound: 0.5, color: .orange),
+            try ColorBand(upperBound: 1.0, color: .red)
+        ]
+
+        let errors = config.validationErrors(against: registry())
+
+        XCTAssertEqual(errors, [.colorBandDuplicateUpperBound(metricID: "cpu", upperBound: 0.5)])
+    }
+
+    func testColorBandLastUpperBoundNotOneIsRejected() throws {
+        var config = configuration(items: [])
+        config.colorBands["cpu"] = [
+            try ColorBand(upperBound: 0.5, color: .yellow),
+            try ColorBand(upperBound: 0.8, color: .red)
+        ]
+
+        let errors = config.validationErrors(against: registry())
+
+        XCTAssertEqual(errors, [.colorBandLastUpperBoundNotOne(metricID: "cpu", upperBound: 0.8)])
+    }
+
+    func testValidColorBandsPass() throws {
+        var config = configuration(items: [])
+        config.colorBands["cpu"] = [
+            try ColorBand(upperBound: 0.5, color: .yellow),
+            try ColorBand(upperBound: 1.0, color: .red)
+        ]
+
+        XCTAssertEqual(config.validationErrors(against: registry()), [])
+    }
+
+    func testEmptyColorBandsPass() {
+        var config = configuration(items: [])
+        config.colorBands["cpu"] = []
 
         XCTAssertEqual(config.validationErrors(against: registry()), [])
     }

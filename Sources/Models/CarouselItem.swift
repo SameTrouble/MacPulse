@@ -8,7 +8,7 @@ enum MetricStyle: String, Codable, CaseIterable {
 
 enum ConfigurationError: Error, Equatable {
     case durationOutOfRange(TimeInterval)
-    case thresholdOutOfRange(Double)
+    case upperBoundOutOfRange(Double)
 }
 
 struct CarouselItem: Codable, Equatable, Identifiable {

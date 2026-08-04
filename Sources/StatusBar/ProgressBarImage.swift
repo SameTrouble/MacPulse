@@ -17,9 +17,9 @@ enum ProgressBarImage {
         return max(1, CGFloat(exact.rounded()))
     }
 
-    static func makeImage(fraction: Double?) -> NSImage {
+    static func makeImage(fraction: Double?, color: NSColor? = nil) -> NSImage {
         let image = NSImage(size: size)
-        image.isTemplate = true
+        image.isTemplate = color == nil
         image.lockFocus()
         defer { image.unlockFocus() }
         let track = NSBezierPath(roundedRect: NSRect(origin: .zero, size: size), xRadius: trackRadius, yRadius: trackRadius)
@@ -34,7 +34,7 @@ enum ProgressBarImage {
             xRadius: min(headRadius, width / 2),
             yRadius: min(headRadius, width / 2)
         )
-        NSColor.black.setFill()
+        (color ?? NSColor.black).setFill()
         fill.fill()
         return image
     }

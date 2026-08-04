@@ -14,6 +14,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     private var engine: CarouselEngine
     private var statusItem: NSStatusItem?
     private var switchTimer: Timer?
+    private var isHighlighted = false
 
     init(
         placeholder: Placeholder,
@@ -54,32 +55,28 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         guard let entry = currentEntry() else {
             button.image = nil
             button.title = "--"
-            button.contentTintColor = nil
             return
         }
         let metric = registry.metric(id: entry.metricID)
         let sample = metric?.currentSample()
-        button.contentTintColor = tintColor(for: entry, sample: sample)
-        switch entry.style {
-        case .progressBar:
-            button.title = ""
-            button.imagePosition = .imageOnly
-            button.image = ProgressBarImage.makeImage(fraction: sample?.fraction)
-        case .iconAndText:
-            if let metric {
-                button.image = NSImage(
-                    systemSymbolName: metric.symbolName,
-                    accessibilityDescription: localization.text(metric.displayNameKey)
-                )
-                button.imagePosition = .imageLeading
-            } else {
-                button.image = nil
-            }
-            button.title = sample?.text ?? "--"
-        case .text:
-            button.image = nil
-            button.title = sample?.text ?? "--"
-        }
+        let activeColor = isHighlighted ? nil : activeColor(for: entry, sample: sample)
+        StatusBarRenderer.render(
+            button: button,
+            entry: entry,
+            metric: metric,
+            sample: sample,
+            activeColor: activeColor
+        )
+    }
+
+    func menuWillOpen(_ menu: NSMenu) {
+        isHighlighted = true
+        refreshDisplay()
+    }
+
+    func menuDidClose(_ menu: NSMenu) {
+        isHighlighted = false
+        refreshDisplay()
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -164,7 +161,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         return attributed.size().width
     }
 
-    private func tintColor(for entry: CarouselItem, sample: MetricSample?) -> NSColor? {
+    private func activeColor(for entry: CarouselItem, sample: MetricSample?) -> NSColor? {
         guard configuration.colorRulesEnabled else { return nil }
         guard let rule = ColorRuleEngine.matchingRule(
             fraction: sample?.fraction,

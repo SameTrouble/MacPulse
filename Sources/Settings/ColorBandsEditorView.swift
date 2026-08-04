@@ -64,12 +64,13 @@ struct ColorBandsEditorView: View {
     ) -> some View {
         let isLast = index == bands.count - 1
         let lowerBound = index == 0 ? 0.0 : bands[index - 1].upperBound
+        let scale = ColorBandDisplayScale.forMetricID(metricID)
         return HStack(spacing: 12) {
-            Text(rangeLabel(lower: lowerBound, upper: band.upperBound))
+            Text(scale.rangeLabel(lower: lowerBound, upper: band.upperBound))
                 .monospacedDigit()
-                .frame(width: 72, alignment: .leading)
+                .frame(width: 80, alignment: .leading)
             if isLast {
-                Text("100%")
+                Text(scale.fullScaleLabel)
                     .monospacedDigit()
                     .frame(width: 180, alignment: .leading)
                     .foregroundStyle(.secondary)
@@ -100,10 +101,6 @@ struct ColorBandsEditorView: View {
 
     private func sortedBands(for metricID: String) -> [ColorBand] {
         (model.draft.colorBands[metricID] ?? []).sorted { $0.upperBound < $1.upperBound }
-    }
-
-    private func rangeLabel(lower: Double, upper: Double) -> String {
-        "\(Int(lower * 100))–\(Int(upper * 100))%"
     }
 
     private func sliderRange(index: Int, bands: [ColorBand]) -> ClosedRange<Double> {

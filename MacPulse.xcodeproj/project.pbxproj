@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		058D959D58FEDFCCD0FC424B /* ColorBandDisplayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7580E19823F445F7AD572F3E /* ColorBandDisplayScale.swift */; };
 		090A3FD5EBE45D6C5FDFCC05 /* GPUSamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0A179512BAA068A77823A7 /* GPUSamplerTests.swift */; };
 		0DD493FF2DBA53A1A936EA37 /* AGXGPUStatsProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687856B20F657BB61464D4DC /* AGXGPUStatsProviderTests.swift */; };
 		11249DE2DEF65E940C32AB76 /* MemoryMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE250607236761AB8CE8774 /* MemoryMetric.swift */; };
@@ -42,6 +43,7 @@
 		620A449399D44E993F0F6361 /* CPUUsageSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12748AED70CE6416784B2C84 /* CPUUsageSampler.swift */; };
 		64CDE7F79216A8CA00935715 /* MetricRegistryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B28744F0C1454587DCB94C /* MetricRegistryTests.swift */; };
 		652CCF5929770BE0E62BB9E3 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689FBDA0D54D989F49C6AFF6 /* LocalizedStrings.swift */; };
+		670C104904A9DC0FEC940735 /* SamplingIntervalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73904761837EF45972BCB26D /* SamplingIntervalEntry.swift */; };
 		6BBAB92B87A1EB7E710F84DA /* AppConfigurationDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEA347D3E6C6A395E1EA3AF /* AppConfigurationDefaultsTests.swift */; };
 		6DFBE4F7858EF139208DE9BB /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E65C761037D2519D870A82 /* LocalizationService.swift */; };
 		6F4E0F9A162CF0DF5A910B5C /* MemoryUsageDisplayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029F1EDD47A29729664EA758 /* MemoryUsageDisplayTests.swift */; };
@@ -59,9 +61,11 @@
 		8E4FF1010FFBC5546E906F21 /* PlaceholderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC56380A41877240E054485 /* PlaceholderController.swift */; };
 		8FD39E45B1ECC22C30CF1452 /* ConfigurationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CDCE2094761738669D413B /* ConfigurationStoreTests.swift */; };
 		919DBD1396DCD9AE098D226C /* MetricRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B3E2A8F2A7BA0D068486F7 /* MetricRegistry.swift */; };
+		92789767E3B5430C84F727C2 /* SamplingIntervalEntriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF657DA561DF30DE946902 /* SamplingIntervalEntriesTests.swift */; };
 		92D1FA2DEA1C0F3643277F2A /* SMCTemperatureProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9590E60948CAD92A553032D /* SMCTemperatureProvider.swift */; };
 		92FCF2B9E7F8C8B0F370C4C2 /* CPUMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE7E1931D09F95DB4303DD7 /* CPUMetric.swift */; };
 		968093709CFD32F345F7B635 /* TemperatureSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1A89A49ECDEDB779F99D3C /* TemperatureSampler.swift */; };
+		9764AA70279223728F0961C8 /* TemperatureConfigurationMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D771FB5846681D91A3B8E92 /* TemperatureConfigurationMigrationTests.swift */; };
 		9D64D37B26B735BEFD7D6D68 /* TemperatureUsageDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EFD74C31BABFCEC0313A43 /* TemperatureUsageDisplay.swift */; };
 		A0EBC88234531F73DF84FE83 /* GPUTemperatureMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2009FEE237A83738815E29 /* GPUTemperatureMetric.swift */; };
 		A332A0B89DD1262203BB8830 /* StylePreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96692FEAC6EB098C3CF324CB /* StylePreviewTests.swift */; };
@@ -79,6 +83,7 @@
 		C0AF3CD0C6BAFC7D9A89957A /* StylePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2094D9BC26945CFC221A8D64 /* StylePreview.swift */; };
 		C26BBDC320357B6D314B6443 /* ConfigurationValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E70EDE0372DEF063F41F0 /* ConfigurationValidationTests.swift */; };
 		C4021544DD60F18AC0145E9A /* MemoryUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C84C29142E59694F6C3F87 /* MemoryUsage.swift */; };
+		C40B5FD35EB13A7322F8606E /* TemperatureConfigurationMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E5E67ACE38C25F692FF767 /* TemperatureConfigurationMigration.swift */; };
 		C5896ED83EDB6345B9C01240 /* ConfigurationValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1799B9225FB925CD43D5E /* ConfigurationValidation.swift */; };
 		CA0895D0B64A02C337D9B6DD /* LoginItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E819E106E5BE520B4D46999 /* LoginItemModel.swift */; };
 		CAC807C820CB4030158DC08A /* CPUUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680D6E5E908FCE89A4BD69E /* CPUUsageCalculator.swift */; };
@@ -97,6 +102,7 @@
 		F11880A09428A52227C761D3 /* LoginItemManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E2516F1CCA04A34DB22F45 /* LoginItemManaging.swift */; };
 		F290A45FC5C6FBC8B61D5191 /* MemoryUsageDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7DC476AEA51D71EB478A7 /* MemoryUsageDisplay.swift */; };
 		F60173CCAFFF9546A80039D3 /* AGXGPUStatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764E4992BBBE651405FFA70F /* AGXGPUStatsProvider.swift */; };
+		F68E23BDC48946C329F2476E /* ColorBandDisplayScaleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C412A6B003A68D12AD69BB /* ColorBandDisplayScaleTests.swift */; };
 		F76BD5EEDD8E5A601169C759 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */; };
 		FB3BA5E390E992D3A8517886 /* CarouselEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E39F3CE336AB5758DF7BC /* CarouselEngine.swift */; };
 		FE423DC07D85D3C34E22C4B1 /* CPUUsageDisplayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E219AD466459BEBC25FF8336 /* CPUUsageDisplayTests.swift */; };
@@ -135,6 +141,7 @@
 		2094D9BC26945CFC221A8D64 /* StylePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylePreview.swift; sourceTree = "<group>"; };
 		232340B8583FA13C8D48D2FF /* ColorBandEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandEngine.swift; sourceTree = "<group>"; };
 		26ABF48B813BBF158CDBD00E /* StatusBarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarLayout.swift; sourceTree = "<group>"; };
+		2ADF657DA561DF30DE946902 /* SamplingIntervalEntriesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingIntervalEntriesTests.swift; sourceTree = "<group>"; };
 		2B414E55278D5411C0DBD9CC /* GPUUsageDisplayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUUsageDisplayTests.swift; sourceTree = "<group>"; };
 		2E819E106E5BE520B4D46999 /* LoginItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemModel.swift; sourceTree = "<group>"; };
 		2E86633FC83D28E878DAC8A2 /* HostProcessorInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostProcessorInfoProvider.swift; sourceTree = "<group>"; };
@@ -145,6 +152,7 @@
 		3CE2DC451B62C9E75F309432 /* GPUSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUSampler.swift; sourceTree = "<group>"; };
 		3D3B60A7AA9DBB0622164ADE /* TemperatureSamplerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureSamplerTests.swift; sourceTree = "<group>"; };
 		454D1AD00B043EEB725EB723 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		45E5E67ACE38C25F692FF767 /* TemperatureConfigurationMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureConfigurationMigration.swift; sourceTree = "<group>"; };
 		47E618A701DFE1D0511F2B76 /* LocalizedStringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringsTests.swift; sourceTree = "<group>"; };
 		480B9505CCB06851E5297F4F /* ColorBandEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandEngineTests.swift; sourceTree = "<group>"; };
 		49653BF2EA20F2403F2D55E2 /* AppConfigurationColorBandsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationColorBandsTests.swift; sourceTree = "<group>"; };
@@ -162,13 +170,16 @@
 		6C2009FEE237A83738815E29 /* GPUTemperatureMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUTemperatureMetric.swift; sourceTree = "<group>"; };
 		70EA2E6C9EEAE10400943143 /* MemoryUsageCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageCalculatorTests.swift; sourceTree = "<group>"; };
 		725C8E0077C9694806BC42B1 /* CPUUsageSamplerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageSamplerTests.swift; sourceTree = "<group>"; };
+		73904761837EF45972BCB26D /* SamplingIntervalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingIntervalEntry.swift; sourceTree = "<group>"; };
 		74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		7580E19823F445F7AD572F3E /* ColorBandDisplayScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandDisplayScale.swift; sourceTree = "<group>"; };
 		764E4992BBBE651405FFA70F /* AGXGPUStatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGXGPUStatsProvider.swift; sourceTree = "<group>"; };
 		77699507C885C66117314EBC /* ColorBandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandTests.swift; sourceTree = "<group>"; };
 		79416378A4E15C6DCE20B0E0 /* HostMemoryInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostMemoryInfoProvider.swift; sourceTree = "<group>"; };
 		794F0E37663B939FA6889F3A /* MemorySampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorySampler.swift; sourceTree = "<group>"; };
 		7AC9F5A82AAC066687D0B619 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		7B0A179512BAA068A77823A7 /* GPUSamplerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUSamplerTests.swift; sourceTree = "<group>"; };
+		7D771FB5846681D91A3B8E92 /* TemperatureConfigurationMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureConfigurationMigrationTests.swift; sourceTree = "<group>"; };
 		7F13F29ECA1847D015716A40 /* CarouselEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselEngineTests.swift; sourceTree = "<group>"; };
 		83BDA9CF235C8D662C8EF3E5 /* ScaffoldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldTests.swift; sourceTree = "<group>"; };
 		8A4FA5662695055214B611CD /* TemperatureUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureUsage.swift; sourceTree = "<group>"; };
@@ -190,6 +201,7 @@
 		BEABB5A205117F306B86A745 /* SamplingIntervalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingIntervalTests.swift; sourceTree = "<group>"; };
 		C0C84C29142E59694F6C3F87 /* MemoryUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsage.swift; sourceTree = "<group>"; };
 		C307BCB8CEAD3630150C0F0D /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		C3C412A6B003A68D12AD69BB /* ColorBandDisplayScaleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBandDisplayScaleTests.swift; sourceTree = "<group>"; };
 		C3EC4FF49984FCFF2589064B /* MenuRowFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRowFactoryTests.swift; sourceTree = "<group>"; };
 		C5E1799B9225FB925CD43D5E /* ConfigurationValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationValidation.swift; sourceTree = "<group>"; };
 		C9E75DF4FCCE59B737ABDB24 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -224,6 +236,7 @@
 				ECEA347D3E6C6A395E1EA3AF /* AppConfigurationDefaultsTests.swift */,
 				7F13F29ECA1847D015716A40 /* CarouselEngineTests.swift */,
 				041B4BE0422041EC5B94E34F /* CarouselItemTests.swift */,
+				C3C412A6B003A68D12AD69BB /* ColorBandDisplayScaleTests.swift */,
 				480B9505CCB06851E5297F4F /* ColorBandEngineTests.swift */,
 				77699507C885C66117314EBC /* ColorBandTests.swift */,
 				6621D3FEBDB03EF1BF4BFCAC /* ConfigurationModelTests.swift */,
@@ -250,6 +263,7 @@
 				D5AE89BB73034FD287014EE2 /* MetricTestDoubles.swift */,
 				176C1E2A0A11A1854CA0E663 /* PlaceholderConfigurationTests.swift */,
 				F9A443F5F8474AA07CC2EE76 /* ProgressBarImageTests.swift */,
+				2ADF657DA561DF30DE946902 /* SamplingIntervalEntriesTests.swift */,
 				BEABB5A205117F306B86A745 /* SamplingIntervalTests.swift */,
 				83BDA9CF235C8D662C8EF3E5 /* ScaffoldTests.swift */,
 				11B4642505DCF4D866104268 /* SettingsWindowControllerTests.swift */,
@@ -257,6 +271,7 @@
 				A4B4EF432EBF2746730DC8C2 /* SMCTemperatureProviderTests.swift */,
 				B4A5A4283EA53E61144CD202 /* StatusBarRendererTests.swift */,
 				96692FEAC6EB098C3CF324CB /* StylePreviewTests.swift */,
+				7D771FB5846681D91A3B8E92 /* TemperatureConfigurationMigrationTests.swift */,
 				B1C2DF0305CA99463E2B02EB /* TemperatureMetricTests.swift */,
 				3D3B60A7AA9DBB0622164ADE /* TemperatureSamplerTests.swift */,
 				33C5C3D8C5A690BB6B15DEE0 /* TemperatureUsageDisplayTests.swift */,
@@ -292,12 +307,15 @@
 				74651F3943EE2F4FDB0737EB /* AppConfiguration.swift */,
 				130C4024F29B2CABD29D8693 /* CarouselItem.swift */,
 				CB415E682CA2B876BD64C910 /* ColorBand.swift */,
+				7580E19823F445F7AD572F3E /* ColorBandDisplayScale.swift */,
 				232340B8583FA13C8D48D2FF /* ColorBandEngine.swift */,
 				C5E1799B9225FB925CD43D5E /* ConfigurationValidation.swift */,
 				9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */,
 				FA1120464B6DD60C1A19AC82 /* GPUUsage.swift */,
 				C0C84C29142E59694F6C3F87 /* MemoryUsage.swift */,
 				13B3E2A8F2A7BA0D068486F7 /* MetricRegistry.swift */,
+				73904761837EF45972BCB26D /* SamplingIntervalEntry.swift */,
+				45E5E67ACE38C25F692FF767 /* TemperatureConfigurationMigration.swift */,
 				8A4FA5662695055214B611CD /* TemperatureUsage.swift */,
 			);
 			path = Models;
@@ -538,6 +556,7 @@
 				FB3BA5E390E992D3A8517886 /* CarouselEngine.swift in Sources */,
 				A777DE526A79CC662F26E21E /* CarouselItem.swift in Sources */,
 				31778D215578F58BDF6EBBAE /* ColorBand.swift in Sources */,
+				058D959D58FEDFCCD0FC424B /* ColorBandDisplayScale.swift in Sources */,
 				2206CB5440076684B5FF7517 /* ColorBandEngine.swift in Sources */,
 				E0A31CDCF53F346D4634E8EE /* ColorBandsEditorView.swift in Sources */,
 				3E21B6F38A897A5016F418BF /* ConfigurationModel.swift in Sources */,
@@ -569,11 +588,13 @@
 				4FCCFC5BB87FD7669891680C /* ProgressBarImage.swift in Sources */,
 				DB1C0CD8C525864DF18318BF /* SMCTemperatureDecoder.swift in Sources */,
 				92D1FA2DEA1C0F3643277F2A /* SMCTemperatureProvider.swift in Sources */,
+				670C104904A9DC0FEC940735 /* SamplingIntervalEntry.swift in Sources */,
 				43D81C83F35826A3FC37D1D8 /* SettingsView.swift in Sources */,
 				73EE368E7FBC9FA10F90965B /* SettingsWindowController.swift in Sources */,
 				8724F64C7C7184B7985B4EC6 /* StatusBarLayout.swift in Sources */,
 				3493A5FD60F3811C40F82B62 /* StatusBarRenderer.swift in Sources */,
 				C0AF3CD0C6BAFC7D9A89957A /* StylePreview.swift in Sources */,
+				C40B5FD35EB13A7322F8606E /* TemperatureConfigurationMigration.swift in Sources */,
 				968093709CFD32F345F7B635 /* TemperatureSampler.swift in Sources */,
 				228AB19B0A350549DBF3F331 /* TemperatureUsage.swift in Sources */,
 				9D64D37B26B735BEFD7D6D68 /* TemperatureUsageDisplay.swift in Sources */,
@@ -593,6 +614,7 @@
 				727A5661F9339B3A19C1A7BE /* CPUUsageSamplerTests.swift in Sources */,
 				1DEACE5DDDCEDCCAAC2EEA31 /* CarouselEngineTests.swift in Sources */,
 				AF2B76572DDE8E4048596588 /* CarouselItemTests.swift in Sources */,
+				F68E23BDC48946C329F2476E /* ColorBandDisplayScaleTests.swift in Sources */,
 				3B8B786FEF89E6BCB30EA505 /* ColorBandEngineTests.swift in Sources */,
 				A58CBBB5BE89E0DCE8019108 /* ColorBandTests.swift in Sources */,
 				79FA8DA7FC81E38967811608 /* ConfigurationModelTests.swift in Sources */,
@@ -617,11 +639,13 @@
 				12C9E275F3291E7B2D0DA82A /* ProgressBarImageTests.swift in Sources */,
 				32F152708296AFACADD98EFB /* SMCTemperatureDecoderTests.swift in Sources */,
 				56848CE47DE0D1023AF31963 /* SMCTemperatureProviderTests.swift in Sources */,
+				92789767E3B5430C84F727C2 /* SamplingIntervalEntriesTests.swift in Sources */,
 				8DE75EE67195F56F00F72CB2 /* SamplingIntervalTests.swift in Sources */,
 				1CD08025C234DF9172294D62 /* ScaffoldTests.swift in Sources */,
 				E3F266A6FDBB742984345B26 /* SettingsWindowControllerTests.swift in Sources */,
 				E601C863B9B32FA932DC4A70 /* StatusBarRendererTests.swift in Sources */,
 				A332A0B89DD1262203BB8830 /* StylePreviewTests.swift in Sources */,
+				9764AA70279223728F0961C8 /* TemperatureConfigurationMigrationTests.swift in Sources */,
 				170013FBA88C7FE938A2F977 /* TemperatureMetricTests.swift in Sources */,
 				CD9E20064CC820FCB42B1829 /* TemperatureSamplerTests.swift in Sources */,
 				152C6E3D198970343812790F /* TemperatureUsageDisplayTests.swift in Sources */,

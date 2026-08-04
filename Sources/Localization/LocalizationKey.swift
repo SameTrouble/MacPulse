@@ -49,6 +49,7 @@ enum LocalizationKey: String, CaseIterable {
     case metricGPUName = "metric.gpu.name"
     case metricCPUTemperatureName = "metric.cpuTemperature.name"
     case metricGPUTemperatureName = "metric.gpuTemperature.name"
+    case metricTemperatureName = "metric.temperature.name"
     case cpuOverall = "metric.cpu.overall"
     case cpuCore = "metric.cpu.core"
     case memoryUsed = "metric.memory.used"

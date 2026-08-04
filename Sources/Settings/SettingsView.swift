@@ -175,12 +175,12 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(localization.text(.samplingInterval))
                 .font(.headline)
-            ForEach(registry.metrics, id: \.id) { metric in
+            ForEach(SamplingIntervalEntry.entries(from: registry.metrics)) { entry in
                 HStack {
-                    Text(localization.text(metric.displayNameKey))
+                    Text(localization.text(entry.displayNameKey))
                     Spacer()
-                    Stepper(value: intervalBinding(for: metric), in: SamplingInterval.range, step: 1) {
-                        Text(localization.text(.seconds, Int(model.draft.samplingInterval(for: metric))))
+                    Stepper(value: intervalBinding(for: entry), in: SamplingInterval.range, step: 1) {
+                        Text(localization.text(.seconds, Int(model.draft.samplingInterval(for: entry, registry: registry))))
                             .monospacedDigit()
                     }
                 }
@@ -239,10 +239,10 @@ struct SettingsView: View {
         selectedItems = []
     }
 
-    private func intervalBinding(for metric: Metric) -> Binding<TimeInterval> {
+    private func intervalBinding(for entry: SamplingIntervalEntry) -> Binding<TimeInterval> {
         Binding(
-            get: { model.draft.samplingInterval(for: metric) },
-            set: { model.draft.samplingIntervals[metric.id] = $0 }
+            get: { model.draft.samplingInterval(for: entry, registry: registry) },
+            set: { model.draft.setSamplingInterval($0, for: entry) }
         )
     }
 

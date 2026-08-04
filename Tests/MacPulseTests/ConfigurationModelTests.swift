@@ -30,6 +30,36 @@ final class ConfigurationModelTests: XCTestCase {
         XCTAssertEqual(model.draft, stored)
     }
 
+    func testMigratesLegacyTemperatureOnLoadAndPersists() throws {
+        let defaults = UserDefaults(suiteName: UUID().uuidString) ?? .standard
+        let temperature = try CarouselItem(metricID: "temperature", style: .text, duration: 6)
+        var stored = AppConfiguration(
+            placeholders: [
+                Placeholder(id: UUID(), items: [temperature], menuMetricIDs: ["temperature"])
+            ]
+        )
+        stored.samplingIntervals["temperature"] = 9
+        stored.colorBands["temperature"] = [try ColorBand(upperBound: 1, color: .yellow)]
+        try ConfigurationStore(defaults: defaults).save(stored)
+
+        let registry = MetricRegistry()
+        registry.register(FakeMetric(id: "cpu"))
+        registry.register(FakeMetric(id: CPUTemperatureMetric.metricID, supportedStyles: [.iconAndText, .text]))
+        registry.register(FakeMetric(id: GPUTemperatureMetric.metricID, supportedStyles: [.iconAndText, .text]))
+        let model = ConfigurationModel(
+            registry: registry,
+            store: ConfigurationStore(defaults: defaults),
+            fallback: AppConfiguration(placeholders: [])
+        )
+
+        let expected = stored.migratingLegacyTemperature()
+        XCTAssertEqual(model.committed.placeholders[0].menuMetricIDs, expected.placeholders[0].menuMetricIDs)
+        XCTAssertEqual(model.committed.placeholders[0].items.map(\.metricID), expected.placeholders[0].items.map(\.metricID))
+        XCTAssertEqual(model.committed.samplingIntervals, expected.samplingIntervals)
+        XCTAssertEqual(model.committed.colorBands.keys.sorted(), expected.colorBands.keys.sorted())
+        XCTAssertEqual(ConfigurationStore(defaults: defaults).load(), model.committed)
+    }
+
     func testFallsBackToDefaultWhenStoreIsEmpty() {
         let fallback = AppConfiguration(placeholders: [Placeholder(id: UUID(), items: [])])
         let model = ConfigurationModel(

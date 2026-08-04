@@ -8,6 +8,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
 
     private let registry: MetricRegistry
     private let localization: LocalizationProviding
+    private let onOpenPreferences: () -> Void
     private var placeholder: Placeholder
     private var configuration: AppConfiguration
     private var engine: CarouselEngine
@@ -18,10 +19,12 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
         placeholder: Placeholder,
         configuration: AppConfiguration,
         registry: MetricRegistry,
-        localization: LocalizationProviding
+        localization: LocalizationProviding,
+        onOpenPreferences: @escaping () -> Void
     ) {
         self.registry = registry
         self.localization = localization
+        self.onOpenPreferences = onOpenPreferences
         self.placeholder = placeholder
         self.configuration = configuration
         self.engine = CarouselEngine(entries: placeholder.items, epoch: Date().timeIntervalSinceReferenceDate)
@@ -106,8 +109,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     }
 
     @objc private func openPreferences() {
-        NSApp.activate(ignoringOtherApps: true)
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        onOpenPreferences()
     }
 
     @objc private func quit() {

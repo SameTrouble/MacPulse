@@ -4,11 +4,13 @@ import Foundation
 final class PlaceholderManager {
     private let registry: MetricRegistry
     private let localization: LocalizationProviding
+    private let onOpenPreferences: () -> Void
     private var controllers: [PlaceholderController] = []
 
-    init(registry: MetricRegistry, localization: LocalizationProviding) {
+    init(registry: MetricRegistry, localization: LocalizationProviding, onOpenPreferences: @escaping () -> Void) {
         self.registry = registry
         self.localization = localization
+        self.onOpenPreferences = onOpenPreferences
     }
 
     func apply(_ configuration: AppConfiguration) throws {
@@ -23,7 +25,8 @@ final class PlaceholderManager {
                 placeholder: placeholder,
                 configuration: configuration,
                 registry: registry,
-                localization: localization
+                localization: localization,
+                onOpenPreferences: onOpenPreferences
             )
         }
         for controller in controllers {

@@ -7,12 +7,7 @@ struct MacPulseApp: App {
 
     var body: some Scene {
         Settings {
-            SettingsView(
-                model: appDelegate.configurationModel,
-                registry: appDelegate.registry,
-                localization: appDelegate.localization,
-                loginItem: appDelegate.loginItem
-            )
+            EmptyView()
         }
     }
 }
@@ -26,6 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let configurationModel: ConfigurationModel
     let localization: LocalizationService
     let loginItem: LoginItemModel
+    let settingsWindowController: SettingsWindowController
     private var manager: PlaceholderManager?
     private var samplingTimer: Timer?
     private var lastSample: [String: Date] = [:]
@@ -49,11 +45,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             fallback: Self.makeDefaultConfiguration()
         )
         loginItem = LoginItemModel(manager: SMAppServiceLoginItemManager())
+        settingsWindowController = SettingsWindowController(
+            model: configurationModel,
+            registry: registry,
+            localization: localization,
+            loginItem: loginItem
+        )
         super.init()
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let manager = PlaceholderManager(registry: registry, localization: localization)
+        let manager = PlaceholderManager(
+            registry: registry,
+            localization: localization,
+            onOpenPreferences: { [weak settingsWindowController] in
+                settingsWindowController?.open()
+            }
+        )
         apply(configurationModel.committed, with: manager)
         self.manager = manager
 

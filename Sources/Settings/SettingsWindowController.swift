@@ -3,7 +3,7 @@ import SwiftUI
 
 final class SettingsWindowController: NSObject, NSWindowDelegate {
     private enum Constants {
-        static let contentSize = NSSize(width: 660, height: 460)
+        static let contentSize = NSSize(width: 700, height: 560)
     }
 
     private let model: ConfigurationModel

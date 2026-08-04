@@ -23,7 +23,7 @@ struct SettingsView: View {
             Divider()
             bottomBar
         }
-        .frame(width: 660, height: 460)
+        .frame(minWidth: 700, minHeight: 560)
         .onAppear {
             model.revert()
             loginItem.refresh()
@@ -46,7 +46,6 @@ struct SettingsView: View {
                 .labelsHidden()
                 .frame(width: 140)
             }
-            Divider()
             Toggle(localization.text(.launchAtLogin), isOn: loginItemBinding)
             Text(localization.text(.launchAtLoginHint))
                 .font(.caption)
@@ -56,6 +55,8 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.red)
             }
+            Divider()
+            samplingIntervalSection
             Spacer()
         }
         .padding(10)
@@ -66,7 +67,7 @@ struct SettingsView: View {
             placeholderList
                 .frame(minWidth: 160, idealWidth: 180)
             detailPane
-                .frame(minWidth: 420)
+                .frame(minWidth: 520)
         }
     }
 
@@ -103,8 +104,6 @@ struct SettingsView: View {
                 itemList(for: index)
                 Divider()
                 menuSection(for: index)
-                Divider()
-                samplingIntervalSection
             }
             .padding(8)
         } else {

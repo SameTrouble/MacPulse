@@ -73,6 +73,18 @@ final class SettingsWindowControllerTests: XCTestCase {
         XCTAssertEqual(spy.callCount, 2)
     }
 
+    func testMakeWindowHasExpectedContentSize() {
+        let window = SettingsWindowController.makeWindow()
+
+        XCTAssertEqual(window.contentRect(forFrameRect: window.frame).size, NSSize(width: 700, height: 560))
+    }
+
+    func testMakeWindowIsResizable() {
+        let window = SettingsWindowController.makeWindow()
+
+        XCTAssertTrue(window.styleMask.contains(.resizable))
+    }
+
     private func makeController(spy: SpyWindowFactory) -> SettingsWindowController {
         let registry = MetricRegistry()
         let model = ConfigurationModel(

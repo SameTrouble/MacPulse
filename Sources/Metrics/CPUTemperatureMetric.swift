@@ -1,10 +1,10 @@
 import Foundation
 
-final class TemperatureMetric: Metric {
-    static let metricID = "temperature"
+final class CPUTemperatureMetric: Metric {
+    static let metricID = "cpu-temperature"
 
-    let id = TemperatureMetric.metricID
-    let displayNameKey = LocalizationKey.metricTemperatureName
+    let id = CPUTemperatureMetric.metricID
+    let displayNameKey = LocalizationKey.metricCPUTemperatureName
     let symbolName = "thermometer"
     let supportedStyles: Set<MetricStyle> = [.iconAndText, .text]
     let defaultSamplingInterval: TimeInterval = 5
@@ -25,20 +25,19 @@ final class TemperatureMetric: Metric {
     }
 
     func currentSample() -> MetricSample? {
-        usage.map { MetricSample(text: TemperatureUsageDisplay.buttonTitle(for: $0), fraction: nil) }
+        usage.map { usage in
+            MetricSample(
+                text: TemperatureUsageDisplay.celsius(usage.cpuCelsius),
+                fraction: TemperatureUsageDisplay.fraction(celsius: usage.cpuCelsius)
+            )
+        }
     }
 
     func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
-            return [localization.text(.temperatureCPU, "--"), localization.text(.temperatureGPU, "--")]
+            return [localization.text(.temperatureCPU, "--")]
         }
-        var lines = [localization.text(.temperatureCPU, TemperatureUsageDisplay.celsius(usage.cpuCelsius))]
-        if let gpuCelsius = usage.gpuCelsius {
-            lines.append(localization.text(.temperatureGPU, TemperatureUsageDisplay.celsius(gpuCelsius)))
-        } else {
-            lines.append(localization.text(.temperatureGPU, "--"))
-        }
-        return lines
+        return [localization.text(.temperatureCPU, TemperatureUsageDisplay.celsius(usage.cpuCelsius))]
     }
 
     func widestDisplayText() -> String {

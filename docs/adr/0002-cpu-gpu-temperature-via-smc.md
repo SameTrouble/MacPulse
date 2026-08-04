@@ -20,11 +20,14 @@ App Sandbox（`ENABLE_APP_SANDBOX: YES`）内。
 - 数据解码支持 `sp78`（16.8 定点，标准温度格式）与 `flt `（M4 实测格式），
   另兼容 `ui16` / `ui8`；解码为纯函数 `SMCTemperatureDecoder`。
 - Provider：`Sources/Sampling/SMCTemperatureProvider.swift`；采样层
-  `TemperatureSampler`；指标 `TemperatureMetric`（默认采样 5 秒，可在设置中调整）。
+  `TemperatureSampler`（短窗口内合并连续刷新，避免 CPU/GPU 指标重复打 SMC）。
+- 指标拆为两个独立项（issue #60）：`CPUTemperatureMetric`（`cpu-temperature`）与
+  `GPUTemperatureMetric`（`gpu-temperature`），默认采样 5 秒，可在设置中调整；样式仅
+  `iconAndText` / `text`。变色 fraction 为 `clamp(celsius / 100, 0, 1)`。
 - 已在 M4 Pro / macOS 27（macOS 26 beta SDK）验证：**沙箱内读取成功**，无需 root，
   单次读 1 个键约 0.14ms。
-- 失败（非 Apple Silicon 或键缺失）时抛错，指标层显示 `--`；GPU 读不到时菜单显示
-  `GPU：--`。
+- 失败（非 Apple Silicon 或键缺失）时抛错，指标层显示 `--`；GPU 读不到时该指标单独
+  降级为 `--`。
 
 ### 沙箱授权（关键发现）
 

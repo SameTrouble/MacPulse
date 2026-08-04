@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build & Release
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.2
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      - name: Resolve version from tag
+        run: |
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Tag '$GITHUB_REF_NAME' is not a valid vX.Y.Z tag"
+            exit 1
+          fi
+          echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+
+      - name: Build Release
+        run: >
+          xcodebuild
+          -project MacPulse.xcodeproj
+          -scheme MacPulse
+          -configuration Release
+          -destination 'platform=macOS'
+          -derivedDataPath build
+          CODE_SIGNING_ALLOWED=NO
+          MARKETING_VERSION="$VERSION"
+          CURRENT_PROJECT_VERSION="$VERSION"
+          build
+
+      - name: Verify embedded version
+        run: |
+          APP="build/Build/Products/Release/MacPulse.app"
+          SHORT="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP/Contents/Info.plist")"
+          BUILD="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$APP/Contents/Info.plist")"
+          if [[ "$SHORT" != "$VERSION" || "$BUILD" != "$VERSION" ]]; then
+            echo "::error::Expected version $VERSION, got short=$SHORT build=$BUILD"
+            exit 1
+          fi
+          echo "Verified app version: $SHORT ($BUILD)"
+
+      - name: Package zip
+        run: ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Release/MacPulse.app "MacPulse-$VERSION.zip"
+
+      - name: Package DMG
+        run: hdiutil create -volname "MacPulse $VERSION" -srcfolder build/Build/Products/Release/MacPulse.app -ov -format UDZO "MacPulse-$VERSION.dmg"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "MacPulse-$VERSION.zip" \
+            "MacPulse-$VERSION.dmg" \
+            --title "MacPulse $VERSION" \
+            --notes "MacPulse $VERSION 发布包（zip 与 DMG）。"

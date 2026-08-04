@@ -67,10 +67,6 @@ enum LocalizedStrings {
         .cpuCore: ("核心 %d：%@", "Core %d: %@"),
         .memoryUsed: ("已用：%@", "Used: %@"),
         .memoryTotal: ("总量：%@", "Total: %@"),
-        .memoryPressure: ("压力等级：%@", "Pressure: %@"),
-        .memoryPressureNormal: ("正常", "Normal"),
-        .memoryPressureWarning: ("警告", "Warning"),
-        .memoryPressureCritical: ("严重", "Critical"),
         .gpuUtilization: ("GPU 利用率：%@", "GPU utilization: %@"),
         .temperatureCPU: ("CPU：%@", "CPU: %@"),
         .temperatureGPU: ("GPU：%@", "GPU: %@")

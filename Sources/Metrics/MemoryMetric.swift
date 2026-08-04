@@ -31,17 +31,12 @@ final class MemoryMetric: Metric {
         guard let usage else {
             return [
                 localization.text(.memoryUsed, "--"),
-                localization.text(.memoryTotal, "--"),
-                localization.text(.memoryPressure, "--")
+                localization.text(.memoryTotal, "--")
             ]
         }
         return [
             localization.text(.memoryUsed, MemoryUsageDisplay.gigabytes(usage.usedBytes)),
-            localization.text(.memoryTotal, MemoryUsageDisplay.gigabytes(usage.totalBytes)),
-            localization.text(
-                .memoryPressure,
-                MemoryUsageDisplay.pressureLabel(usage.pressure, localizedBy: localization)
-            )
+            localization.text(.memoryTotal, MemoryUsageDisplay.gigabytes(usage.totalBytes))
         ]
     }
 

@@ -9,7 +9,6 @@ final class MemorySamplerTests: XCTestCase {
 
         XCTAssertEqual(usage.usedBytes, 300 * 4096)
         XCTAssertEqual(usage.totalBytes, 810 * 4096)
-        XCTAssertEqual(usage.pressure, .normal)
     }
 
     func testRefreshPropagatesProviderFailure() {

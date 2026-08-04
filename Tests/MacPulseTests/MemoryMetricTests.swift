@@ -38,30 +38,30 @@ final class MemoryMetricTests: XCTestCase {
         XCTAssertNil(metric.currentSample())
     }
 
-    func testMenuLinesShowUsedTotalAndPressure() {
-        let metric = metric(stats: .fixture(pressureLevel: MemoryUsageCalculator.pressureWarning))
+    func testMenuLinesShowUsedAndTotal() {
+        let metric = metric(stats: .fixture())
         metric.refresh()
 
         let used = MemoryUsageDisplay.gigabytes(300 * 4096)
         let total = MemoryUsageDisplay.gigabytes(810 * 4096)
         XCTAssertEqual(
             metric.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["已用：\(used)", "总量：\(total)", "压力等级：警告"]
+            ["已用：\(used)", "总量：\(total)"]
         )
         XCTAssertEqual(
             metric.menuLines(localizedBy: localizationService(language: .english)),
-            ["Used: \(used)", "Total: \(total)", "Pressure: Warning"]
+            ["Used: \(used)", "Total: \(total)"]
         )
     }
 
     func testMenuLinesShowDashesWithoutSample() {
         XCTAssertEqual(
             metric(stats: .fixture()).menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["已用：--", "总量：--", "压力等级：--"]
+            ["已用：--", "总量：--"]
         )
         XCTAssertEqual(
             metric(stats: .fixture()).menuLines(localizedBy: localizationService(language: .english)),
-            ["Used: --", "Total: --", "Pressure: --"]
+            ["Used: --", "Total: --"]
         )
     }
 

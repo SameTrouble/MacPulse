@@ -22,12 +22,6 @@ struct HostMemoryInfoProvider: MemoryStatsProviding {
         let totalResult = sysctlbyname("hw.memsize", &totalBytes, &totalSize, nil, 0)
         guard totalResult == 0 else { throw MemorySamplingError.totalMemoryFailed }
 
-        var pressureLevel = MemoryUsageCalculator.pressureNormal
-        var levelSize = MemoryLayout<Int32>.size
-        if sysctlbyname("kern.memorystatus_vm_pressure_level", &pressureLevel, &levelSize, nil, 0) != 0 {
-            pressureLevel = MemoryUsageCalculator.pressureNormal
-        }
-
         return MemoryStats(
             pageFreeCount: UInt64(info.free_count),
             pageActiveCount: UInt64(info.active_count),
@@ -36,8 +30,7 @@ struct HostMemoryInfoProvider: MemoryStatsProviding {
             pageSpeculativeCount: UInt64(info.speculative_count),
             pageCompressorCount: UInt64(info.compressor_page_count),
             pageSize: UInt64(vm_kernel_page_size),
-            totalBytes: totalBytes,
-            pressureLevel: pressureLevel
+            totalBytes: totalBytes
         )
     }
 }

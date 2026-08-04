@@ -52,4 +52,18 @@ final class ProgressBarImageTests: XCTestCase {
     func testImageIsTemplateSoItAdaptsToMenuBarAppearance() {
         XCTAssertTrue(ProgressBarImage.makeImage(fraction: 0.5).isTemplate)
     }
+
+    func testColoredImageIsNotTemplate() {
+        XCTAssertFalse(ProgressBarImage.makeImage(fraction: 0.5, color: .systemRed).isTemplate)
+    }
+
+    func testColoredImageHasStableSize() {
+        XCTAssertEqual(ProgressBarImage.makeImage(fraction: 0.374, color: .systemRed).size, ProgressBarImage.size)
+        XCTAssertEqual(ProgressBarImage.makeImage(fraction: nil, color: .systemRed).size, ProgressBarImage.size)
+    }
+
+    func testColoredImageKeepsFillWidthCalculation() {
+        XCTAssertEqual(ProgressBarImage.fillWidth(for: 0.5), ProgressBarImage.size.width / 2)
+        XCTAssertEqual(ProgressBarImage.fillWidth(for: 1), ProgressBarImage.size.width)
+    }
 }

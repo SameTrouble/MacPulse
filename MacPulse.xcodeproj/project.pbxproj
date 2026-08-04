@@ -23,6 +23,7 @@
 		2A350D46F69E4A1FF6EB5974 /* PlaceholderConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176C1E2A0A11A1854CA0E663 /* PlaceholderConfigurationTests.swift */; };
 		2D1EC622CECAFFDC582702D8 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E87B8FF29A44A7AA0820D /* TestDoubles.swift */; };
 		32F152708296AFACADD98EFB /* SMCTemperatureDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5FA4FFD7AC0494B0B1B7DA /* SMCTemperatureDecoderTests.swift */; };
+		3493A5FD60F3811C40F82B62 /* StatusBarRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1A652D49608D0A20625BDC /* StatusBarRenderer.swift */; };
 		3DA6D7C1A802EF290ADA4E01 /* HostProcessorInfoProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB758E6D04C7C7099D4C46F /* HostProcessorInfoProviderTests.swift */; };
 		3E21B6F38A897A5016F418BF /* ConfigurationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CAB1BF0A4BC5B53B30D91AE /* ConfigurationModel.swift */; };
 		3FD52352E4C133ED6E1FF3A0 /* MacPulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353AA71C6885B120B05A9D8D /* MacPulseApp.swift */; };
@@ -83,6 +84,7 @@
 		D969BAEFEFE81EE0920D1E57 /* CPUUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */; };
 		DB1C0CD8C525864DF18318BF /* SMCTemperatureDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87531E0017312DDBB61369D /* SMCTemperatureDecoder.swift */; };
 		E3F266A6FDBB742984345B26 /* SettingsWindowControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B4642505DCF4D866104268 /* SettingsWindowControllerTests.swift */; };
+		E601C863B9B32FA932DC4A70 /* StatusBarRendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A5A4283EA53E61144CD202 /* StatusBarRendererTests.swift */; };
 		E74B5BB558836F092FA2D6E1 /* LoginItemModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA307860A24AAEFFE958B1B /* LoginItemModelTests.swift */; };
 		EA76F6E00563C8C11B472040 /* MemoryUsageCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA2E6C9EEAE10400943143 /* MemoryUsageCalculatorTests.swift */; };
 		EA92908207C9AD2B1CBF8877 /* AppConfigurationColorRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705EEDC5E9B5AAB83F01745C /* AppConfigurationColorRulesTests.swift */; };
@@ -172,9 +174,11 @@
 		9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsage.swift; sourceTree = "<group>"; };
 		A4B4EF432EBF2746730DC8C2 /* SMCTemperatureProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCTemperatureProviderTests.swift; sourceTree = "<group>"; };
 		AAE7DC476AEA51D71EB478A7 /* MemoryUsageDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageDisplay.swift; sourceTree = "<group>"; };
+		AC1A652D49608D0A20625BDC /* StatusBarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarRenderer.swift; sourceTree = "<group>"; };
 		AF264085B155476D16DD9A03 /* MemoryUsageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageCalculator.swift; sourceTree = "<group>"; };
 		B1C2DF0305CA99463E2B02EB /* TemperatureMetricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMetricTests.swift; sourceTree = "<group>"; };
 		B2F6338C8C018F35118F23EE /* MemoryMetricTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryMetricTests.swift; sourceTree = "<group>"; };
+		B4A5A4283EA53E61144CD202 /* StatusBarRendererTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarRendererTests.swift; sourceTree = "<group>"; };
 		B9CDCE2094761738669D413B /* ConfigurationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationStoreTests.swift; sourceTree = "<group>"; };
 		BA913437E6FFA6F740EA90DB /* PaletteColor+NSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaletteColor+NSColor.swift"; sourceTree = "<group>"; };
 		BEABB5A205117F306B86A745 /* SamplingIntervalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingIntervalTests.swift; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				11B4642505DCF4D866104268 /* SettingsWindowControllerTests.swift */,
 				5E5FA4FFD7AC0494B0B1B7DA /* SMCTemperatureDecoderTests.swift */,
 				A4B4EF432EBF2746730DC8C2 /* SMCTemperatureProviderTests.swift */,
+				B4A5A4283EA53E61144CD202 /* StatusBarRendererTests.swift */,
 				B1C2DF0305CA99463E2B02EB /* TemperatureMetricTests.swift */,
 				3D3B60A7AA9DBB0622164ADE /* TemperatureSamplerTests.swift */,
 				33C5C3D8C5A690BB6B15DEE0 /* TemperatureUsageDisplayTests.swift */,
@@ -310,6 +315,7 @@
 				184DCD099A3C96CC6EA42D25 /* PlaceholderManager.swift */,
 				D1646514323D1548EFAA684A /* ProgressBarImage.swift */,
 				26ABF48B813BBF158CDBD00E /* StatusBarLayout.swift */,
+				AC1A652D49608D0A20625BDC /* StatusBarRenderer.swift */,
 				51EFD74C31BABFCEC0313A43 /* TemperatureUsageDisplay.swift */,
 			);
 			path = StatusBar;
@@ -551,6 +557,7 @@
 				43D81C83F35826A3FC37D1D8 /* SettingsView.swift in Sources */,
 				73EE368E7FBC9FA10F90965B /* SettingsWindowController.swift in Sources */,
 				8724F64C7C7184B7985B4EC6 /* StatusBarLayout.swift in Sources */,
+				3493A5FD60F3811C40F82B62 /* StatusBarRenderer.swift in Sources */,
 				C0AF3CD0C6BAFC7D9A89957A /* StylePreview.swift in Sources */,
 				701462AFAE8D549D8C630871 /* TemperatureMetric.swift in Sources */,
 				968093709CFD32F345F7B635 /* TemperatureSampler.swift in Sources */,
@@ -598,6 +605,7 @@
 				8DE75EE67195F56F00F72CB2 /* SamplingIntervalTests.swift in Sources */,
 				1CD08025C234DF9172294D62 /* ScaffoldTests.swift in Sources */,
 				E3F266A6FDBB742984345B26 /* SettingsWindowControllerTests.swift in Sources */,
+				E601C863B9B32FA932DC4A70 /* StatusBarRendererTests.swift in Sources */,
 				170013FBA88C7FE938A2F977 /* TemperatureMetricTests.swift in Sources */,
 				CD9E20064CC820FCB42B1829 /* TemperatureSamplerTests.swift in Sources */,
 				152C6E3D198970343812790F /* TemperatureUsageDisplayTests.swift in Sources */,

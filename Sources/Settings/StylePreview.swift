@@ -1,26 +1,38 @@
 import AppKit
 
 enum StylePreview {
-    static let sampleText = "73%"
+    static let sampleFraction = 0.73
 
-    static func image(for style: MetricStyle) -> NSImage {
-        switch style {
-        case .progressBar:
-            return ProgressBarImage.makeImage(fraction: 0.73)
-        case .text:
-            return textImage(sampleText)
-        case .iconAndText:
-            return iconAndTextImage()
+    static func sampleText(forMetricID metricID: String) -> String {
+        switch metricID {
+        case MemoryMetric.metricID:
+            return "12.3 GB"
+        case TemperatureMetric.metricID:
+            return "45°"
+        default:
+            return "73%"
         }
     }
 
-    private static func iconAndTextImage() -> NSImage {
-        guard let icon = NSImage(systemSymbolName: "cpu.fill", accessibilityDescription: nil) else {
-            return textImage(sampleText)
+    static func image(for style: MetricStyle, symbolName: String, metricID: String) -> NSImage {
+        let text = sampleText(forMetricID: metricID)
+        switch style {
+        case .progressBar:
+            return ProgressBarImage.makeImage(fraction: sampleFraction)
+        case .text:
+            return textImage(text)
+        case .iconAndText:
+            return iconAndTextImage(symbolName: symbolName, text: text)
         }
-        let text = textImage(sampleText)
-        let width = icon.size.width + StatusBarLayout.iconTextSpacing + text.size.width
-        let height = max(icon.size.height, text.size.height)
+    }
+
+    private static func iconAndTextImage(symbolName: String, text: String) -> NSImage {
+        guard let icon = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil) else {
+            return textImage(text)
+        }
+        let textImage = textImage(text)
+        let width = icon.size.width + StatusBarLayout.iconTextSpacing + textImage.size.width
+        let height = max(icon.size.height, textImage.size.height)
         let image = NSImage(size: NSSize(width: width, height: height))
         image.isTemplate = true
         image.lockFocus()
@@ -30,9 +42,9 @@ enum StylePreview {
             operation: .sourceOver,
             fraction: 1
         )
-        text.draw(
-            at: NSPoint(x: icon.size.width + StatusBarLayout.iconTextSpacing, y: (height - text.size.height) / 2),
-            from: NSRect(origin: .zero, size: text.size),
+        textImage.draw(
+            at: NSPoint(x: icon.size.width + StatusBarLayout.iconTextSpacing, y: (height - textImage.size.height) / 2),
+            from: NSRect(origin: .zero, size: textImage.size),
             operation: .sourceOver,
             fraction: 1
         )

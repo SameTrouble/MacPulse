@@ -290,6 +290,8 @@ private struct ItemEditor: View {
                 ForEach(supportedStyles, id: \.self) { style in
                     StyleCard(
                         style: style,
+                        symbolName: registry.metric(id: item.metricID)?.symbolName ?? "questionmark",
+                        metricID: item.metricID,
                         isSelected: item.style == style,
                         localization: localization
                     ) {
@@ -314,6 +316,8 @@ private struct ItemEditor: View {
 
 private struct StyleCard: View {
     let style: MetricStyle
+    let symbolName: String
+    let metricID: String
     let isSelected: Bool
     let localization: LocalizationProviding
     let onSelect: () -> Void
@@ -321,7 +325,7 @@ private struct StyleCard: View {
     var body: some View {
         Button(action: onSelect) {
             VStack(spacing: 6) {
-                Image(nsImage: StylePreview.image(for: style))
+                Image(nsImage: StylePreview.image(for: style, symbolName: symbolName, metricID: metricID))
                     .frame(height: 22)
                 Text(label)
                     .font(.caption)

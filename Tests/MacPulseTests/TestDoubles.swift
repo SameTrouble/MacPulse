@@ -81,8 +81,7 @@ extension MemoryStats {
         wired: UInt64 = 200,
         compressor: UInt64 = 0,
         pageSize: UInt64 = 4096,
-        totalBytes: UInt64 = 810 * 4096,
-        pressureLevel: Int32 = MemoryUsageCalculator.pressureNormal
+        totalBytes: UInt64 = 810 * 4096
     ) -> MemoryStats {
         MemoryStats(
             pageFreeCount: 400,
@@ -92,8 +91,7 @@ extension MemoryStats {
             pageSpeculativeCount: 50,
             pageCompressorCount: compressor,
             pageSize: pageSize,
-            totalBytes: totalBytes,
-            pressureLevel: pressureLevel
+            totalBytes: totalBytes
         )
     }
 }

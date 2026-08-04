@@ -23,19 +23,4 @@ final class MemoryUsageCalculatorTests: XCTestCase {
         XCTAssertEqual(usage.totalBytes, 0)
         XCTAssertEqual(usage.fraction, 0)
     }
-
-    func testPressureMapsRawLevels() {
-        XCTAssertEqual(MemoryUsageCalculator.pressure(level: MemoryUsageCalculator.pressureNormal), .normal)
-        XCTAssertEqual(MemoryUsageCalculator.pressure(level: MemoryUsageCalculator.pressureWarning), .warning)
-        XCTAssertEqual(MemoryUsageCalculator.pressure(level: MemoryUsageCalculator.pressureCritical), .critical)
-    }
-
-    func testUnknownPressureLevelFallsBackToNormal() {
-        XCTAssertEqual(MemoryUsageCalculator.pressure(level: 99), .normal)
-    }
-
-    func testUsageCarriesMappedPressure() {
-        let usage = MemoryUsageCalculator.usage(.fixture(pressureLevel: MemoryUsageCalculator.pressureCritical))
-        XCTAssertEqual(usage.pressure, .critical)
-    }
 }

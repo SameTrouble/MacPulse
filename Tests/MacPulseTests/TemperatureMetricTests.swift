@@ -84,7 +84,7 @@ final class TemperatureMetricTests: XCTestCase {
     func testWidestDisplayTextIsThreeDigitCelsius() {
         let metric = metric(cpu: 42, gpu: nil)
 
-        XCTAssertEqual(metric.widestDisplayText(for: .iconAndText), "100°")
-        XCTAssertEqual(metric.widestDisplayText(for: .text), "100°")
+        XCTAssertEqual(metric.widestDisplayText(), "100°")
+        XCTAssertEqual(metric.widestDisplayText(), TemperatureUsageDisplay.widestText)
     }
 }

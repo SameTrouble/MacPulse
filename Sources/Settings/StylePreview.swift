@@ -19,7 +19,7 @@ enum StylePreview {
             return textImage(sampleText)
         }
         let text = textImage(sampleText)
-        let width = icon.size.width + 3 + text.size.width
+        let width = icon.size.width + StatusBarLayout.iconTextSpacing + text.size.width
         let height = max(icon.size.height, text.size.height)
         let image = NSImage(size: NSSize(width: width, height: height))
         image.isTemplate = true
@@ -31,7 +31,7 @@ enum StylePreview {
             fraction: 1
         )
         text.draw(
-            at: NSPoint(x: icon.size.width + 3, y: (height - text.size.height) / 2),
+            at: NSPoint(x: icon.size.width + StatusBarLayout.iconTextSpacing, y: (height - text.size.height) / 2),
             from: NSRect(origin: .zero, size: text.size),
             operation: .sourceOver,
             fraction: 1

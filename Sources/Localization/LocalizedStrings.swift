@@ -71,8 +71,8 @@ enum LocalizedStrings {
         .memoryUsed: ("已用：%@", "Used: %@"),
         .memoryTotal: ("总量：%@", "Total: %@"),
         .gpuUtilization: ("GPU 利用率：%@", "GPU utilization: %@"),
-        .temperatureCPU: ("CPU：%@", "CPU: %@"),
-        .temperatureGPU: ("GPU：%@", "GPU: %@")
+        .temperatureCPU: ("CPU %@", "CPU %@"),
+        .temperatureGPU: ("GPU %@", "GPU %@")
     ]
 
     static func translation(for key: LocalizationKey, in language: ResolvedLanguage) -> String {

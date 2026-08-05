@@ -24,17 +24,17 @@ final class GPUMetric: Metric {
     }
 
     func currentSample() -> MetricSample? {
-        usage.map { MetricSample(text: GPUUsageDisplay.buttonTitle(for: $0), fraction: $0.deviceUtilization) }
+        usage.map { MetricSample(text: ValueFormatting.percent($0.deviceUtilization), fraction: $0.deviceUtilization) }
     }
 
     func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
             return [localization.text(.gpuUtilization, "--")]
         }
-        return [localization.text(.gpuUtilization, GPUUsageDisplay.percent(usage.deviceUtilization))]
+        return [localization.text(.gpuUtilization, ValueFormatting.percent(usage.deviceUtilization))]
     }
 
     func widestDisplayText() -> String {
-        GPUUsageDisplay.widestText
+        ValueFormatting.widestPercent
     }
 }

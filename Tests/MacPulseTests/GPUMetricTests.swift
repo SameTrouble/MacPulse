@@ -67,6 +67,6 @@ final class GPUMetricTests: XCTestCase {
         let metric = metric(utilization: 0)
 
         XCTAssertEqual(metric.widestDisplayText(), "100%")
-        XCTAssertEqual(metric.widestDisplayText(), GPUUsageDisplay.widestText)
+        XCTAssertEqual(metric.widestDisplayText(), ValueFormatting.widestPercent)
     }
 }

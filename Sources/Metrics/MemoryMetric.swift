@@ -24,23 +24,23 @@ final class MemoryMetric: Metric {
     }
 
     func currentSample() -> MetricSample? {
-        usage.map { MetricSample(text: MemoryUsageDisplay.buttonTitle(for: $0), fraction: $0.fraction) }
+        usage.map { MetricSample(text: ValueFormatting.gigabytes($0.usedBytes), fraction: $0.fraction) }
     }
 
     func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
             return [
-                localization.text(.memoryUsed, "--"),
-                localization.text(.memoryTotal, "--")
+                localization.text(.memoryUsed, ValueFormatting.fallback),
+                localization.text(.memoryTotal, ValueFormatting.fallback)
             ]
         }
         return [
-            localization.text(.memoryUsed, MemoryUsageDisplay.gigabytes(usage.usedBytes)),
-            localization.text(.memoryTotal, MemoryUsageDisplay.gigabytes(usage.totalBytes))
+            localization.text(.memoryUsed, ValueFormatting.gigabytes(usage.usedBytes)),
+            localization.text(.memoryTotal, ValueFormatting.gigabytes(usage.totalBytes))
         ]
     }
 
     func widestDisplayText() -> String {
-        MemoryUsageDisplay.widestText
+        ValueFormatting.widestGigabytes
     }
 }

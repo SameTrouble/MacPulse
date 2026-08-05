@@ -23,7 +23,7 @@ final class CPUMetric: Metric {
             usage = nil
         }
         sample = usage.map { usage in
-            MetricSample(text: CPUUsageDisplay.percent(usage.overall), fraction: usage.overall)
+            MetricSample(text: ValueFormatting.percent(usage.overall), fraction: usage.overall)
         }
     }
 
@@ -35,14 +35,14 @@ final class CPUMetric: Metric {
         guard let usage else {
             return [localization.text(.cpuOverall, "--")]
         }
-        var lines = [localization.text(.cpuOverall, CPUUsageDisplay.percent(usage.overall))]
+        var lines = [localization.text(.cpuOverall, ValueFormatting.percent(usage.overall))]
         for (index, core) in usage.perCore.enumerated() {
-            lines.append(localization.text(.cpuCore, index + 1, CPUUsageDisplay.percent(core)))
+            lines.append(localization.text(.cpuCore, index + 1, ValueFormatting.percent(core)))
         }
         return lines
     }
 
     func widestDisplayText() -> String {
-        CPUUsageDisplay.widestText
+        ValueFormatting.widestPercent
     }
 }

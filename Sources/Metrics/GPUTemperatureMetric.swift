@@ -26,26 +26,26 @@ final class GPUTemperatureMetric: Metric {
 
     func currentSample() -> MetricSample? {
         guard let usage, let gpuCelsius = usage.gpuCelsius else {
-            return MetricSample(text: "\(Self.prefix) --", fraction: nil)
+            return MetricSample(text: "\(Self.prefix) \(ValueFormatting.fallback)", fraction: nil)
         }
         return MetricSample(
-            text: "\(Self.prefix) \(TemperatureUsageDisplay.celsius(gpuCelsius))",
-            fraction: TemperatureUsageDisplay.fraction(celsius: gpuCelsius)
+            text: "\(Self.prefix) \(ValueFormatting.celsius(gpuCelsius))",
+            fraction: ValueFormatting.fraction(celsius: gpuCelsius)
         )
     }
 
     func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
-            return [localization.text(.temperatureGPU, "--")]
+            return [localization.text(.temperatureGPU, ValueFormatting.fallback)]
         }
         if let gpuCelsius = usage.gpuCelsius {
-            return [localization.text(.temperatureGPU, TemperatureUsageDisplay.celsius(gpuCelsius))]
+            return [localization.text(.temperatureGPU, ValueFormatting.celsius(gpuCelsius))]
         }
-        return [localization.text(.temperatureGPU, "--")]
+        return [localization.text(.temperatureGPU, ValueFormatting.fallback)]
     }
 
     func widestDisplayText() -> String {
-        "\(Self.prefix) \(TemperatureUsageDisplay.widestText)"
+        "\(Self.prefix) \(ValueFormatting.widestCelsius)"
     }
 
     private static let prefix = "GPU"

@@ -19,21 +19,43 @@ let sizes: [(name: String, pixelSize: Int)] = [
     ("icon_512x512@2x.png", 1024)
 ]
 
-func drawIcon(size: Int) -> NSImage {
-    let image = NSImage(size: NSSize(width: size, height: size))
-    image.lockFocus()
+func drawIcon(size: Int) -> NSBitmapImageRep? {
+    guard let rep = NSBitmapImageRep(
+        bitmapDataPlanes: nil,
+        pixelsWide: size,
+        pixelsHigh: size,
+        bitsPerSample: 8,
+        samplesPerPixel: 4,
+        hasAlpha: true,
+        isPlanar: false,
+        colorSpaceName: .deviceRGB,
+        bytesPerRow: 0,
+        bitsPerPixel: 0
+    ) else {
+        return nil
+    }
+    rep.size = NSSize(width: size, height: size)
 
-    let ctx = NSGraphicsContext.current!.cgContext
+    guard let context = NSGraphicsContext(bitmapImageRep: rep) else {
+        return nil
+    }
+
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = context
+    let ctx = context.cgContext
     let s = CGFloat(size)
 
-    let bgGradient = CGGradient(
+    guard let bgGradient = CGGradient(
         colorsSpace: CGColorSpaceCreateDeviceRGB(),
         colors: [
             CGColor(red: 0.12, green: 0.11, blue: 0.13, alpha: 1.0),
             CGColor(red: 0.08, green: 0.07, blue: 0.09, alpha: 1.0)
         ] as CFArray,
         locations: [0.0, 1.0]
-    )!
+    ) else {
+        NSGraphicsContext.restoreGraphicsState()
+        return nil
+    }
     ctx.drawLinearGradient(
         bgGradient,
         start: CGPoint(x: 0, y: s),
@@ -136,23 +158,21 @@ func drawIcon(size: Int) -> NSImage {
     ctx.setFillColor(amberColor)
     ctx.fillEllipse(in: CGRect(x: dotX - dotRadius, y: dotY - dotRadius, width: dotRadius * 2, height: dotRadius * 2))
 
-    image.unlockFocus()
-    return image
+    NSGraphicsContext.restoreGraphicsState()
+    return rep
 }
 
 try FileManager.default.createDirectory(atPath: outputDir, withIntermediateDirectories: true)
 
 for item in sizes {
-    let image = drawIcon(size: item.pixelSize)
-    guard let tiffData = image.tiffRepresentation,
-          let bitmap = NSBitmapImageRep(data: tiffData),
+    guard let bitmap = drawIcon(size: item.pixelSize),
           let pngData = bitmap.representation(using: .png, properties: [:]) else {
         print("Failed to generate \(item.name)")
         continue
     }
     let path = "\(outputDir)/\(item.name)"
     try pngData.write(to: URL(fileURLWithPath: path))
-    print("Generated \(path) (\(item.pixelSize)x\(item.pixelSize))")
+    print("Generated \(path) (\(bitmap.pixelsWide)x\(bitmap.pixelsHigh))")
 }
 
 print("Done.")

@@ -1,6 +1,6 @@
 import Foundation
 
-final class GPUSampler {
+final class GPUSampler: Sampling {
     private let provider: GPUStatsProviding
 
     init(provider: GPUStatsProviding = AGXGPUStatsProvider()) {

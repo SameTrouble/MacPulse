@@ -86,6 +86,6 @@ final class CPUMetricTests: XCTestCase {
         let metric = CPUMetric(sampler: CPUUsageSampler(provider: FakeTickProvider(result: .success([]))))
 
         XCTAssertEqual(metric.widestDisplayText(), "100%")
-        XCTAssertEqual(metric.widestDisplayText(), CPUUsageDisplay.widestText)
+        XCTAssertEqual(metric.widestDisplayText(), ValueFormatting.widestPercent)
     }
 }

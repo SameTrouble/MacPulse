@@ -4,7 +4,7 @@ protocol CPUTickProviding {
     func currentTicks() throws -> [CPUTick]
 }
 
-final class CPUUsageSampler {
+final class CPUUsageSampler: Sampling {
     private let provider: CPUTickProviding
     private var previous: [CPUTick]?
 

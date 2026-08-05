@@ -1,48 +1,34 @@
 import Foundation
 
-final class CPUMetric: Metric {
+final class CPUMetric: SampledMetric<CPUUsage?, CPUUsageSampler> {
     static let metricID = "cpu"
 
-    let id = CPUMetric.metricID
-    let displayNameKey = LocalizationKey.metricCPUName
-    let symbolName = "cpu.fill"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
-
-    private let sampler: CPUUsageSampler
-    private var sample: MetricSample?
-    private var usage: CPUUsage?
-
     init(sampler: CPUUsageSampler = CPUUsageSampler()) {
-        self.sampler = sampler
+        super.init(
+            id: CPUMetric.metricID,
+            displayNameKey: .metricCPUName,
+            symbolName: "cpu.fill",
+            supportedStyles: [.iconAndText, .text, .progressBar],
+            sampler: sampler
+        )
     }
 
-    func refresh() {
-        do {
-            usage = try sampler.refresh()
-        } catch {
-            usage = nil
-        }
-        sample = usage.map { usage in
-            MetricSample(text: CPUUsageDisplay.percent(usage.overall), fraction: usage.overall)
-        }
+    override func makeSample(from usage: CPUUsage?) -> MetricSample? {
+        usage.map { MetricSample(text: ValueFormatting.percent($0.overall), fraction: $0.overall) }
     }
 
-    func currentSample() -> MetricSample? {
-        sample
-    }
-
-    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
-        guard let usage else {
+    override func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
+        guard let usage, let usage = usage else {
             return [localization.text(.cpuOverall, "--")]
         }
-        var lines = [localization.text(.cpuOverall, CPUUsageDisplay.percent(usage.overall))]
+        var lines = [localization.text(.cpuOverall, ValueFormatting.percent(usage.overall))]
         for (index, core) in usage.perCore.enumerated() {
-            lines.append(localization.text(.cpuCore, index + 1, CPUUsageDisplay.percent(core)))
+            lines.append(localization.text(.cpuCore, index + 1, ValueFormatting.percent(core)))
         }
         return lines
     }
 
-    func widestDisplayText() -> String {
-        CPUUsageDisplay.widestText
+    override func widestDisplayText() -> String {
+        ValueFormatting.widestPercent
     }
 }

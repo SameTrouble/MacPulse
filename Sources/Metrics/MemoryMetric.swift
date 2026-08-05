@@ -1,46 +1,36 @@
 import Foundation
 
-final class MemoryMetric: Metric {
+final class MemoryMetric: SampledMetric<MemoryUsage, MemorySampler> {
     static let metricID = "memory"
 
-    let id = MemoryMetric.metricID
-    let displayNameKey = LocalizationKey.metricMemoryName
-    let symbolName = "memorychip"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
-
-    private let sampler: MemorySampler
-    private var usage: MemoryUsage?
-
     init(sampler: MemorySampler = MemorySampler()) {
-        self.sampler = sampler
+        super.init(
+            id: MemoryMetric.metricID,
+            displayNameKey: .metricMemoryName,
+            symbolName: "memorychip",
+            supportedStyles: [.iconAndText, .text, .progressBar],
+            sampler: sampler
+        )
     }
 
-    func refresh() {
-        do {
-            usage = try sampler.refresh()
-        } catch {
-            usage = nil
-        }
+    override func makeSample(from usage: MemoryUsage) -> MetricSample? {
+        MetricSample(text: ValueFormatting.gigabytes(usage.usedBytes), fraction: usage.fraction)
     }
 
-    func currentSample() -> MetricSample? {
-        usage.map { MetricSample(text: MemoryUsageDisplay.buttonTitle(for: $0), fraction: $0.fraction) }
-    }
-
-    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
+    override func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
             return [
-                localization.text(.memoryUsed, "--"),
-                localization.text(.memoryTotal, "--")
+                localization.text(.memoryUsed, ValueFormatting.fallback),
+                localization.text(.memoryTotal, ValueFormatting.fallback)
             ]
         }
         return [
-            localization.text(.memoryUsed, MemoryUsageDisplay.gigabytes(usage.usedBytes)),
-            localization.text(.memoryTotal, MemoryUsageDisplay.gigabytes(usage.totalBytes))
+            localization.text(.memoryUsed, ValueFormatting.gigabytes(usage.usedBytes)),
+            localization.text(.memoryTotal, ValueFormatting.gigabytes(usage.totalBytes))
         ]
     }
 
-    func widestDisplayText() -> String {
-        MemoryUsageDisplay.widestText
+    override func widestDisplayText() -> String {
+        ValueFormatting.widestGigabytes
     }
 }

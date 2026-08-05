@@ -23,7 +23,7 @@ final class MemoryMetricTests: XCTestCase {
         metric.refresh()
 
         let sample = metric.currentSample()
-        XCTAssertEqual(sample?.text, MemoryUsageDisplay.gigabytes(300 * 4096))
+        XCTAssertEqual(sample?.text, ValueFormatting.gigabytes(300 * 4096))
         XCTAssertEqual(sample?.fraction ?? 0, 300.0 / 810.0, accuracy: 0.0001)
     }
 
@@ -42,8 +42,8 @@ final class MemoryMetricTests: XCTestCase {
         let metric = metric(stats: .fixture())
         metric.refresh()
 
-        let used = MemoryUsageDisplay.gigabytes(300 * 4096)
-        let total = MemoryUsageDisplay.gigabytes(810 * 4096)
+        let used = ValueFormatting.gigabytes(300 * 4096)
+        let total = ValueFormatting.gigabytes(810 * 4096)
         XCTAssertEqual(
             metric.menuLines(localizedBy: localizationService(language: .zhHans)),
             ["已用：\(used)", "总量：\(total)"]
@@ -69,6 +69,6 @@ final class MemoryMetricTests: XCTestCase {
         let metric = metric(stats: .fixture())
 
         XCTAssertEqual(metric.widestDisplayText(), "999.9 GB")
-        XCTAssertEqual(metric.widestDisplayText(), MemoryUsageDisplay.widestText)
+        XCTAssertEqual(metric.widestDisplayText(), ValueFormatting.widestGigabytes)
     }
 }

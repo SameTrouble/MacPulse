@@ -145,7 +145,7 @@ final class PlaceholderController: NSObject, NSMenuDelegate {
     }
 
     private func textWidth(for entry: CarouselItem) -> CGFloat {
-        let widest = registry.metric(id: entry.metricID)?.widestDisplayText() ?? MetricWidth.fallbackText
+        let widest = registry.metric(id: entry.metricID)?.widestDisplayText() ?? ValueFormatting.widestPercent
         let attributed = NSAttributedString(
             string: widest,
             attributes: [.font: NSFont.menuBarFont(ofSize: 0)]

@@ -1,6 +1,6 @@
 import Foundation
 
-final class TemperatureSampler {
+final class TemperatureSampler: Sampling {
     private let provider: TemperatureStatsProviding
     private let coalesceInterval: TimeInterval
     private var cachedResult: Result<TemperatureUsage, Error>?

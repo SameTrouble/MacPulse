@@ -18,8 +18,8 @@ targets:
     platform: macOS
     sources:
       - path: Sources
-    resources:
-      - path: Resources
+      - path: Resources/Assets.xcassets
+        buildPhase: resources
     preBuildScripts:
       - name: SwiftLint
         basedOnDependencyAnalysis: false

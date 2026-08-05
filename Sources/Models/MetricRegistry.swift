@@ -5,30 +5,6 @@ struct MetricSample: Equatable {
     let fraction: Double?
 }
 
-protocol Metric: AnyObject {
-    var id: String { get }
-    var displayNameKey: LocalizationKey { get }
-    var symbolName: String { get }
-    var supportedStyles: Set<MetricStyle> { get }
-    var defaultSamplingInterval: TimeInterval { get }
-    func refresh()
-    func currentSample() -> MetricSample?
-    func menuLines(localizedBy localization: LocalizationProviding) -> [String]
-    func widestDisplayText() -> String
-}
-
-enum MetricWidth {
-    static let fallbackText = "100%"
-}
-
-extension Metric {
-    var defaultSamplingInterval: TimeInterval { 2 }
-
-    func widestDisplayText() -> String {
-        MetricWidth.fallbackText
-    }
-}
-
 final class MetricRegistry {
     private var storage: [String: Metric] = [:]
     private var insertionOrder: [String] = []

@@ -39,20 +39,37 @@ final class SamplingIntervalEntriesTests: XCTestCase {
         )
     }
 
-    func testReadingTemperatureIntervalUsesCPUWhenValuesDifferAndAlignsBoth() {
-        var configuration = AppConfiguration(placeholders: [])
-        configuration.samplingIntervals[CPUTemperatureMetric.metricID] = 4
-        configuration.samplingIntervals[GPUTemperatureMetric.metricID] = 9
+    func testReadingTemperatureIntervalUsesCPUWhenValuesDifferAndLeavesConfigurationUnchanged() {
+        let configuration = AppConfiguration(placeholders: [])
+        var withDivergentValues = configuration
+        withDivergentValues.samplingIntervals[CPUTemperatureMetric.metricID] = 4
+        withDivergentValues.samplingIntervals[GPUTemperatureMetric.metricID] = 9
         let registry = registry([
             FakeMetric(id: CPUTemperatureMetric.metricID, defaultSamplingInterval: 5),
             FakeMetric(id: GPUTemperatureMetric.metricID, defaultSamplingInterval: 5)
         ])
+        let snapshot = withDivergentValues
 
-        let interval = configuration.samplingInterval(for: .temperature, registry: registry)
+        let interval = withDivergentValues.samplingInterval(for: .temperature, registry: registry)
 
         XCTAssertEqual(interval, 4)
-        XCTAssertEqual(configuration.samplingIntervals[CPUTemperatureMetric.metricID], 4)
-        XCTAssertEqual(configuration.samplingIntervals[GPUTemperatureMetric.metricID], 4)
+        XCTAssertEqual(withDivergentValues, snapshot)
+    }
+
+    func testReadingSamplingIntervalIsPureAndDoesNotMutateConfiguration() {
+        let configuration = AppConfiguration(placeholders: [])
+        var withDivergentValues = configuration
+        withDivergentValues.samplingIntervals[CPUTemperatureMetric.metricID] = 4
+        withDivergentValues.samplingIntervals[GPUTemperatureMetric.metricID] = 9
+        let registry = registry([
+            FakeMetric(id: CPUTemperatureMetric.metricID, defaultSamplingInterval: 5),
+            FakeMetric(id: GPUTemperatureMetric.metricID, defaultSamplingInterval: 5)
+        ])
+        let snapshot = withDivergentValues
+
+        _ = withDivergentValues.samplingInterval(for: .temperature, registry: registry)
+
+        XCTAssertEqual(withDivergentValues, snapshot)
     }
 
     func testSettingTemperatureIntervalWritesBothIDs() {

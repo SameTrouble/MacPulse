@@ -33,37 +33,39 @@ final class TemperatureMetricTests: XCTestCase {
         XCTAssertEqual(gpu.defaultSamplingInterval, 5)
     }
 
-    func testSampleIsNilBeforeFirstRefresh() {
+    func testSampleShowsDashBeforeFirstRefresh() {
         let (cpu, gpu) = sharedMetrics(cpu: 42, gpu: 40)
 
-        XCTAssertNil(cpu.currentSample())
-        XCTAssertNil(gpu.currentSample())
+        XCTAssertEqual(cpu.currentSample()?.text, "CPU --")
+        XCTAssertEqual(gpu.currentSample()?.text, "GPU --")
+        XCTAssertNil(cpu.currentSample()?.fraction)
+        XCTAssertNil(gpu.currentSample()?.fraction)
     }
 
-    func testCPUSampleShowsCelsiusAndFraction() {
+    func testCPUSampleShowsCelsiusAndFractionWithPrefix() {
         let (cpu, _) = sharedMetrics(cpu: 42.4, gpu: 40)
         cpu.refresh()
 
         let sample = cpu.currentSample()
-        XCTAssertEqual(sample?.text, "42°")
+        XCTAssertEqual(sample?.text, "CPU 42°")
         XCTAssertEqual(sample?.fraction ?? -1, 0.424, accuracy: 0.0001)
     }
 
-    func testGPUSampleShowsCelsiusAndFraction() {
+    func testGPUSampleShowsCelsiusAndFractionWithPrefix() {
         let (_, gpu) = sharedMetrics(cpu: 42, gpu: 40.6)
         gpu.refresh()
 
         let sample = gpu.currentSample()
-        XCTAssertEqual(sample?.text, "41°")
+        XCTAssertEqual(sample?.text, "GPU 41°")
         XCTAssertEqual(sample?.fraction ?? -1, 0.406, accuracy: 0.0001)
     }
 
-    func testGPUSampleShowsDashWhenGpuMissing() {
+    func testGPUSampleShowsDashWithPrefixWhenGpuMissing() {
         let (_, gpu) = sharedMetrics(cpu: 42, gpu: nil)
         gpu.refresh()
 
         let sample = gpu.currentSample()
-        XCTAssertEqual(sample?.text, "--")
+        XCTAssertEqual(sample?.text, "GPU --")
         XCTAssertNil(sample?.fraction)
     }
 
@@ -78,11 +80,11 @@ final class TemperatureMetricTests: XCTestCase {
         gpu.refresh()
 
         XCTAssertEqual(provider.callCount, 1)
-        XCTAssertEqual(cpu.currentSample()?.text, "42°")
-        XCTAssertEqual(gpu.currentSample()?.text, "40°")
+        XCTAssertEqual(cpu.currentSample()?.text, "CPU 42°")
+        XCTAssertEqual(gpu.currentSample()?.text, "GPU 40°")
     }
 
-    func testFailedRefreshClearsSamples() {
+    func testFailedRefreshShowsDashesWithPrefix() {
         let provider = FakeTemperatureProvider(result: .success(TemperatureUsage(cpuCelsius: 42, gpuCelsius: 40)))
         let sampler = TemperatureSampler(provider: provider, coalesceInterval: 0)
         let cpu = CPUTemperatureMetric(sampler: sampler)
@@ -94,8 +96,10 @@ final class TemperatureMetricTests: XCTestCase {
         cpu.refresh()
         gpu.refresh()
 
-        XCTAssertNil(cpu.currentSample())
-        XCTAssertNil(gpu.currentSample())
+        XCTAssertEqual(cpu.currentSample()?.text, "CPU --")
+        XCTAssertEqual(gpu.currentSample()?.text, "GPU --")
+        XCTAssertNil(cpu.currentSample()?.fraction)
+        XCTAssertNil(gpu.currentSample()?.fraction)
     }
 
     func testCPUMenuLineShowsOnlyCpu() {
@@ -104,11 +108,11 @@ final class TemperatureMetricTests: XCTestCase {
 
         XCTAssertEqual(
             cpu.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["CPU：42°"]
+            ["CPU 42°"]
         )
         XCTAssertEqual(
             cpu.menuLines(localizedBy: localizationService(language: .english)),
-            ["CPU: 42°"]
+            ["CPU 42°"]
         )
     }
 
@@ -118,11 +122,11 @@ final class TemperatureMetricTests: XCTestCase {
 
         XCTAssertEqual(
             gpu.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["GPU：40°"]
+            ["GPU 40°"]
         )
         XCTAssertEqual(
             gpu.menuLines(localizedBy: localizationService(language: .english)),
-            ["GPU: 40°"]
+            ["GPU 40°"]
         )
     }
 
@@ -132,11 +136,11 @@ final class TemperatureMetricTests: XCTestCase {
 
         XCTAssertEqual(
             gpu.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["GPU：--"]
+            ["GPU --"]
         )
         XCTAssertEqual(
             gpu.menuLines(localizedBy: localizationService(language: .english)),
-            ["GPU: --"]
+            ["GPU --"]
         )
     }
 
@@ -145,27 +149,26 @@ final class TemperatureMetricTests: XCTestCase {
 
         XCTAssertEqual(
             cpu.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["CPU：--"]
+            ["CPU --"]
         )
         XCTAssertEqual(
             gpu.menuLines(localizedBy: localizationService(language: .zhHans)),
-            ["GPU：--"]
+            ["GPU --"]
         )
         XCTAssertEqual(
             cpu.menuLines(localizedBy: localizationService(language: .english)),
-            ["CPU: --"]
+            ["CPU --"]
         )
         XCTAssertEqual(
             gpu.menuLines(localizedBy: localizationService(language: .english)),
-            ["GPU: --"]
+            ["GPU --"]
         )
     }
 
-    func testWidestDisplayTextIsThreeDigitCelsius() {
+    func testWidestDisplayTextIncludesPrefix() {
         let (cpu, gpu) = sharedMetrics(cpu: 42, gpu: nil)
 
-        XCTAssertEqual(cpu.widestDisplayText(), "100°")
-        XCTAssertEqual(gpu.widestDisplayText(), "100°")
-        XCTAssertEqual(cpu.widestDisplayText(), TemperatureUsageDisplay.widestText)
+        XCTAssertEqual(cpu.widestDisplayText(), "CPU 100°")
+        XCTAssertEqual(gpu.widestDisplayText(), "GPU 100°")
     }
 }

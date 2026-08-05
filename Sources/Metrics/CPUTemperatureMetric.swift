@@ -25,12 +25,13 @@ final class CPUTemperatureMetric: Metric {
     }
 
     func currentSample() -> MetricSample? {
-        usage.map { usage in
-            MetricSample(
-                text: TemperatureUsageDisplay.celsius(usage.cpuCelsius),
-                fraction: TemperatureUsageDisplay.fraction(celsius: usage.cpuCelsius)
-            )
+        guard let usage else {
+            return MetricSample(text: "\(Self.prefix) --", fraction: nil)
         }
+        return MetricSample(
+            text: "\(Self.prefix) \(TemperatureUsageDisplay.celsius(usage.cpuCelsius))",
+            fraction: TemperatureUsageDisplay.fraction(celsius: usage.cpuCelsius)
+        )
     }
 
     func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
@@ -41,6 +42,8 @@ final class CPUTemperatureMetric: Metric {
     }
 
     func widestDisplayText() -> String {
-        TemperatureUsageDisplay.widestText
+        "\(Self.prefix) \(TemperatureUsageDisplay.widestText)"
     }
+
+    private static let prefix = "CPU"
 }

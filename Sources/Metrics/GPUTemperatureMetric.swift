@@ -25,12 +25,11 @@ final class GPUTemperatureMetric: Metric {
     }
 
     func currentSample() -> MetricSample? {
-        guard let usage else { return nil }
-        guard let gpuCelsius = usage.gpuCelsius else {
-            return MetricSample(text: "--", fraction: nil)
+        guard let usage, let gpuCelsius = usage.gpuCelsius else {
+            return MetricSample(text: "\(Self.prefix) --", fraction: nil)
         }
         return MetricSample(
-            text: TemperatureUsageDisplay.celsius(gpuCelsius),
+            text: "\(Self.prefix) \(TemperatureUsageDisplay.celsius(gpuCelsius))",
             fraction: TemperatureUsageDisplay.fraction(celsius: gpuCelsius)
         )
     }
@@ -46,6 +45,8 @@ final class GPUTemperatureMetric: Metric {
     }
 
     func widestDisplayText() -> String {
-        TemperatureUsageDisplay.widestText
+        "\(Self.prefix) \(TemperatureUsageDisplay.widestText)"
     }
+
+    private static let prefix = "GPU"
 }

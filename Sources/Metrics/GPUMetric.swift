@@ -1,40 +1,30 @@
 import Foundation
 
-final class GPUMetric: Metric {
+final class GPUMetric: SampledMetric<GPUUsage, GPUSampler> {
     static let metricID = "gpu"
 
-    let id = GPUMetric.metricID
-    let displayNameKey = LocalizationKey.metricGPUName
-    let symbolName = "gauge.with.needle"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
-
-    private let sampler: GPUSampler
-    private var usage: GPUUsage?
-
     init(sampler: GPUSampler = GPUSampler()) {
-        self.sampler = sampler
+        super.init(
+            id: GPUMetric.metricID,
+            displayNameKey: .metricGPUName,
+            symbolName: "gauge.with.needle",
+            supportedStyles: [.iconAndText, .text, .progressBar],
+            sampler: sampler
+        )
     }
 
-    func refresh() {
-        do {
-            usage = try sampler.refresh()
-        } catch {
-            usage = nil
-        }
+    override func makeSample(from usage: GPUUsage) -> MetricSample? {
+        MetricSample(text: ValueFormatting.percent(usage.deviceUtilization), fraction: usage.deviceUtilization)
     }
 
-    func currentSample() -> MetricSample? {
-        usage.map { MetricSample(text: ValueFormatting.percent($0.deviceUtilization), fraction: $0.deviceUtilization) }
-    }
-
-    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
+    override func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
             return [localization.text(.gpuUtilization, "--")]
         }
         return [localization.text(.gpuUtilization, ValueFormatting.percent(usage.deviceUtilization))]
     }
 
-    func widestDisplayText() -> String {
+    override func widestDisplayText() -> String {
         ValueFormatting.widestPercent
     }
 }

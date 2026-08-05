@@ -20,8 +20,4 @@ enum ValueFormatting {
     static func celsius(_ value: Double) -> String {
         "\(Int(value.rounded()))°"
     }
-
-    static func fraction(celsius value: Double) -> Double {
-        min(max(value / 100, 0), 1)
-    }
 }

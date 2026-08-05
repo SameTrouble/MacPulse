@@ -1,33 +1,23 @@
 import Foundation
 
-final class MemoryMetric: Metric {
+final class MemoryMetric: SampledMetric<MemoryUsage, MemorySampler> {
     static let metricID = "memory"
 
-    let id = MemoryMetric.metricID
-    let displayNameKey = LocalizationKey.metricMemoryName
-    let symbolName = "memorychip"
-    let supportedStyles: Set<MetricStyle> = [.iconAndText, .text, .progressBar]
-
-    private let sampler: MemorySampler
-    private var usage: MemoryUsage?
-
     init(sampler: MemorySampler = MemorySampler()) {
-        self.sampler = sampler
+        super.init(
+            id: MemoryMetric.metricID,
+            displayNameKey: .metricMemoryName,
+            symbolName: "memorychip",
+            supportedStyles: [.iconAndText, .text, .progressBar],
+            sampler: sampler
+        )
     }
 
-    func refresh() {
-        do {
-            usage = try sampler.refresh()
-        } catch {
-            usage = nil
-        }
+    override func makeSample(from usage: MemoryUsage) -> MetricSample? {
+        MetricSample(text: ValueFormatting.gigabytes(usage.usedBytes), fraction: usage.fraction)
     }
 
-    func currentSample() -> MetricSample? {
-        usage.map { MetricSample(text: ValueFormatting.gigabytes($0.usedBytes), fraction: $0.fraction) }
-    }
-
-    func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
+    override func menuLines(localizedBy localization: LocalizationProviding) -> [String] {
         guard let usage else {
             return [
                 localization.text(.memoryUsed, ValueFormatting.fallback),
@@ -40,7 +30,7 @@ final class MemoryMetric: Metric {
         ]
     }
 
-    func widestDisplayText() -> String {
+    override func widestDisplayText() -> String {
         ValueFormatting.widestGigabytes
     }
 }

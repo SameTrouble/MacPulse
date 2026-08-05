@@ -30,12 +30,4 @@ final class ValueFormattingTests: XCTestCase {
     func testFallbackTextIsDashes() {
         XCTAssertEqual(ValueFormatting.fallback, "--")
     }
-
-    func testFractionIsCelsiusOverHundredClamped() {
-        XCTAssertEqual(ValueFormatting.fraction(celsius: 0), 0)
-        XCTAssertEqual(ValueFormatting.fraction(celsius: 45), 0.45, accuracy: 0.0001)
-        XCTAssertEqual(ValueFormatting.fraction(celsius: 100), 1)
-        XCTAssertEqual(ValueFormatting.fraction(celsius: 150), 1)
-        XCTAssertEqual(ValueFormatting.fraction(celsius: -10), 0)
-    }
 }

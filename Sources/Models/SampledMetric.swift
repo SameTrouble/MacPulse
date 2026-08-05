@@ -1,11 +1,11 @@
 import Foundation
 
 protocol Sampling: AnyObject {
-    associatedtype Result
-    func refresh() throws -> Result
+    associatedtype Sample
+    func refresh() throws -> Sample
 }
 
-class SampledMetric<Usage, Sampler: Sampling>: Metric where Sampler.Result == Usage {
+class SampledMetric<Usage, Sampler: Sampling>: Metric where Sampler.Sample == Usage {
     let id: String
     let displayNameKey: LocalizationKey
     let symbolName: String
@@ -13,8 +13,8 @@ class SampledMetric<Usage, Sampler: Sampling>: Metric where Sampler.Result == Us
     let defaultSamplingInterval: TimeInterval
 
     private let sampler: Sampler
-    private var usage: Usage?
-    private var sample: MetricSample?
+    private(set) var usage: Usage?
+    private(set) var sample: MetricSample?
 
     init(
         id: String,

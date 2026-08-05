@@ -4,7 +4,7 @@ protocol MemoryStatsProviding {
     func currentStats() throws -> MemoryStats
 }
 
-final class MemorySampler {
+final class MemorySampler: Sampling {
     private let provider: MemoryStatsProviding
 
     init(provider: MemoryStatsProviding = HostMemoryInfoProvider()) {

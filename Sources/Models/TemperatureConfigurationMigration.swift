@@ -23,8 +23,10 @@ extension AppConfiguration {
         var normalized = self
         let cpuID = CPUTemperatureMetric.metricID
         let gpuID = GPUTemperatureMetric.metricID
-        if let cpuInterval = samplingIntervals[cpuID], samplingIntervals[gpuID] != cpuInterval {
+        if let cpuInterval = samplingIntervals[cpuID] {
             normalized.samplingIntervals[gpuID] = cpuInterval
+        } else {
+            normalized.samplingIntervals[gpuID] = nil
         }
         return normalized
     }

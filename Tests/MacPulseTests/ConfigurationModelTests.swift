@@ -81,6 +81,24 @@ final class ConfigurationModelTests: XCTestCase {
         XCTAssertEqual(ConfigurationStore(defaults: defaults).load(), model.committed)
     }
 
+    func testNormalizesTemperatureIntervalsWhenCPUUnsetDropsGPUValue() throws {
+        let defaults = UserDefaults(suiteName: UUID().uuidString) ?? .standard
+        var stored = AppConfiguration(placeholders: [])
+        stored.samplingIntervals[GPUTemperatureMetric.metricID] = 9
+        try ConfigurationStore(defaults: defaults).save(stored)
+
+        let registry = MetricRegistry()
+        registry.register(FakeMetric(id: CPUTemperatureMetric.metricID, defaultSamplingInterval: 5))
+        registry.register(FakeMetric(id: GPUTemperatureMetric.metricID, defaultSamplingInterval: 5))
+        let model = ConfigurationModel(
+            registry: registry,
+            store: ConfigurationStore(defaults: defaults),
+            fallback: AppConfiguration(placeholders: [])
+        )
+
+        XCTAssertNil(model.committed.samplingIntervals[GPUTemperatureMetric.metricID])
+    }
+
     func testFallsBackToDefaultWhenStoreIsEmpty() {
         let fallback = AppConfiguration(placeholders: [Placeholder(id: UUID(), items: [])])
         let model = ConfigurationModel(

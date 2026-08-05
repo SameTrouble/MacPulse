@@ -24,6 +24,7 @@
 		23EA33A696EA69EF1F5317A6 /* LocalizedStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E618A701DFE1D0511F2B76 /* LocalizedStringsTests.swift */; };
 		2A350D46F69E4A1FF6EB5974 /* PlaceholderConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176C1E2A0A11A1854CA0E663 /* PlaceholderConfigurationTests.swift */; };
 		2D1EC622CECAFFDC582702D8 /* TestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E87B8FF29A44A7AA0820D /* TestDoubles.swift */; };
+		2F5EC311ABF74D2DC2705986 /* SamplingScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C28274DBC0614BED9FC98F7 /* SamplingScheduler.swift */; };
 		31778D215578F58BDF6EBBAE /* ColorBand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB415E682CA2B876BD64C910 /* ColorBand.swift */; };
 		32F152708296AFACADD98EFB /* SMCTemperatureDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5FA4FFD7AC0494B0B1B7DA /* SMCTemperatureDecoderTests.swift */; };
 		3493A5FD60F3811C40F82B62 /* StatusBarRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1A652D49608D0A20625BDC /* StatusBarRenderer.swift */; };
@@ -86,6 +87,7 @@
 		CA0895D0B64A02C337D9B6DD /* LoginItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E819E106E5BE520B4D46999 /* LoginItemModel.swift */; };
 		CAC807C820CB4030158DC08A /* CPUUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680D6E5E908FCE89A4BD69E /* CPUUsageCalculator.swift */; };
 		CD9E20064CC820FCB42B1829 /* TemperatureSamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B60A7AA9DBB0622164ADE /* TemperatureSamplerTests.swift */; };
+		D04E4F8DC95C979B3B17C4A0 /* SamplingSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC55773F1BD53B91C2C3250 /* SamplingSchedulerTests.swift */; };
 		D2B6EDE9E6155F495AEDDE76 /* CPUTemperatureMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C7747757CCD9F37F88E2FE /* CPUTemperatureMetric.swift */; };
 		D316DD73FCF3CEA637257906 /* MemoryUsageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF264085B155476D16DD9A03 /* MemoryUsageCalculator.swift */; };
 		D4CD828A6DEB9871F318CD1F /* MetricTestDoubles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5AE89BB73034FD287014EE2 /* MetricTestDoubles.swift */; };
@@ -155,6 +157,7 @@
 		52DB4AF3583906B06007305A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53459BCC04376DCDEF58252D /* LocalizationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationKey.swift; sourceTree = "<group>"; };
 		56533A423EA3DC93716540D2 /* CPUUsageCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsageCalculatorTests.swift; sourceTree = "<group>"; };
+		5C28274DBC0614BED9FC98F7 /* SamplingScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingScheduler.swift; sourceTree = "<group>"; };
 		5E5FA4FFD7AC0494B0B1B7DA /* SMCTemperatureDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCTemperatureDecoderTests.swift; sourceTree = "<group>"; };
 		602A306E4A04B36E4E44501D /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
 		6621D3FEBDB03EF1BF4BFCAC /* ConfigurationModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationModelTests.swift; sourceTree = "<group>"; };
@@ -184,6 +187,7 @@
 		96692FEAC6EB098C3CF324CB /* StylePreviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylePreviewTests.swift; sourceTree = "<group>"; };
 		9D018D6E32C1852FA443BAA5 /* CPUUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUUsage.swift; sourceTree = "<group>"; };
 		A4B4EF432EBF2746730DC8C2 /* SMCTemperatureProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCTemperatureProviderTests.swift; sourceTree = "<group>"; };
+		AAC55773F1BD53B91C2C3250 /* SamplingSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplingSchedulerTests.swift; sourceTree = "<group>"; };
 		AC1A652D49608D0A20625BDC /* StatusBarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarRenderer.swift; sourceTree = "<group>"; };
 		AD339B9DBD8216AC5A368E15 /* ValueFormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueFormattingTests.swift; sourceTree = "<group>"; };
 		AF264085B155476D16DD9A03 /* MemoryUsageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUsageCalculator.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 				9445E6C368E79F79C5A480EE /* SampledMetricTests.swift */,
 				2ADF657DA561DF30DE946902 /* SamplingIntervalEntriesTests.swift */,
 				BEABB5A205117F306B86A745 /* SamplingIntervalTests.swift */,
+				AAC55773F1BD53B91C2C3250 /* SamplingSchedulerTests.swift */,
 				83BDA9CF235C8D662C8EF3E5 /* ScaffoldTests.swift */,
 				11B4642505DCF4D866104268 /* SettingsWindowControllerTests.swift */,
 				5E5FA4FFD7AC0494B0B1B7DA /* SMCTemperatureDecoderTests.swift */,
@@ -397,6 +402,7 @@
 				2E86633FC83D28E878DAC8A2 /* HostProcessorInfoProvider.swift */,
 				794F0E37663B939FA6889F3A /* MemorySampler.swift */,
 				AF264085B155476D16DD9A03 /* MemoryUsageCalculator.swift */,
+				5C28274DBC0614BED9FC98F7 /* SamplingScheduler.swift */,
 				E87531E0017312DDBB61369D /* SMCTemperatureDecoder.swift */,
 				E9590E60948CAD92A553032D /* SMCTemperatureProvider.swift */,
 				FC1A89A49ECDEDB779F99D3C /* TemperatureSampler.swift */,
@@ -598,6 +604,7 @@
 				92D1FA2DEA1C0F3643277F2A /* SMCTemperatureProvider.swift in Sources */,
 				F47079B914AD4AFB5A020883 /* SampledMetric.swift in Sources */,
 				670C104904A9DC0FEC940735 /* SamplingIntervalEntry.swift in Sources */,
+				2F5EC311ABF74D2DC2705986 /* SamplingScheduler.swift in Sources */,
 				43D81C83F35826A3FC37D1D8 /* SettingsView.swift in Sources */,
 				73EE368E7FBC9FA10F90965B /* SettingsWindowController.swift in Sources */,
 				8724F64C7C7184B7985B4EC6 /* StatusBarLayout.swift in Sources */,
@@ -648,6 +655,7 @@
 				04ABDDE100A102350BB4FFDA /* SampledMetricTests.swift in Sources */,
 				92789767E3B5430C84F727C2 /* SamplingIntervalEntriesTests.swift in Sources */,
 				8DE75EE67195F56F00F72CB2 /* SamplingIntervalTests.swift in Sources */,
+				D04E4F8DC95C979B3B17C4A0 /* SamplingSchedulerTests.swift in Sources */,
 				1CD08025C234DF9172294D62 /* ScaffoldTests.swift in Sources */,
 				E3F266A6FDBB742984345B26 /* SettingsWindowControllerTests.swift in Sources */,
 				E601C863B9B32FA932DC4A70 /* StatusBarRendererTests.swift in Sources */,

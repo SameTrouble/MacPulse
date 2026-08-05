@@ -96,16 +96,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func sample() {
         let now = Date()
-        var sampled = false
+        var intervals: [String: TimeInterval] = [:]
         for metric in registry.metrics {
-            let interval = configurationModel.committed.samplingInterval(for: metric)
-            if let last = lastSample[metric.id], now.timeIntervalSince(last) < interval { continue }
+            intervals[metric.id] = configurationModel.committed.samplingInterval(for: metric)
+        }
+        let due = SamplingScheduler.dueIDs(now: now, intervals: intervals, lastSample: lastSample)
+        guard !due.isEmpty else { return }
+        for metric in registry.metrics where due.contains(metric.id) {
             metric.refresh()
             lastSample[metric.id] = now
-            sampled = true
         }
-        if sampled {
-            manager?.refreshDisplays()
-        }
+        manager?.refreshDisplays()
     }
 }

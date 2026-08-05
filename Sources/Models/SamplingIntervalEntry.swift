@@ -44,23 +44,15 @@ enum SamplingIntervalEntry: Equatable, Identifiable {
 }
 
 extension AppConfiguration {
-    mutating func samplingInterval(for entry: SamplingIntervalEntry, registry: MetricRegistry) -> TimeInterval {
+    func samplingInterval(for entry: SamplingIntervalEntry, registry: MetricRegistry) -> TimeInterval {
         switch entry {
         case let .single(metricID, _):
             guard let metric = registry.metric(id: metricID) else { return SamplingInterval.range.lowerBound }
             return samplingInterval(for: metric)
         case .temperature:
             let cpuID = CPUTemperatureMetric.metricID
-            let gpuID = GPUTemperatureMetric.metricID
             let cpuDefault = registry.metric(id: cpuID)?.defaultSamplingInterval ?? 5
-            let gpuDefault = registry.metric(id: gpuID)?.defaultSamplingInterval ?? 5
-            let cpuInterval = samplingIntervals[cpuID] ?? cpuDefault
-            let gpuInterval = samplingIntervals[gpuID] ?? gpuDefault
-            if cpuInterval != gpuInterval {
-                samplingIntervals[cpuID] = cpuInterval
-                samplingIntervals[gpuID] = cpuInterval
-            }
-            return cpuInterval
+            return samplingIntervals[cpuID] ?? cpuDefault
         }
     }
 

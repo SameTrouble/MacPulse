@@ -17,10 +17,7 @@ final class ConfigurationModel {
         self.store = store
         let stored = store.load()
         var migrated = stored.map { $0.migratingLegacyTemperature() }
-        if var configuration = migrated {
-            _ = configuration.samplingInterval(for: .temperature, registry: registry)
-            migrated = configuration
-        }
+        migrated = migrated.map { $0.normalizingTemperatureIntervals() }
         if let migrated, migrated != stored {
             try? store.save(migrated)
         }

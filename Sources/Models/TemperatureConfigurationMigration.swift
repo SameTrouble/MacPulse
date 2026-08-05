@@ -19,6 +19,16 @@ extension AppConfiguration {
         return migrated
     }
 
+    func normalizingTemperatureIntervals() -> AppConfiguration {
+        var normalized = self
+        let cpuID = CPUTemperatureMetric.metricID
+        let gpuID = GPUTemperatureMetric.metricID
+        if let cpuInterval = samplingIntervals[cpuID], samplingIntervals[gpuID] != cpuInterval {
+            normalized.samplingIntervals[gpuID] = cpuInterval
+        }
+        return normalized
+    }
+
     private static func migratePlaceholder(_ placeholder: Placeholder) -> Placeholder {
         var migrated = placeholder
         migrated.items = placeholder.items.flatMap(migrateCarouselItem)
